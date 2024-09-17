@@ -6,10 +6,13 @@ public class Appointment {
     private MaterialType materialType;
 
 
-    public Appointment(TimeSlot timeSlot, Truck truck , MaterialType materialType) {
-        TimeSlot = timeSlot;
-        Truck = truck;
+
+    public Appointment(TimeSlot timeSlot, MaterialType materialType, Truck truck) {
+        this.TimeSlot = timeSlot;
+        this.materialType = materialType;
+        this.Truck = truck;
     }
+
 
     public TimeSlot getTimeSlot() {
         return TimeSlot;
