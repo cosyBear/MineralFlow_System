@@ -3,6 +3,7 @@ package be.kdg.prog6.LandSideBoundedContext.Core;
 public class Truck {
     private String licenseNumber;
     private double payload;
+    private Integer warehouseNumber;
 
 
     public Truck(String licenseNumber, double payload) {
@@ -10,15 +11,5 @@ public class Truck {
         this.payload = payload;
     }
 
-    public String getLicenseNumber() {
-        return licenseNumber;
-    }
 
-    public double getPayload() {
-        return payload;
-    }
-
-    public void setPayload(double payload) {
-        this.payload = payload;
-    }
 }
