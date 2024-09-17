@@ -1,13 +1,15 @@
-package be.kdg.prog6.boundedcontextA;
+package be.kdg.prog6.LandSideBoundedContext;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BoundedContextAApplication {
+public class LandSideBoundedContextApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BoundedContextAApplication.class, args);
+        SpringApplication.run(LandSideBoundedContextApplication.class, args);
+
+
     }
 
 }
