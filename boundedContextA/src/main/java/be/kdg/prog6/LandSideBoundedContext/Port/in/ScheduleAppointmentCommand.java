@@ -1,4 +1,4 @@
-package be.kdg.prog6.LandSideBoundedContext.Dto;
+package be.kdg.prog6.LandSideBoundedContext.Port.in;
 
 import java.time.LocalDate;
 

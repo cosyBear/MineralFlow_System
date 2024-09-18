@@ -1,18 +1,15 @@
-package be.kdg.prog6.LandSideBoundedContext.Core;
+package be.kdg.prog6.LandSideBoundedContext.domain;
 
 import java.time.LocalDate;
 
 //value object.
-public record TimeSlot(LocalDate date,
+public record TimeSlot(
                        Integer earliestArravieTime,
                        Integer latestArravieTime)
 {
 
 
-    LocalDate getDate()
-    {
-        return date;
-    }
+
     Integer getEarliestArravieTime(){
         return earliestArravieTime;
     }
@@ -20,6 +17,7 @@ public record TimeSlot(LocalDate date,
     Integer getLatestArravieTime(){
         return latestArravieTime;
     }
+
 
 
 

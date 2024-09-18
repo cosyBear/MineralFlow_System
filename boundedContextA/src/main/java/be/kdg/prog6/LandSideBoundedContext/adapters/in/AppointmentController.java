@@ -1,12 +1,11 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.in;
 
-import be.kdg.prog6.LandSideBoundedContext.Dto.ScheduleAppointmentCommand;
+import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentPort;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("/appointments")
@@ -20,14 +19,30 @@ public class AppointmentController  {
     }
 
 
-    @PostMapping("/makeAppointment")
-    public ResponseEntity<String> makeAppointmentForSeller(@RequestBody ScheduleAppointmentCommand dto) {
+
+
+    // curl -X POST "http://localhost:8091/api/appointments/makeAppointment/SELLER123/ABC-123/25.0/IRON/2024-10-15/10/11"
+    @PostMapping("/makeAppointment/{sellerId}/{licensePlate}/{payload}/{materialType}/{date}/{earliestArrivalTime}/{latestArrivalTime}")
+    public ResponseEntity<String> makeAppointmentForSeller(
+            @PathVariable String sellerId,
+            @PathVariable String licensePlate,
+            @PathVariable double payload,
+            @PathVariable String materialType,
+            @PathVariable String date, // Use String and convert to LocalDate
+            @PathVariable Integer earliestArrivalTime,
+            @PathVariable Integer latestArrivalTime) {
+
         try {
-            scheduleAppointmentPort.scheduleAppointment(dto);
-            return ResponseEntity.ok("Appointment scheduled successfully.");
+            LocalDate parsedDate = LocalDate.parse(date);
+
+            ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(
+                    sellerId, licensePlate, payload, materialType, parsedDate, earliestArrivalTime, latestArrivalTime);
+
+           ScheduleAppointmentCommand appointment =  scheduleAppointmentPort.scheduleAppointment(scheduleAppointmentCommand);
+
+            return ResponseEntity.ok(String.valueOf(appointment) + " \n the appointment has been made. \n");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
-
 }
