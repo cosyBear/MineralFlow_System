@@ -4,6 +4,10 @@ public class Truck {
     private String licenseNumber;
     private double payload;
 
+
+    public Truck() {
+    }
+
     public Truck(String licenseNumber, double payload) {
         this.licenseNumber = licenseNumber;
         this.payload = payload;

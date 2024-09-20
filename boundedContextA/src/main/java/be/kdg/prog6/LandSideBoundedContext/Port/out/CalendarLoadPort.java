@@ -9,12 +9,11 @@ import java.util.Map;
 
 public interface CalendarLoadPort {
 
-    public List<Appointment> loadAppointmentsByDate(LocalDate date);
+    public Calendar loadAppointmentsByDate(LocalDate date);
 
-    public List<Appointment> loadAppointmentsByDateAndTimeSlot(LocalDate date, Integer earliestArrivalTime, Integer latestArrivalTime);
+    public Calendar loadAppointmentsByDateAndTimeSlot(LocalDate date, Integer earliestArrivalTime, Integer latestArrivalTime);
 
-    public List<Appointment> loadAppointmentsByTimeSlot(Integer earliestArrivalTime, Integer latestArrivalTime);
+    public Calendar  loadAppointmentsByTimeSlot(Integer earliestArrivalTime, Integer latestArrivalTime);
 
-    Calendar loadAppointmentsIntoCalendar(); // Load all appointments into the calendar
 
 }

@@ -2,6 +2,7 @@ package be.kdg.prog6.LandSideBoundedContext.Core;
 import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentPort;
 import be.kdg.prog6.LandSideBoundedContext.Port.out.CalendarLoadPort;
+import be.kdg.prog6.LandSideBoundedContext.Port.out.CalendarSavePort;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.LandSideBoundedContext.domain.Calendar;
 import be.kdg.prog6.LandSideBoundedContext.util.TimeSlotFullException;
@@ -13,26 +14,28 @@ import org.springframework.stereotype.Service;
 public class ScheduleAppointmentUseCase implements ScheduleAppointmentPort {
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentPort.class);
     private final CalendarLoadPort calendarLoadPort; // Inject the Out Port (Output Port)
+    CalendarSavePort calendarSavePort;
 
-    public ScheduleAppointmentUseCase(CalendarLoadPort calendarLoadPort) {
+    public ScheduleAppointmentUseCase(CalendarLoadPort calendarLoadPort, CalendarSavePort calendarSavePort) {
         this.calendarLoadPort = calendarLoadPort;
+        this.calendarSavePort = calendarSavePort;
     }
 
     @Override
     public ScheduleAppointmentCommand scheduleAppointment(ScheduleAppointmentCommand command) {
         try {
-            // Step 1: Load the current calendar
-            Calendar calendar = calendarLoadPort.loadAppointmentsIntoCalendar();
+            //Load the current calendar
+            // note in the future  maybe load the calendar for that day or that time slot
+            Calendar calendar = calendarLoadPort.loadAppointmentsByDate(command.date());
 
             // Step 2: Schedule the appointment
             Appointment newAppointment = calendar.scheduleAppointment(command);
-
-            // Step 3: Return a new ScheduleAppointmentCommand, or just return the original command
-            return new ScheduleAppointmentCommand(
+            calendarSavePort.SaveCalendar(calendar);
+            return new ScheduleAppointmentCommand(// for now im going to do it like this in the future maybe just send him a message.
                     command.sellerId(),
                     newAppointment.getTruck().getLicenseNumber(),
                     newAppointment.getTruck().getPayload(),
-                    newAppointment.getMaterialType().toString(),
+                    String.valueOf(newAppointment.getMaterialType()), //safer convertion to string
                     newAppointment.getDate(),
                     newAppointment.getTimeSlot().earliestArravieTime(),
                     newAppointment.getTimeSlot().latestArravieTime()

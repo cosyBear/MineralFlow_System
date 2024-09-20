@@ -1,8 +1,8 @@
-package be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence.entity;
+package be.kdg.prog6.LandSideBoundedContext.adapters.out.entity;
 
 import be.kdg.prog6.LandSideBoundedContext.util.TimeSlotFullException;
 import jakarta.persistence.*;
-import java.time.LocalDate;
+
 import java.util.List;
 
 @Entity
@@ -16,7 +16,7 @@ public class TimeSlotEntity {
     private Integer earliestArrivalTime;
     private Integer latestArrivalTime;
 
-    @OneToMany(mappedBy = "timeSlot", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "timeSlot")
     private List<AppointmentEntity> appointments;
 
     public TimeSlotEntity() {}

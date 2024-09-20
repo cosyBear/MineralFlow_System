@@ -9,7 +9,10 @@ public class Appointment {
     private LocalDate date;
 
 
-    public Appointment( TimeSlot timeSlot, Truck truck, MaterialType materialType, LocalDate date) {
+    public Appointment() {
+    }
+
+    public Appointment(TimeSlot timeSlot, Truck truck, MaterialType materialType, LocalDate date) {
         TimeSlot = timeSlot;
         Truck = truck;
         this.materialType = materialType;

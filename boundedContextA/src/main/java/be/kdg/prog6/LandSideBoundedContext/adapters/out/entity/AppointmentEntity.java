@@ -1,13 +1,13 @@
-package be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence.entity;
-import be.kdg.prog6.LandSideBoundedContext.domain.MaterialType;
+package be.kdg.prog6.LandSideBoundedContext.adapters.out.entity;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "appointments")
-public class AppointmentEntity {
-
+@Table(
+        name = "appointments",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"truck_id", "date", "time_slot_id"})
+)public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -15,14 +15,14 @@ public class AppointmentEntity {
     @Enumerated(EnumType.STRING)
     private MaterialTypeEntity MaterialTypeEntity;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "time_slot_id")
     private TimeSlotEntity timeSlot;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "truck_id")
     private TruckEntity truck;
-    private LocalDate date;  // Add the date to the AppointmentEntity
+    private LocalDate date;
 
     public AppointmentEntity() {}
 
@@ -41,11 +41,11 @@ public class AppointmentEntity {
         this.id = id;
     }
 
-    public be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence.entity.MaterialTypeEntity getMaterialTypeEntity() {
+    public be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.MaterialTypeEntity getMaterialTypeEntity() {
         return MaterialTypeEntity;
     }
 
-    public void setMaterialTypeEntity(be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence.entity.MaterialTypeEntity materialTypeEntity) {
+    public void setMaterialTypeEntity(be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.MaterialTypeEntity materialTypeEntity) {
         MaterialTypeEntity = materialTypeEntity;
     }
 

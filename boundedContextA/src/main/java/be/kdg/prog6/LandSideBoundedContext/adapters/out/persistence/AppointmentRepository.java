@@ -1,12 +1,9 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence;
 
-import be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence.entity.AppointmentEntity;
-import be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence.entity.TimeSlotEntity;
-import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
+import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 
 
 import java.time.LocalDate;
@@ -19,6 +16,7 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             "LEFT JOIN FETCH a.truck " +
             "WHERE a.date = :date")
     List<AppointmentEntity> findAppointmentsByDate(@Param("date") LocalDate date);
+
     @Query("SELECT a FROM AppointmentEntity a " +
             "LEFT JOIN FETCH a.timeSlot t " +
             "LEFT JOIN FETCH a.truck " +
@@ -29,6 +27,7 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             @Param("date") LocalDate date,
             @Param("earliestArrivalTime") Integer earliestArrivalTime,
             @Param("latestArrivalTime") Integer latestArrivalTime);
+
     @Query("SELECT a FROM AppointmentEntity a " +
             "LEFT JOIN FETCH a.timeSlot t " +
             "LEFT JOIN FETCH a.truck " +

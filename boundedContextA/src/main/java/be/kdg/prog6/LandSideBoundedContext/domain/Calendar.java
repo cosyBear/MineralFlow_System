@@ -35,8 +35,6 @@ public class Calendar {
                 MaterialType.valueOf(requestDTO.materialType()),
                 requestDTO.date()
         );
-
-        // Only return the appointment if it's successfully added
         if (addAppointment(appointment)) {
             return appointment;
         } else {
@@ -64,7 +62,7 @@ public class Calendar {
                 appointments.add(appointment);
                 return true;  // Appointment successfully added
             } else {
-                logger.info("Time slot " + timeSlot + " on " + appointmentDate + " is full. Maximum 40 appointments allowed.");
+                logger.info("Time slot " + timeSlot + " on " + appointmentDate + " is full. Maximum 40 appointments allowed. try other timeSlot");
                 throw new TimeSlotFullException("Time slot " + timeSlot + " on " + appointmentDate + " is full. Maximum 40 appointments allowed.");
             }
         } else {
