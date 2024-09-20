@@ -62,8 +62,8 @@ public class Calendar {
                 appointments.add(appointment);
                 return true;  // Appointment successfully added
             } else {
-                logger.info("Time slot " + timeSlot + " on " + appointmentDate + " is full. Maximum 40 appointments allowed. try other timeSlot");
-                throw new TimeSlotFullException("Time slot " + timeSlot + " on " + appointmentDate + " is full. Maximum 40 appointments allowed.");
+                logger.info("Time slot " + timeSlot + " on " + appointmentDate + " is full. Maximum 40 appointments allowed. ");
+                throw new TimeSlotFullException("Time slot " + timeSlot + " on " + appointmentDate + " is full. Maximum 40 appointments allowed. try other timeSlot");
             }
         } else {
             // If the time slot doesn't exist, create a new entry for it and add the appointment
