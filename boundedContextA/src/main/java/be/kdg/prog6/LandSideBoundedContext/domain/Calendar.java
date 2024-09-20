@@ -1,6 +1,6 @@
 package be.kdg.prog6.LandSideBoundedContext.domain;
 
-import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentCommand;
+import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.LandSideBoundedContext.util.TimeSlotFullException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

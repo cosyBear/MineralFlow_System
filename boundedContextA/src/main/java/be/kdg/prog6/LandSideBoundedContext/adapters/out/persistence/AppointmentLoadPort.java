@@ -1,12 +1,10 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence;
 
-import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentPort;
-import be.kdg.prog6.LandSideBoundedContext.Port.out.CalendarLoadPort;
+import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
+import be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
-import be.kdg.prog6.LandSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.LandSideBoundedContext.domain.TimeSlot;
-import be.kdg.prog6.LandSideBoundedContext.domain.Truck;
 import  be.kdg.prog6.LandSideBoundedContext.domain.Calendar;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,13 +15,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class CalendarLoadPortQuery implements CalendarLoadPort {
+public class AppointmentLoadPort implements CalendarLoadPort {
 
     private final AppointmentRepository appointmentRepository;
     private final ModelMapper modelMapper;
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentPort.class);
 
-    public CalendarLoadPortQuery(AppointmentRepository appointmentRepository, ModelMapper modelMapper) {
+    public AppointmentLoadPort(AppointmentRepository appointmentRepository, ModelMapper modelMapper) {
         this.appointmentRepository = appointmentRepository;
         this.modelMapper = modelMapper;
     }

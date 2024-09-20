@@ -1,8 +1,8 @@
-package be.kdg.prog6.LandSideBoundedContext.Port.out;
+package be.kdg.prog6.LandSideBoundedContext.port.out;
 
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
 
-public interface CalendarSavePort {
+public interface AppointmentSavePort {
 
     void SaveAppointment(AppointmentEntity AppointmentEntity);
 }

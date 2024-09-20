@@ -1,7 +1,7 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.in;
 
-import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentCommand;
-import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentPort;
+import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentCommand;
+import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

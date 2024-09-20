@@ -1,8 +1,8 @@
-package be.kdg.prog6.LandSideBoundedContext.Core;
-import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentCommand;
-import be.kdg.prog6.LandSideBoundedContext.Port.in.ScheduleAppointmentPort;
-import be.kdg.prog6.LandSideBoundedContext.Port.out.CalendarLoadPort;
-import be.kdg.prog6.LandSideBoundedContext.Port.out.CalendarSavePort;
+package be.kdg.prog6.LandSideBoundedContext.core;
+import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentCommand;
+import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
+import be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort;
+import be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentSavePort;
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.LandSideBoundedContext.domain.Calendar;
@@ -16,12 +16,12 @@ import org.springframework.stereotype.Service;
 public class ScheduleAppointmentUseCase implements ScheduleAppointmentPort {
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentPort.class);
     private final CalendarLoadPort calendarLoadPort; // Inject the Out Port (Output Port)
-    CalendarSavePort calendarSavePort;
+    AppointmentSavePort appointmentSavePort;
     private final ModelMapper modelMapper;
 
-    public ScheduleAppointmentUseCase(CalendarLoadPort calendarLoadPort, CalendarSavePort calendarSavePort , ModelMapper modelMapper ) {
+    public ScheduleAppointmentUseCase(CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, ModelMapper modelMapper ) {
         this.calendarLoadPort = calendarLoadPort;
-        this.calendarSavePort = calendarSavePort;
+        this.appointmentSavePort = appointmentSavePort;
         this.modelMapper = modelMapper;
     }
 
@@ -35,7 +35,8 @@ public class ScheduleAppointmentUseCase implements ScheduleAppointmentPort {
             // Step 2: Schedule the appointment
             Appointment newAppointment = calendar.scheduleAppointment(command);
 
-            calendarSavePort.SaveAppointment(modelMapper.map(newAppointment, AppointmentEntity.class));
+            appointmentSavePort.SaveAppointment(modelMapper.map(newAppointment, AppointmentEntity.class));
+
             return new ScheduleAppointmentCommand(// for now im going to do it like this in the future maybe just send him a message.
                     command.sellerId(),
                     newAppointment.getTruck().getLicenseNumber(),

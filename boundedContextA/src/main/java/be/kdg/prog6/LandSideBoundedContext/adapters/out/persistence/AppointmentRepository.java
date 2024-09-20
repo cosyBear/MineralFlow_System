@@ -39,6 +39,5 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
             @Param("earliestArrivalTime") Integer earliestArrivalTime,
             @Param("latestArrivalTime") Integer latestArrivalTime);
 
-    Optional<AppointmentEntity> findByTruckAndDateAndTimeSlot_EarliestArrivalTimeAndTimeSlot_LatestArrivalTime(TruckEntity truck, LocalDate date, Integer earliestArrivalTime, Integer latestArrivalTime);
 
 }
