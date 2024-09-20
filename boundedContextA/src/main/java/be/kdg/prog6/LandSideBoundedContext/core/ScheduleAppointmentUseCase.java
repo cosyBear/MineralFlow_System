@@ -1,7 +1,7 @@
 package be.kdg.prog6.LandSideBoundedContext.core;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
-import be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort;
+import be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentLoadPort;
 import be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentSavePort;
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ScheduleAppointmentUseCase implements ScheduleAppointmentPort {
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentPort.class);
-    private final CalendarLoadPort calendarLoadPort; // Inject the Out Port (Output Port)
+    private final AppointmentLoadPort appointmentLoadPort; // Inject the Out Port (Output Port)
     AppointmentSavePort appointmentSavePort;
     private final ModelMapper modelMapper;
 
-    public ScheduleAppointmentUseCase(CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, ModelMapper modelMapper ) {
-        this.calendarLoadPort = calendarLoadPort;
+    public ScheduleAppointmentUseCase(AppointmentLoadPort appointmentLoadPort, AppointmentSavePort appointmentSavePort, ModelMapper modelMapper ) {
+        this.appointmentLoadPort = appointmentLoadPort;
         this.appointmentSavePort = appointmentSavePort;
         this.modelMapper = modelMapper;
     }
@@ -30,7 +30,7 @@ public class ScheduleAppointmentUseCase implements ScheduleAppointmentPort {
         try {
             //Load the current calendar
             // note in the future  maybe load the calendar for that day or that time slot
-            Calendar calendar = calendarLoadPort.loadAppointmentsByDate(command.date());
+            Calendar calendar = appointmentLoadPort.loadAppointmentsByDate(command.date());
 
             // Step 2: Schedule the appointment
             Appointment newAppointment = calendar.scheduleAppointment(command);

@@ -4,7 +4,7 @@ import be.kdg.prog6.LandSideBoundedContext.domain.Calendar;
 
 import java.time.LocalDate;
 
-public interface CalendarLoadPort {
+public interface AppointmentLoadPort {
 
     public Calendar loadAppointmentsByDate(LocalDate date);
 

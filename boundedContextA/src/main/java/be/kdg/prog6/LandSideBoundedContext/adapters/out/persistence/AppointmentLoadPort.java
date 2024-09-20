@@ -1,7 +1,6 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence;
 
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
-import be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.LandSideBoundedContext.domain.TimeSlot;
@@ -15,7 +14,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class AppointmentLoadPort implements CalendarLoadPort {
+public class AppointmentLoadPort implements be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentLoadPort {
 
     private final AppointmentRepository appointmentRepository;
     private final ModelMapper modelMapper;
