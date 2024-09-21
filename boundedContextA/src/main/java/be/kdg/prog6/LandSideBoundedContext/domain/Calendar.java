@@ -33,7 +33,8 @@ public class Calendar {
                 timeSlot,
                 truck,
                 MaterialType.valueOf(requestDTO.materialType()),
-                requestDTO.date()
+                requestDTO.date() ,
+                requestDTO.companySeller()
         );
         if (addAppointment(appointment)) {
             return appointment;

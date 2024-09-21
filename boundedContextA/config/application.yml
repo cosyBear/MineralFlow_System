@@ -94,7 +94,7 @@ spring:
 
   sql:
     init:
-      mode: always  # Enable SQL file initialization for all databases
+      mode: always
 
   jpa:
     hibernate:

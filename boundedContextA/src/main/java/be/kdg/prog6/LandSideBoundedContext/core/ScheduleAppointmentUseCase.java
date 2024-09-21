@@ -1,7 +1,7 @@
 package be.kdg.prog6.LandSideBoundedContext.core;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
-import be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentLoadPort;
+import be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentSavePort;
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
@@ -15,12 +15,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class ScheduleAppointmentUseCase implements ScheduleAppointmentPort {
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentPort.class);
-    private final AppointmentLoadPort appointmentLoadPort; // Inject the Out Port (Output Port)
+    private final CalendarLoadPort calendarLoadPort;
     AppointmentSavePort appointmentSavePort;
     private final ModelMapper modelMapper;
 
-    public ScheduleAppointmentUseCase(AppointmentLoadPort appointmentLoadPort, AppointmentSavePort appointmentSavePort, ModelMapper modelMapper ) {
-        this.appointmentLoadPort = appointmentLoadPort;
+    public ScheduleAppointmentUseCase(CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, ModelMapper modelMapper ) {
+        this.calendarLoadPort = calendarLoadPort;
         this.appointmentSavePort = appointmentSavePort;
         this.modelMapper = modelMapper;
     }
@@ -28,27 +28,25 @@ public class ScheduleAppointmentUseCase implements ScheduleAppointmentPort {
     @Override
     public ScheduleAppointmentCommand scheduleAppointment(ScheduleAppointmentCommand command) {
         try {
-            //Load the current calendar
-            // note in the future  maybe load the calendar for that day or that time slot
-            Calendar calendar = appointmentLoadPort.loadAppointmentsByDate(command.date());
+            Calendar calendar = calendarLoadPort.loadAppointmentsByDate(command.date());
 
-            // Step 2: Schedule the appointment
             Appointment newAppointment = calendar.scheduleAppointment(command);
 
-            appointmentSavePort.SaveAppointment(modelMapper.map(newAppointment, AppointmentEntity.class));
+            appointmentSavePort.saveAppointment(modelMapper.map(newAppointment, AppointmentEntity.class));
 
-            return new ScheduleAppointmentCommand(// for now im going to do it like this in the future maybe just send him a message.
-                    command.sellerId(),
+
+            return new ScheduleAppointmentCommand(
                     newAppointment.getTruck().getLicenseNumber(),
                     newAppointment.getTruck().getPayload(),
-                    String.valueOf(newAppointment.getMaterialType()), //safer convertion to string
+                    String.valueOf(newAppointment.getMaterialType()),
                     newAppointment.getDate(),
                     newAppointment.getTimeSlot().earliestArravieTime(),
-                    newAppointment.getTimeSlot().latestArravieTime()
+                    newAppointment.getTimeSlot().latestArravieTime(),
+                    newAppointment.getCompanyName()
             );
-        } catch (TimeSlotFullException e)  { // catch the exception from the calendar.scheduleAppointment that you throw if there is an error
+        } catch (TimeSlotFullException e)  {
             logger.info(e.getMessage());
-            throw e; // Rethrow the exception if the time slot is full
+            throw e;
         }
     }
 }

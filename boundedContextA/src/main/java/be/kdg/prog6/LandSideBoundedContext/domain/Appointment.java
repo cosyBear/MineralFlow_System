@@ -1,8 +1,8 @@
 package be.kdg.prog6.LandSideBoundedContext.domain;
-import be.kdg.prog6.LandSideBoundedContext.domain.TimeSlot;
 import java.time.LocalDate;
-import be.kdg.prog6.LandSideBoundedContext.domain.Truck ;
+
 public class Appointment {
+    private String companyName;
     private TimeSlot TimeSlot;
     private Truck Truck;
     private MaterialType materialType;
@@ -12,11 +12,12 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(TimeSlot timeSlot, Truck truck, MaterialType materialType, LocalDate date) {
+    public Appointment(TimeSlot timeSlot, Truck truck, MaterialType materialType, LocalDate date , String companyName) {
         TimeSlot = timeSlot;
         Truck = truck;
         this.materialType = materialType;
         this.date = date;
+        this.companyName = companyName;
     }
 
 
@@ -52,5 +53,13 @@ public class Appointment {
 
     public LocalDate getDate() {
         return date;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

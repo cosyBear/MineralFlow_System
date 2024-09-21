@@ -1,5 +1,6 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.in;
 
+import be.kdg.prog6.LandSideBoundedContext.dto.MakeAppointmentDto;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
 import org.springframework.http.ResponseEntity;
@@ -20,23 +21,14 @@ public class AppointmentController  {
 
 
 
-
-    // curl -X POST "http://localhost:8091/api/appointments/makeAppointment/SELLER123/ABC-123/25.0/IRON/2024-10-15/10/11"
-    @PostMapping("/makeAppointment/{sellerId}/{licensePlate}/{payload}/{materialType}/{date}/{earliestArrivalTime}/{latestArrivalTime}")
-    public ResponseEntity<String> makeAppointmentForSeller(
-            @PathVariable String sellerId,
-            @PathVariable String licensePlate,
-            @PathVariable double payload,
-            @PathVariable String materialType,
-            @PathVariable String date, // Use String and convert to LocalDate
-            @PathVariable Integer earliestArrivalTime,
-            @PathVariable Integer latestArrivalTime) {
+    @PostMapping("/makeAppointment")
+    public ResponseEntity<String> makeAppointmentForSeller(@RequestBody MakeAppointmentDto makeAppointmentDto) {
 
         try {
-            LocalDate parsedDate = LocalDate.parse(date);
+            LocalDate parsedDate = LocalDate.parse(makeAppointmentDto.date());
 
             ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(
-                    sellerId, licensePlate, payload, materialType, parsedDate, earliestArrivalTime, latestArrivalTime);
+                    makeAppointmentDto.licensePlate(), makeAppointmentDto.Payload(), makeAppointmentDto.materialType(), parsedDate, makeAppointmentDto.earliestArrivalTime(), makeAppointmentDto.latestArrivalTime() , makeAppointmentDto.companyName());
 
            ScheduleAppointmentCommand appointment =  scheduleAppointmentPort.scheduleAppointment(scheduleAppointmentCommand);
 

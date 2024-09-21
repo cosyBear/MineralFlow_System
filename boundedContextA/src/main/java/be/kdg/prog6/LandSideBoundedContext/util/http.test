@@ -1,0 +1,13 @@
+
+
+this is how to test the controller method.
+curl -X POST "http://localhost:8091/api/appointments/makeAppointment" -H "Content-Type: application/json" -d '{
+    "sellerId": "12345",
+    "licensePlate": "ABC1234",
+    "Payload": "1000",
+    "materialType": "IRON",
+    "date": "2024-09-22",
+    "earliestArrivalTime": 8,
+    "latestArrivalTime": 10,
+    "companyName": "Teddy Corp"
+}'

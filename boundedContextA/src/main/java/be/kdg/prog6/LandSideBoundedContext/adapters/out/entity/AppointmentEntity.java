@@ -12,6 +12,8 @@ import java.time.LocalDate;
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    private String companyName;
+
     @Enumerated(EnumType.STRING)
     private MaterialTypeEntity MaterialTypeEntity;
 
@@ -26,11 +28,12 @@ import java.time.LocalDate;
 
     public AppointmentEntity() {}
 
-    public AppointmentEntity(MaterialTypeEntity materialType, TimeSlotEntity timeSlot, TruckEntity truck , LocalDate date) {
+    public AppointmentEntity(MaterialTypeEntity materialType, TimeSlotEntity timeSlot, TruckEntity truck , LocalDate date, String companyName) {
         this.MaterialTypeEntity = materialType;
         this.timeSlot = timeSlot;
         this.truck = truck;
         this.date = date ;
+        this.companyName = companyName;
     }
 
     public Integer getId() {
@@ -71,5 +74,13 @@ import java.time.LocalDate;
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

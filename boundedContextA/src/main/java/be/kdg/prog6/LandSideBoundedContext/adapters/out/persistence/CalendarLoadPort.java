@@ -14,13 +14,13 @@ import java.time.LocalDate;
 import java.util.*;
 
 @Service
-public class AppointmentLoadPort implements be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentLoadPort {
+public class CalendarLoadPort implements be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort {
 
     private final AppointmentRepository appointmentRepository;
     private final ModelMapper modelMapper;
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentPort.class);
 
-    public AppointmentLoadPort(AppointmentRepository appointmentRepository, ModelMapper modelMapper) {
+    public CalendarLoadPort(AppointmentRepository appointmentRepository, ModelMapper modelMapper) {
         this.appointmentRepository = appointmentRepository;
         this.modelMapper = modelMapper;
     }

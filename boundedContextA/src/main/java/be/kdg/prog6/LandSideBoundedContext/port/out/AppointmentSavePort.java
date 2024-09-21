@@ -4,5 +4,5 @@ import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity
 
 public interface AppointmentSavePort {
 
-    void SaveAppointment(AppointmentEntity AppointmentEntity);
+    void saveAppointment(AppointmentEntity AppointmentEntity);
 }

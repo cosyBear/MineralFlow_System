@@ -2,11 +2,9 @@ package be.kdg.prog6.LandSideBoundedContext.util;
 
 
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
-import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.MaterialTypeEntity;
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.TimeSlotEntity;
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.TruckEntity;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
-import be.kdg.prog6.LandSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.LandSideBoundedContext.domain.TimeSlot;
 import be.kdg.prog6.LandSideBoundedContext.domain.Truck;
 import org.modelmapper.Converter;
@@ -14,10 +12,9 @@ import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
 import org.modelmapper.convention.MatchingStrategies;
 import org.modelmapper.spi.MappingContext;
-import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableAsync;
+
 @Configuration
 public class ModelMapperConfig {
 
@@ -31,6 +28,7 @@ public class ModelMapperConfig {
             @Override
             protected void configure() {
                 skip(destination.getId()); // Skip ID mapping since it's auto-generated
+                map(source.getCompanyName() , destination.getCompanyName());
                 map(source.getMaterialType(), destination.getMaterialTypeEntity()); // Map enums automatically
                 map(source.getTruck(), destination.getTruck());
                 map(source.getTimeSlot(), destination.getTimeSlot());
