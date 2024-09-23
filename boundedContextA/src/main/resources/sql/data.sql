@@ -1,11 +1,8 @@
--- Clear existing appointments
 
--- Insert dummy time slot (Only 1 time slot for this test)
 INSERT INTO time_slots (id, earliest_arrival_time, latest_arrival_time)
 VALUES
     (1, 8, 10);
 
--- Insert dummy trucks (40 trucks for the same time slot)
 INSERT INTO trucks (id, license_number, payload)
 VALUES
     (1, 'TRUCK-001', 5000),

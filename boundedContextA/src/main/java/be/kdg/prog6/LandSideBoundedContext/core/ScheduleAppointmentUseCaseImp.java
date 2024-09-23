@@ -13,36 +13,37 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ScheduleAppointmentUseCase implements ScheduleAppointmentPort {
+public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentPort {
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentPort.class);
+
     private final CalendarLoadPort calendarLoadPort;
     AppointmentSavePort appointmentSavePort;
-    private final ModelMapper modelMapper;
 
-    public ScheduleAppointmentUseCase(CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, ModelMapper modelMapper ) {
-        this.calendarLoadPort = calendarLoadPort;
-        this.appointmentSavePort = appointmentSavePort;
+    private final ModelMapper modelMapper;
+    public ScheduleAppointmentUseCaseImp(ModelMapper modelMapper, AppointmentSavePort appointmentSavePort, CalendarLoadPort calendarLoadPort) {
         this.modelMapper = modelMapper;
+        this.appointmentSavePort = appointmentSavePort;
+        this.calendarLoadPort = calendarLoadPort;
     }
 
     @Override
     public ScheduleAppointmentCommand scheduleAppointment(ScheduleAppointmentCommand command) {
         try {
-            Calendar calendar = calendarLoadPort.loadAppointmentsByDate(command.date());
+            Calendar calendar = calendarLoadPort.loadAppointmentsByDate(command.time().toLocalDate());
 
             Appointment newAppointment = calendar.scheduleAppointment(command);
+            // make
+            /// load the wearhous cap from the databvase in the lANDSIDE and the landSIde will have a wearhouse class \
+//            appointmentSavePort.saveAppointment(modelMapper.map(newAppointment, AppointmentEntity.class));
 
-            appointmentSavePort.saveAppointment(modelMapper.map(newAppointment, AppointmentEntity.class));
+           appointmentSavePort.saveAppointment(newAppointment);
 
 
             return new ScheduleAppointmentCommand(
-                    newAppointment.getTruck().getLicenseNumber(),
-                    newAppointment.getTruck().getPayload(),
-                    String.valueOf(newAppointment.getMaterialType()),
+                    newAppointment.getLicensePlate(),
+                    newAppointment.getMaterialType(),
                     newAppointment.getDate(),
-                    newAppointment.getTimeSlot().earliestArravieTime(),
-                    newAppointment.getTimeSlot().latestArravieTime(),
-                    newAppointment.getCompanyName()
+                    newAppointment.getSellerId()
             );
         } catch (TimeSlotFullException e)  {
             logger.info(e.getMessage());

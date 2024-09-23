@@ -8,9 +8,5 @@ public interface CalendarLoadPort {
 
     public Calendar loadAppointmentsByDate(LocalDate date);
 
-    public Calendar loadAppointmentsByDateAndTimeSlot(LocalDate date, Integer earliestArrivalTime, Integer latestArrivalTime);
-
-    public Calendar  loadAppointmentsByTimeSlot(Integer earliestArrivalTime, Integer latestArrivalTime);
-
 
 }

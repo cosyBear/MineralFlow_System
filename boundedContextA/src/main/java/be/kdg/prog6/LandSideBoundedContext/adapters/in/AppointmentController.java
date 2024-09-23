@@ -1,5 +1,7 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.in;
 
+import be.kdg.prog6.LandSideBoundedContext.domain.LicensePlate;
+import be.kdg.prog6.LandSideBoundedContext.domain.SellerId;
 import be.kdg.prog6.LandSideBoundedContext.dto.MakeAppointmentDto;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
@@ -7,6 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.UUID;
+
+import static jakarta.persistence.GenerationType.UUID;
 
 @RestController
 @RequestMapping("/appointments")
@@ -19,17 +24,12 @@ public class AppointmentController  {
         this.scheduleAppointmentPort = scheduleAppointmentPort;
     }
 
-
-
-    @PostMapping("/makeAppointment")
+    @PostMapping
     public ResponseEntity<String> makeAppointmentForSeller(@RequestBody MakeAppointmentDto makeAppointmentDto) {
 
         try {
-            LocalDate parsedDate = LocalDate.parse(makeAppointmentDto.date());
-
-            ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(
-                    makeAppointmentDto.licensePlate(), makeAppointmentDto.Payload(), makeAppointmentDto.materialType(), parsedDate, makeAppointmentDto.earliestArrivalTime(), makeAppointmentDto.latestArrivalTime() , makeAppointmentDto.companyName());
-
+            ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(new LicensePlate(makeAppointmentDto.licensePlate()),
+                    makeAppointmentDto.materialType(),  makeAppointmentDto.time(), new SellerId(java.util.UUID.fromString(makeAppointmentDto.sellerId())));
            ScheduleAppointmentCommand appointment =  scheduleAppointmentPort.scheduleAppointment(scheduleAppointmentCommand);
 
             return ResponseEntity.ok(String.valueOf(appointment) + " \n the appointment has been made. \n");
