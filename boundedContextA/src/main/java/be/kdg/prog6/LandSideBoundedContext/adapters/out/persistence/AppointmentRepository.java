@@ -11,7 +11,6 @@ import java.util.List;
 
 public interface AppointmentRepository extends JpaRepository<AppointmentEntity, Integer> {
 
-    @Query("SELECT a FROM AppointmentEntity a " +
-            "WHERE a.date = :date")
+    @Query("SELECT a FROM AppointmentEntity a WHERE DATE(a.time) = :date")
     List<AppointmentEntity> findAppointmentsByDate(@Param("date") LocalDate date);
 }

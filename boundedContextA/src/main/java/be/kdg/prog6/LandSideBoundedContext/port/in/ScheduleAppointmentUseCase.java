@@ -1,7 +1,6 @@
 package be.kdg.prog6.LandSideBoundedContext.port.in;// Port (interface) for the Landside bounded context
 
 
-// erenME ScheduleAppointmentUseCase
-public interface ScheduleAppointmentPort {
+public interface ScheduleAppointmentUseCase {
     ScheduleAppointmentCommand scheduleAppointment(ScheduleAppointmentCommand scheduleAppointmentCommand);
 }

@@ -19,7 +19,7 @@ import java.util.UUID;
     @Enumerated(EnumType.STRING)
     private MaterialTypeEntity MaterialTypeEntity;
 
-    private LocalDateTime date; // replace withTime
+    private LocalDateTime time; // replace withTime
 
     public AppointmentEntity() {}
 
@@ -28,7 +28,7 @@ import java.util.UUID;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
         MaterialTypeEntity = materialTypeEntity;
-        this.date = date;
+        this.time = date;
     }
 
     public Integer getId() {
@@ -63,11 +63,11 @@ import java.util.UUID;
         MaterialTypeEntity = materialTypeEntity;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 }

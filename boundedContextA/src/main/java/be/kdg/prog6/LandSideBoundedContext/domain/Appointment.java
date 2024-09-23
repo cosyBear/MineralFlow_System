@@ -5,13 +5,16 @@ import java.time.LocalDateTime;
 public class Appointment {
     // needs id maybe
     private MaterialType materialType;
-    private LocalDateTime date; // replace withTime
+    private LocalDateTime time; // replace withTime
     private SellerId sellerId;
     private LicensePlate licensePlate;
 
+    public Appointment(){
+
+    }
     public Appointment(MaterialType materialType, LocalDateTime date, SellerId sellerId, LicensePlate licensePlate) {
         this.materialType = materialType;
-        this.date = date;
+        this.time = date;
         this.sellerId = sellerId;
         this.licensePlate = licensePlate;
     }
@@ -24,12 +27,12 @@ public class Appointment {
         this.materialType = materialType;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public LocalDateTime getTime() {
+        return time;
     }
 
-    public void setDate(LocalDateTime date) {
-        this.date = date;
+    public void setTime(LocalDateTime time) {
+        this.time = time;
     }
 
     public SellerId getSellerId() {

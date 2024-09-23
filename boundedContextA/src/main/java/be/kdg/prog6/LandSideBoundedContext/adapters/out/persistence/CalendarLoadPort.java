@@ -1,6 +1,6 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.out.persistence;
 
-import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentPort;
+import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
 import  be.kdg.prog6.LandSideBoundedContext.domain.Calendar;
@@ -17,7 +17,7 @@ public class CalendarLoadPort implements be.kdg.prog6.LandSideBoundedContext.por
 
     private final AppointmentRepository appointmentRepository;
     private final ModelMapper modelMapper;
-    private static final Logger logger = LogManager.getLogger(ScheduleAppointmentPort.class);
+    private static final Logger logger = LogManager.getLogger(ScheduleAppointmentUseCase.class);
 
     public CalendarLoadPort(AppointmentRepository appointmentRepository, ModelMapper modelMapper) {
         this.appointmentRepository = appointmentRepository;
@@ -30,14 +30,13 @@ public class CalendarLoadPort implements be.kdg.prog6.LandSideBoundedContext.por
         return createCalendarFromEntities(entities);
     }
 
-
-
     private Calendar createCalendarFromEntities(List<AppointmentEntity> entities) {
         Calendar calendar = new Calendar();
-
+        List<Appointment> appointments = new ArrayList<>();
         for (AppointmentEntity entity : entities) {
-            calendar.addAppointment(modelMapper.map(entity, Appointment.class));
+            appointments.add(modelMapper.map(entity, Appointment.class));
         }
+        calendar.setAppointments(appointments);
         return calendar;
     }
 }

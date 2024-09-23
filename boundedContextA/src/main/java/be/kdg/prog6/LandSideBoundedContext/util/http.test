@@ -1,13 +1,15 @@
-
+As a truck driver, I want to be recognized by my license plate so that the gate opens for the
+ truck to enter the facility.
 
 this is how to test the controller method.
-curl -X POST "http://localhost:8091/api/appointments/makeAppointment" -H "Content-Type: application/json" -d '{
-    "sellerId": "12345",
+curl -X POST "http://localhost:8091/api/appointments" -H "Content-Type: application/json" -d '{
+    "sellerId": "6bc6f408-50d2-4ed5-95a4-7869322c2355",
     "licensePlate": "ABC1234",
-    "Payload": "1000",
     "materialType": "IRON",
-    "date": "2024-09-22",
-    "earliestArrivalTime": 8,
-    "latestArrivalTime": 10,
-    "companyName": "Teddy Corp"
+    "time": "2001-11-11T11:00:00"
 }'
+
+
+
+// you create a controller to get the licneplate
+//
