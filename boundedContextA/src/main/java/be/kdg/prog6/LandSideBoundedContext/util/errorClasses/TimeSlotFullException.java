@@ -1,4 +1,4 @@
-package be.kdg.prog6.LandSideBoundedContext.util;
+package be.kdg.prog6.LandSideBoundedContext.util.errorClasses;
 
 
 public class TimeSlotFullException extends RuntimeException {

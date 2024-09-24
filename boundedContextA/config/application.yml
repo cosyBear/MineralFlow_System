@@ -10,7 +10,6 @@ spring:
 
   sql:
     init:
-#      schema-locations: classpath:/data.sql
       mode: always
   datasource:
     url: jdbc:mysql://localhost:3306/app_db

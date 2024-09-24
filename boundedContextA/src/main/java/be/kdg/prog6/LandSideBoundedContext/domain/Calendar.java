@@ -1,16 +1,14 @@
 package be.kdg.prog6.LandSideBoundedContext.domain;
 
+import be.kdg.prog6.LandSideBoundedContext.port.in.GateCommand;
 import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentCommand;
-import be.kdg.prog6.LandSideBoundedContext.util.TimeSlotFullException;
+import be.kdg.prog6.LandSideBoundedContext.util.errorClasses.TimeSlotFullException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 
 public class Calendar {
@@ -30,7 +28,7 @@ public class Calendar {
 
     }
 
-    public Appointment scheduleAppointment(ScheduleAppointmentCommand requestDTO) {
+    public Appointment scheduleAppointment(ScheduleAppointmentCommand requestDTO)  {
 
         Appointment appointment = new Appointment(requestDTO.materialType(), requestDTO.time(), requestDTO.sellerId(), requestDTO.licensePlate());
         if (addAppointment(appointment)) {
@@ -54,23 +52,36 @@ public class Calendar {
                 appointments.add(appointment);
                 return true;
             } else {
-                throw new TimeSlotFullException("Failed to add appointment. Time slot may be full.");
+                return false;
             }
         }
     }
 
-    public boolean isTruckOnTime(LocalDateTime time) {
+
+
+    public Optional <Appointment> allowTruckToEnter(GateCommand gateCommand){
+
+        Optional<Appointment> appointment = isTruckOnTime(gateCommand.localDate());
+
+        if (appointment.isPresent() && passGate(gateCommand.licensePlate()) ) {
+
+            return appointment;
+        }else
+            return Optional.empty();
+
+    }
+
+    public Optional<Appointment> isTruckOnTime(LocalDateTime time) {
         for (Appointment appointment : appointments) {
             if (appointment.getTime().toLocalDate().equals(time.toLocalDate()) && appointment.getTime().getHour() == time.getHour()) {
                 logger.info("truck is on time ");
-                return true;
+                return Optional.of(appointment);
             }
         }
-        logger.info("truck is Not on time ");
-        return false;
+        return Optional.empty();
     }
 
-    public boolean PassGate(LicensePlate licensePlate) {
+    public boolean passGate(LicensePlate licensePlate) {
         for (Appointment appointment : appointments) {
             if (appointment.getLicensePlate().equals(licensePlate)) {
                 logger.info("PassGate is on license plate ");

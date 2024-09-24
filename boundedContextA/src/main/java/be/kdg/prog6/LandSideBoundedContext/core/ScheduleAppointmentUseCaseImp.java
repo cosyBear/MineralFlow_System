@@ -5,7 +5,7 @@ import be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentSavePort;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.LandSideBoundedContext.domain.Calendar;
-import be.kdg.prog6.LandSideBoundedContext.util.TimeSlotFullException;
+import be.kdg.prog6.LandSideBoundedContext.util.errorClasses.TimeSlotFullException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
@@ -28,7 +28,6 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
     public ScheduleAppointmentCommand scheduleAppointment(ScheduleAppointmentCommand command) {
         try {
             Calendar calendar = calendarLoadPort.loadAppointmentsByDate(command.time().toLocalDate());
-
             Appointment newAppointment = calendar.scheduleAppointment(command);
             /// load the wearhous cap from the databvase in the lANDSIDE and the landSIde will have a wearhouse class \
             // so what the teacher said is you load the warehouse  data which  is just events you get from the other bounded context
@@ -41,9 +40,9 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
                     newAppointment.getTime(),
                     newAppointment.getSellerId()
             );
-        } catch (TimeSlotFullException e)  {
-            logger.info(e.getMessage());
-            throw e;
+        } catch (TimeSlotFullException timeSlotFullException)  {
+            logger.info(timeSlotFullException.getMessage());
+            throw timeSlotFullException;
         }
     }
 }

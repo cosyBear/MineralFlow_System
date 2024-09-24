@@ -1,4 +1,4 @@
-package be.kdg.prog6.LandSideBoundedContext.util;
+package be.kdg.prog6.LandSideBoundedContext.util.config;
 
 
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
