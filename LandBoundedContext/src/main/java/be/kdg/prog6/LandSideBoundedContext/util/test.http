@@ -1,0 +1,34 @@
+###
+
+# curl -X POST "http://localhost:8091/api/gate" -H "Content-Type: application/json" -d '{
+#    "licensePlate": "ABC1234",
+#    "localDate": "2024-09-23T11:00:00"
+#}'
+POST http://localhost:8091/api/gate
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1234",
+  "localDate": "2024-09-23T11:00:00"
+}
+
+###
+
+# curl -X POST "http://localhost:8091/api/appointments" -H "Content-Type: application/json" -d '{
+#    "sellerId": "6bc6f408-50d2-4ed5-95a4-7869322c2355",
+#    "licensePlate": "ABC1234",
+#    "materialType": "IRON",
+#    "time": "2001-11-11T11:00:00"
+#}'
+POST http://localhost:8091/api/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "6bc6f408-50d2-4ed5-95a4-7869322c2355",
+  "licensePlate": "ABC1234",
+  "materialType": "IRON",
+  "time": "2001-11-11T11:00:00"
+}
+
+###
+
