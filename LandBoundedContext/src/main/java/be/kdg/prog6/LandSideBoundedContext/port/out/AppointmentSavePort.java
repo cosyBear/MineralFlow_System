@@ -5,5 +5,5 @@ import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
 
 public interface AppointmentSavePort {
 
-    void saveAppointment(Appointment Appointment);
+    void saveAppointment(Appointment Appointment) throws Exception;
 }

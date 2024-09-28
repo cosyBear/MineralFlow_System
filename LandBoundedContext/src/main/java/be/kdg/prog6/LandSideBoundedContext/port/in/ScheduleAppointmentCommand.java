@@ -12,4 +12,8 @@ public record ScheduleAppointmentCommand(
         MaterialType materialType,
         LocalDateTime time,
         SellerId sellerId
-) {}
+) {
+public ScheduleAppointmentCommand{
+
+}
+}

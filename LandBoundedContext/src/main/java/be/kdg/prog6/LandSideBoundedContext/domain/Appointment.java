@@ -50,4 +50,15 @@ public class Appointment {
     public void setLicensePlate(LicensePlate licensePlate) {
         this.licensePlate = licensePlate;
     }
+
+
+    @Override
+    public String toString() {
+        return "Appointment{" +
+                "materialType=" + materialType +
+                ", time=" + time +
+                ", sellerId=" + sellerId +
+                ", licensePlate=" + licensePlate +
+                '}';
+    }
 }

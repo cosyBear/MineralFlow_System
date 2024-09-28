@@ -22,13 +22,12 @@ public class AppointmentDataBaseAdapter implements be.kdg.prog6.LandSideBoundedC
     }
 
     @Override
-    public void saveAppointment(Appointment Appointment) {
+    public void saveAppointment(Appointment Appointment)throws Exception  {
         try {
             appointmentRepository.save(modelMapper.map(Appointment, AppointmentEntity.class));
         }
         catch (Exception e) {
-            logger.debug(e.getMessage() + " ERROR from saveAppointment in the CalendarSavePortCommand class ");
-
+            throw e;
         }
     }
 

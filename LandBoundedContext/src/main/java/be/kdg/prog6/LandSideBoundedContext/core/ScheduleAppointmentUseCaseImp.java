@@ -15,33 +15,23 @@ import org.springframework.stereotype.Service;
 public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase {
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentUseCase.class);
 
-    private  CalendarLoadPort calendarLoadPort;
-    private AppointmentSavePort appointmentSavePort;
-    private final ModelMapper modelMapper;
-    public ScheduleAppointmentUseCaseImp(ModelMapper modelMapper, AppointmentSavePort appointmentSavePort, CalendarLoadPort calendarLoadPort) {
-        this.modelMapper = modelMapper;
+    private final CalendarLoadPort calendarLoadPort;
+    private final AppointmentSavePort appointmentSavePort;
+    public ScheduleAppointmentUseCaseImp(AppointmentSavePort appointmentSavePort, CalendarLoadPort calendarLoadPort) {
         this.appointmentSavePort = appointmentSavePort;
         this.calendarLoadPort = calendarLoadPort;
     }
 
     @Override
-    public ScheduleAppointmentCommand scheduleAppointment(ScheduleAppointmentCommand command) {
+    public Appointment scheduleAppointment(ScheduleAppointmentCommand command) {
         try {
             Calendar calendar = calendarLoadPort.loadAppointmentsByDate(command.time().toLocalDate());
             Appointment newAppointment = calendar.scheduleAppointment(command);
-           appointmentSavePort.saveAppointment(newAppointment);
-
-
-            return new ScheduleAppointmentCommand(
-                    newAppointment.getLicensePlate(),
-                    newAppointment.getMaterialType(),
-                    newAppointment.getTime(),
-                    newAppointment.getSellerId()
-            );
-        } catch (TimeSlotFullException timeSlotFullException)  {
-            logger.info(timeSlotFullException.getMessage());
-            throw timeSlotFullException;
+             appointmentSavePort.saveAppointment(newAppointment);
+            return newAppointment;
+        } catch (Exception e)  {
+            logger.info(e.getMessage());
+            throw new TimeSlotFullException(e.getMessage());
         }
     }
 }
-// TODO As a truck driver, I want to dock to the correct conveyor belt and receive my copy of the PDT and new weighing bridge number

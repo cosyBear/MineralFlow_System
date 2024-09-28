@@ -1,10 +1,9 @@
 package be.kdg.prog6.LandSideBoundedContext.adapters.in;
 
-import be.kdg.prog6.LandSideBoundedContext.core.GateUseCaseImp;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.LandSideBoundedContext.dto.GateDto;
 import be.kdg.prog6.LandSideBoundedContext.port.in.GateCommand;
-import be.kdg.prog6.LandSideBoundedContext.port.in.GateCommandPort;
+import be.kdg.prog6.LandSideBoundedContext.port.in.GateUseCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.ResponseEntity;
@@ -18,17 +17,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class GateController {
 
     private static final Logger logger = LogManager.getLogger(GateController.class);
-    private final GateCommandPort gateCommandPort;
+    private final GateUseCase gateUseCase;
 
 
-    public GateController(GateCommandPort gateCommandPort) {
-        this.gateCommandPort = gateCommandPort;
+    public GateController(GateUseCase gateUseCase) {
+        this.gateUseCase = gateUseCase;
     }
 
     @PostMapping
     public ResponseEntity<Appointment> askForGateToOpen(@RequestBody GateDto gateDto){
 
-       return ResponseEntity.ok(gateCommandPort.GateSecurity(new GateCommand(gateDto.licensePlate() , gateDto.localDate())) );
+       return ResponseEntity.ok(gateUseCase.GateSecurity(new GateCommand(gateDto.licensePlate() , gateDto.localDate())) );
 
     }
 

@@ -22,7 +22,6 @@ public class ExceptionHandling {
     {
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ErrorDto("Appointment Dont Exist"));
-
     }
 
 }
