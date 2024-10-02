@@ -27,7 +27,7 @@ public class GateController {
     @PostMapping
     public ResponseEntity<Appointment> askForGateToOpen(@RequestBody GateDto gateDto){
 
-       return ResponseEntity.ok(gateUseCase.GateSecurity(new GateCommand(gateDto.licensePlate() , gateDto.localDate())) );
+       return ResponseEntity.ok(gateUseCase.GateSecurity(new GateCommand(gateDto.licensePlate() , gateDto.localDate())));
 
     }
 

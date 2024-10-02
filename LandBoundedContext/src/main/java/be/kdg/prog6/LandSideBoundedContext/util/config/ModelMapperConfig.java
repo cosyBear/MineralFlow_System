@@ -2,9 +2,11 @@ package be.kdg.prog6.LandSideBoundedContext.util.config;
 
 
 import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.AppointmentEntity;
+import be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.WeighbridgeTicketEntity;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.LandSideBoundedContext.domain.LicensePlate;
 import be.kdg.prog6.LandSideBoundedContext.domain.SellerId;
+import be.kdg.prog6.LandSideBoundedContext.domain.WeighbridgeTicket;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -56,6 +58,40 @@ public class ModelMapperConfig {
         modelMapper.addConverter(stringToLicensePlateConverter);
         modelMapper.addConverter(licensePlateToStringConverter);
 
+
+
+
+
+
+
+        modelMapper.addMappings(new PropertyMap<WeighbridgeTicket, WeighbridgeTicketEntity>() {
+            @Override
+            protected void configure() {
+                map(source.getWeighBridgeTicketId(), destination.getWeighBridgeTicketId());
+                map(source.getLicensePlate(), destination.getLicensePlate());
+                map(source.getSellerId(), destination.getSellerId());
+                map(source.getStartWeight(), destination.getStartWeight());
+                map(source.getEndWeight(), destination.getEndWeight());
+                map(source.getStartTime() , destination.getStartTime());
+                map(source.getEndTime() , destination.getEndTime());
+                map(source.getMaterialType() , destination.getMaterialType());
+            }
+        });
+
+        modelMapper.addMappings(new PropertyMap<WeighbridgeTicketEntity, WeighbridgeTicket>() {
+            @Override
+            protected void configure() {
+                map(source.getWeighBridgeTicketId(), destination.getWeighBridgeTicketId());
+                map(source.getLicensePlate(), destination.getLicensePlate());
+                map(source.getSellerId(), destination.getSellerId());
+                map(source.getStartWeight(), destination.getStartWeight());
+                map(source.getEndWeight(), destination.getEndWeight());
+                map(source.getStartTime() , destination.getStartTime());
+                map(source.getEndTime() , destination.getEndTime());
+                map(source.getMaterialType() , destination.getMaterialType());
+            }
+        });
+
         modelMapper.addMappings(new PropertyMap<Appointment, AppointmentEntity>() {
             @Override
             protected void configure() {
@@ -64,6 +100,7 @@ public class ModelMapperConfig {
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
                 map(source.getTime(), destination.getTime());
+                map(source.getPayload() , destination.getPayload());
             }
         });
 
@@ -74,8 +111,13 @@ public class ModelMapperConfig {
                 map(source.getTime(), destination.getTime());
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
+                map(source.getPayload() , destination.getPayload());
             }
         });
+
+
+
+
 
         return modelMapper;
     }

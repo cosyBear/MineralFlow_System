@@ -3,20 +3,21 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class Appointment {
-    // needs id maybe
     private MaterialType materialType;
     private LocalDateTime time; // replace withTime
     private SellerId sellerId;
     private LicensePlate licensePlate;
+    private double payload;
 
     public Appointment(){
 
     }
-    public Appointment(MaterialType materialType, LocalDateTime date, SellerId sellerId, LicensePlate licensePlate) {
+    public Appointment(MaterialType materialType, LocalDateTime date, SellerId sellerId, LicensePlate licensePlate , double payload) {
         this.materialType = materialType;
         this.time = date;
         this.sellerId = sellerId;
         this.licensePlate = licensePlate;
+        this.payload = payload;
     }
 
     public MaterialType getMaterialType() {
@@ -51,6 +52,13 @@ public class Appointment {
         this.licensePlate = licensePlate;
     }
 
+    public double getPayload() {
+        return payload;
+    }
+
+    public void setPayload(double payload) {
+        this.payload = payload;
+    }
 
     @Override
     public String toString() {

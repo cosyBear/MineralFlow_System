@@ -32,3 +32,32 @@ Content-Type: application/json
 
 ###
 
+
+
+POST http://localhost:8091/api/Bridge
+Content-Type: application/json
+
+{
+    "licensePlate": "ABC1234",
+    "weight": 15000.0
+}
+
+
+
+###
+POST http://localhost:8091/api/Bridge/weighTruckIn
+Content-Type: application/json
+
+{
+"licensePlate": "ABC123",
+"weight": 25000.0
+}
+###
+
+POST http://localhost:8091/api/Bridge/weighTruckOut
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC123",
+  "grossWeight": 12000.0
+}

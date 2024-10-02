@@ -1,6 +1,6 @@
 package be.kdg.prog6.LandSideBoundedContext.core;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
-import be.kdg.prog6.LandSideBoundedContext.domain.Calendar;
+import be.kdg.prog6.LandSideBoundedContext.domain.DayCalendar;
 import be.kdg.prog6.LandSideBoundedContext.port.in.GateCommand;
 import be.kdg.prog6.LandSideBoundedContext.port.in.GateUseCase;
 import be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort;
@@ -25,9 +25,10 @@ public class GateUseCaseImp implements GateUseCase {
     @Override
     public Appointment GateSecurity(GateCommand gateCommand) {
         logger.info("check licensePlate of the truck ... ");
-        Calendar calendar = calendarLoadPort.loadAppointmentsByDate(gateCommand.localDate().toLocalDate());
+        DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(gateCommand.localDate().toLocalDate());
         try{
-            return  calendar.isTruckOnTime(gateCommand.localDate()).get();
+
+            return  dayCalendar.isTruckOnTime(gateCommand.localDate()).get();
 
         }catch (NoSuchElementException ex){
 
@@ -38,3 +39,4 @@ public class GateUseCaseImp implements GateUseCase {
 
 
 }
+

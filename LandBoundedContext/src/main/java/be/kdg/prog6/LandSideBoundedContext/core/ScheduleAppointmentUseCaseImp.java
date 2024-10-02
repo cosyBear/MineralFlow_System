@@ -4,11 +4,10 @@ import be.kdg.prog6.LandSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import be.kdg.prog6.LandSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.LandSideBoundedContext.port.out.AppointmentSavePort;
 import be.kdg.prog6.LandSideBoundedContext.domain.Appointment;
-import be.kdg.prog6.LandSideBoundedContext.domain.Calendar;
+import be.kdg.prog6.LandSideBoundedContext.domain.DayCalendar;
 import be.kdg.prog6.LandSideBoundedContext.util.errorClasses.TimeSlotFullException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -25,8 +24,8 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
     @Override
     public Appointment scheduleAppointment(ScheduleAppointmentCommand command) {
         try {
-            Calendar calendar = calendarLoadPort.loadAppointmentsByDate(command.time().toLocalDate());
-            Appointment newAppointment = calendar.scheduleAppointment(command);
+            DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(command.time().toLocalDate());
+            Appointment newAppointment = dayCalendar.scheduleAppointment(command);
              appointmentSavePort.saveAppointment(newAppointment);
             return newAppointment;
         } catch (Exception e)  {

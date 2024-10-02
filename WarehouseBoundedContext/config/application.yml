@@ -12,6 +12,13 @@ spring:
     username: user
     password: password
     driver-class-name: com.mysql.cj.jdbc.Driver
+  rabbitmq:
+    host: localhost  # Use service name from Docker Compose
+    port: 5672
+    username: myuser
+    password: mypassword
+    restart: always
+
 
   sql:
     init:
@@ -21,6 +28,5 @@ spring:
       ddl-auto: create
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
-
   server:
     port: 8092

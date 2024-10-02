@@ -2,34 +2,43 @@ package be.kdg.prog6.boundedcontextB.domain;
 
 import java.time.LocalDateTime;
 
+//● As a truck driver, I want to receive the weighing bridge number when accessing the site so I
+//know where to go. ask the teacher for this user story tell him in my case i dont have the weighing bridge i just a weighing bridgeUserCase. no weighing bridge domain
+// and the way i assign the Truck a warehouse si when the truck goes in aKA in the WareHouseBounded context in the WarehouseUseCase
+// so is that ok like the logic that  i imp follows the the doc only the part about weighing bridge should assing a warehouse
 public class Warehouse {
-    private MaterialType materialType;
+
+
+    private WarehouseId warehouseNumber;
+
     private SellerId sellerId;
-    private Integer warehouseNumber;
-    private boolean capacityReached; // this is in percentage  to how much full is the  warehouse
-    private double amountOfMaterial;
+
+    private MaterialType materialType;
 
 
-    public PDT addMaterial(Truck truck ) {
+    private WarehouseEventsWindow eventsWindow;
+    //create a SnapShot of the WareHouseEvent or the WarehouseEventsWindow for the calculating so its mush faster instead of replaying everything you have a snapshot
 
-        //later add some checks to see   if you can add materials to the warehouse  here in this method or before
-        // what do i mean maybe the warehouse is almost full and we can not add  material in.
-        this.materialType = truck.getMaterialType();
-        this.amountOfMaterial += truck.getPayload();
+    public Warehouse() {
 
-        return new PDT(truck.getMaterialType() , LocalDateTime.now() , truck.getPayload());
-    }
-
-    public void removeMaterial(double amount ) {
-        this.amountOfMaterial -= amount;
-    }
-
-    public boolean isWarehouseAvailable(){
-        return materialType == null && amountOfMaterial == 0;
     }
 
 
 
+    public void unloadMaterial(weighTruckInCommand command) {
+
+        WarehouseEvent event = new WarehouseEvent(new WarehouseEventId(), LocalDateTime.now(), EventType.DELIVER, 0, command.weighBridgeTicketId());
+        eventsWindow.addEvent(event);
+    }
+
+
+    public WarehouseId getWarehouseNumber() {
+        return warehouseNumber;
+    }
+
+    public void setWarehouseNumber(WarehouseId warehouseNumber) {
+        this.warehouseNumber = warehouseNumber;
+    }
 
     public MaterialType getMaterialType() {
         return materialType;
@@ -47,27 +56,18 @@ public class Warehouse {
         this.sellerId = sellerId;
     }
 
-    public Integer getWarehouseNumber() {
-        return warehouseNumber;
+    public WarehouseEventsWindow getEventsWindow() {
+        return eventsWindow;
     }
 
-    public void setWarehouseNumber(Integer warehouseNumber) {
-        this.warehouseNumber = warehouseNumber;
+    public void setEventsWindow(WarehouseEventsWindow eventsWindow) {
+        this.eventsWindow = eventsWindow;
     }
 
-    public boolean isCapacityReached() {
-        return capacityReached;
+    public double calculateCurrentLoadOfWarehouse() {
+        return eventsWindow.calculateCurrentLoad();
     }
 
-    public void setCapacityReached(boolean capacityReached) {
-        this.capacityReached = capacityReached;
-    }
-
-    public double getAmountOfMaterial() {
-        return amountOfMaterial;
-    }
-
-    public void setAmountOfMaterial(double amountOfMaterial) {
-        this.amountOfMaterial = amountOfMaterial;
-    }
 }
+
+

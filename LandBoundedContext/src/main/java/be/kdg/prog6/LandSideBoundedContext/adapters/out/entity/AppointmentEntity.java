@@ -7,7 +7,7 @@ import java.util.UUID;
 
 @Entity
 @Table(
-        name = "appointments"
+        name = "appointments" , catalog = "app_db"
 )public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,15 +20,17 @@ import java.util.UUID;
     private MaterialTypeEntity MaterialTypeEntity;
 
     private LocalDateTime time; // replace withTime
+    private double payload;
 
     public AppointmentEntity() {}
 
-    public AppointmentEntity(Integer id, String licensePlate, UUID sellerId, be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.MaterialTypeEntity materialTypeEntity, LocalDateTime date) {
+    public AppointmentEntity(Integer id, String licensePlate, UUID sellerId, be.kdg.prog6.LandSideBoundedContext.adapters.out.entity.MaterialTypeEntity materialTypeEntity, LocalDateTime date , double payload) {
         this.id = id;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
         MaterialTypeEntity = materialTypeEntity;
         this.time = date;
+        this.payload = payload;
     }
 
     public Integer getId() {
@@ -69,5 +71,13 @@ import java.util.UUID;
 
     public void setTime(LocalDateTime time) {
         this.time = time;
+    }
+
+    public double getPayload() {
+        return payload;
+    }
+
+    public void setPayload(double payload) {
+        this.payload = payload;
     }
 }

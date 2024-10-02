@@ -15,7 +15,8 @@ public record MakeAppointmentDto(
         MaterialType materialType ,
        @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
        @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-       LocalDateTime time
+       LocalDateTime time,
+       double payload
 
 
 ) {

@@ -11,9 +11,8 @@ public record ScheduleAppointmentCommand(
         LicensePlate licensePlate,
         MaterialType materialType,
         LocalDateTime time,
-        SellerId sellerId
+        SellerId sellerId,
+        double payload
 ) {
-public ScheduleAppointmentCommand{
 
-}
 }

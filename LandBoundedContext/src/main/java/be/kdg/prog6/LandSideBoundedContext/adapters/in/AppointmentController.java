@@ -28,7 +28,7 @@ public class AppointmentController  {
 
         try {
             ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(new LicensePlate(makeAppointmentDto.licensePlate()),
-                    makeAppointmentDto.materialType(),  makeAppointmentDto.time(), new SellerId(java.util.UUID.fromString(makeAppointmentDto.sellerId())));
+                    makeAppointmentDto.materialType(),  makeAppointmentDto.time(), new SellerId(java.util.UUID.fromString(makeAppointmentDto.sellerId())) , makeAppointmentDto.payload());
            Appointment appointment =  scheduleAppointmentUseCase.scheduleAppointment(scheduleAppointmentCommand);
 
 
