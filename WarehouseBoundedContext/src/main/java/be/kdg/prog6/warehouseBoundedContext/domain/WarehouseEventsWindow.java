@@ -15,6 +15,16 @@ public class WarehouseEventsWindow {
         this.warehouseEventList = new ArrayList<>();
     }
 
+
+    public void addEvent(WarehouseEvent event) {
+        warehouseEventList.add(event);
+    }
+
+    public double calculateCurrentLoad() {
+        return warehouseEventList.stream()
+                .mapToDouble(WarehouseEvent::getChangeToLoad)
+                .sum();
+    }
     public void updateEventWithMaterial(UUID weighBridgeTicketId, double materialTrueWeight) {
         WarehouseEvent pendingEvent = findPendingEvent(weighBridgeTicketId);
         WarehouseEvent updatedEvent = new WarehouseEvent(
@@ -34,16 +44,6 @@ public class WarehouseEventsWindow {
                 .filter(event -> event.materialTrueWeight() == 0)
                 .findFirst()
                 .orElseThrow(() -> new IllegalStateException("No matching event found with weighBridgeTicketId: " + weighBridgeTicketId));
-    }
-
-    public void addEvent(WarehouseEvent event) {
-        warehouseEventList.add(event);
-    }
-
-    public double calculateCurrentLoad() {
-        return warehouseEventList.stream()
-                .mapToDouble(WarehouseEvent::getChangeToLoad)
-                .sum();
     }
 
     public List<WarehouseEvent> getWarehouseEventList() {

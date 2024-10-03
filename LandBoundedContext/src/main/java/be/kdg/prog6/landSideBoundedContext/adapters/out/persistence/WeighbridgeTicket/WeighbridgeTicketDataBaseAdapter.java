@@ -1,6 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.persistence.WeighbridgeTicket;
 
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.WeighbridgeTicketEntity;
+import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.domain.WeighbridgeTicket;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketSavePort;
@@ -35,4 +36,9 @@ public class WeighbridgeTicketDataBaseAdapter implements WeighbridgeTicketLoadPo
         weighbridgeTicketEntityRepository.save(modelMapper.map(ticket, WeighbridgeTicketEntity.class));
 
     }
+
+
+
+
+
 }

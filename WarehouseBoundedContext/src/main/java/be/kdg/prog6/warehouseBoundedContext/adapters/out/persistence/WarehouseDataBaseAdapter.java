@@ -1,62 +1,70 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence;
 
-
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEntity;
+import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEventsWindowEntity;
+import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEventEntity;
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.WarehouseRepository;
-import be.kdg.prog6.warehouseBoundedContext.domain.MaterialType;
-import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;
-import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseId;
-import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
+import be.kdg.prog6.warehouseBoundedContext.domain.*;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
-import org.modelmapper.ModelMapper;
+import be.kdg.prog6.warehouseBoundedContext.util.Mapper.WarehouseMapper;
+import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Component
-public class WarehouseDataBaseAdapter implements WarehouseLoadPort , WarehouseSavePort {
+public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSavePort {
+
 
     private final WarehouseRepository warehouseRepository;
-    private final ModelMapper modelMapper;
+    private final WarehouseMapper warehouseMapper;
 
-    public WarehouseDataBaseAdapter(WarehouseRepository warehouseRepository, ModelMapper modelMapper) {
+    public WarehouseDataBaseAdapter(WarehouseRepository warehouseRepository, WarehouseMapper warehouseMapper) {
         this.warehouseRepository = warehouseRepository;
-        this.modelMapper = modelMapper;
+        this.warehouseMapper = warehouseMapper;
     }
 
-
     @Override
-    public Warehouse findBySellerIdAndMaterialType(SellerId sellerId , MaterialType materialType){
-        Optional<WarehouseEntity> warehouseEntity = warehouseRepository.findBySellerIdAndMaterialType(sellerId , materialType);
-        return (modelMapper.map(warehouseEntity, Warehouse.class));
+    @Transactional
+    public Warehouse findBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
+        Optional<WarehouseEntity> warehouseEntityOptional =
+                warehouseRepository.findBySellerIdAndMaterialType(sellerId, materialType);
+        if (warehouseEntityOptional.isPresent()) {
+            return warehouseMapper.toDomain(warehouseEntityOptional.get());
+        } else {
+            throw new EntityNotFoundException("Warehouse not found for sellerId: " + sellerId +
+                    " and materialType: " + materialType);
+        }
     }
 
-
     @Override
+    @Transactional
     public Warehouse save(Warehouse warehouse) {
-        var warehouseEntity = modelMapper.map(warehouse, WarehouseEntity.class);
+        WarehouseEntity warehouseEntity = warehouseMapper.toEntity(warehouse);
         warehouseEntity = warehouseRepository.save(warehouseEntity);
-        return modelMapper.map(warehouseEntity, Warehouse.class);
+        return warehouseMapper.toDomain(warehouseEntity);
     }
 
     @Override
     public Optional<Warehouse> findBySellerId(SellerId sellerId) {
         return warehouseRepository.findBySellerId(sellerId)
-                .map(entity -> modelMapper.map(entity, Warehouse.class));
+                .map(warehouseMapper::toDomain);
     }
 
     @Override
     public Optional<Warehouse> findByWarehouseNumber(WarehouseId warehouseId) {
         return warehouseRepository.findByWarehouseNumber(warehouseId)
-                .map(entity -> modelMapper.map(entity, Warehouse.class));
+                .map(warehouseMapper::toDomain);
     }
 
     @Override
     public Warehouse update(Warehouse warehouse) {
-        // Simply re-save the updated WarehouseEntity
-        var warehouseEntity = modelMapper.map(warehouse, WarehouseEntity.class);
+        WarehouseEntity warehouseEntity = warehouseMapper.toEntity(warehouse);
         warehouseEntity = warehouseRepository.save(warehouseEntity);
-        return modelMapper.map(warehouseEntity, Warehouse.class);
+        return warehouseMapper.toDomain(warehouseEntity);
     }
 }
-

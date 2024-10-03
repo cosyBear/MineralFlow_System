@@ -1,4 +1,4 @@
-package be.kdg.prog6.messaging;
+package be.kdg.prog6.landSideBoundedContext.util.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -15,6 +15,7 @@ public class RabbitMQConfig {
 
     public static final String WEIGHBRIDGE_EXCHANGE = "weighbridgeExchange";
     public static final String TRUCK_WEIGHTED_IN_QUEUE = "truckWeightedInQueue";
+    public static final String TRUCK_WEIGHTED_Out_QUEUE = "truckWeightedOutQueue";
 
     @Bean
     public TopicExchange weighbridgeExchange() {
@@ -22,16 +23,34 @@ public class RabbitMQConfig {
     }
 
     @Bean
-   public Queue truckWeightedInQueue() {
+    Queue truckWeightedInQueue() {
         return new Queue(TRUCK_WEIGHTED_IN_QUEUE, true);
     }
 
     @Bean
-    public Binding truckWeightedInBinding(Queue truckWeightedInQueue, TopicExchange weighbridgeExchange) {
+     Queue truckWeightedOutQueue() {
+        return new Queue(TRUCK_WEIGHTED_Out_QUEUE, true);
+    }
+
+
+    @Bean
+     Binding truckWeightedInBinding(Queue truckWeightedInQueue, TopicExchange weighbridgeExchange) {
         return BindingBuilder.bind(truckWeightedInQueue)
                 .to(weighbridgeExchange).
                 with("truck.*.in");
     }
+
+
+
+    @Bean
+    public Binding truckWeightedOutBinding(Queue truckWeightedOutQueue, TopicExchange weighbridgeExchange) {
+        return BindingBuilder.bind(truckWeightedOutQueue)
+                .to(weighbridgeExchange).
+                with("truck.*.out");
+    }
+
+
+
 
     @Bean
     RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {

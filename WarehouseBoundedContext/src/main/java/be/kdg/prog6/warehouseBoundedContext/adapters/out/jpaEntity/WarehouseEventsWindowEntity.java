@@ -21,7 +21,7 @@ public class WarehouseEventsWindowEntity {
     @JdbcTypeCode(SqlTypes.CHAR)  // Store UUID as CHAR(36) in the database
     private UUID warehouseId;
 
-    @OneToMany(mappedBy = "warehouseEventsWindow", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "warehouseEventsWindow", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private List<WarehouseEventEntity> warehouseEventList = new ArrayList<>();
 
     public  WarehouseEventsWindowEntity() {

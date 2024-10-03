@@ -16,5 +16,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-actuator:3.1.4'
-    implementation 'mysql:mysql-connector-java:8.0.33'  // MySQL Connector version
+    implementation 'mysql:mysql-connector-java:8.0.33'
+    implementation 'org.mapstruct:mapstruct:1.5.5.Final'
+    annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.5.Final'
+
 }

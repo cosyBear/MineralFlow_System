@@ -35,6 +35,7 @@ public class RabbitMQConfig {
                 with("warehouse.pdt.generated");
     }
 
+
     @Bean
     RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final var rabbitTemplate = new RabbitTemplate(connectionFactory);

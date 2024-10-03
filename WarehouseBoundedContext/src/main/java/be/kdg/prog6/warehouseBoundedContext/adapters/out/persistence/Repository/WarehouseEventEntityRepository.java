@@ -10,7 +10,7 @@ import java.util.UUID;
 
 public interface WarehouseEventEntityRepository extends JpaRepository<WarehouseEventEntity, UUID> {
 
-    Optional<WarehouseEventEntity> findByWareHouseEventId(WarehouseEventId id);
+    Optional<WarehouseEventEntity> findByWareHouseEventId(UUID id);
 
     Optional<WarehouseEventEntity> findByWeighBridgeTicketId(UUID weighBridgeTicketId);
 }

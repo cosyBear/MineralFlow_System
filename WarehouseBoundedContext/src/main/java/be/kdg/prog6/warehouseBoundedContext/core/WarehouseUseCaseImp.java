@@ -1,5 +1,7 @@
 package be.kdg.prog6.warehouseBoundedContext.core;
 
+import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEntity;
+import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.WarehouseRepository;
 import be.kdg.prog6.warehouseBoundedContext.domain.*;
 import be.kdg.prog6.warehouseBoundedContext.port.in.WarehouseUseCase;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
@@ -8,6 +10,7 @@ import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEvent.WarehouseEve
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEvent.WarehouseEventSavePort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEventsWindow.WarehouseEventsWindowLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEventsWindow.WarehouseEventsWindowSavePort;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -24,16 +27,17 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
 
     private final WarehouseLoadPort warehouseLoadPort;
     private final WarehouseSavePort warehouseSavePort;
+    private final ModelMapper modelMapper;
 
-    public WarehouseUseCaseImp(WarehouseEventLoadPort warehouseEventLoadPort, WarehouseEventSavePort warehouseEventSavePort, WarehouseEventsWindowLoadPort warehouseEventsWindowLoadPort, WarehouseEventsWindowSavePort warehouseEventsWindowSavePort, WarehouseLoadPort warehouseLoadPort, WarehouseSavePort warehouseSavePort) {
+    public WarehouseUseCaseImp(WarehouseEventLoadPort warehouseEventLoadPort, WarehouseEventSavePort warehouseEventSavePort, WarehouseEventsWindowLoadPort warehouseEventsWindowLoadPort, WarehouseEventsWindowSavePort warehouseEventsWindowSavePort, WarehouseLoadPort warehouseLoadPort, WarehouseSavePort warehouseSavePort, ModelMapper modelMapper) {
         this.warehouseEventLoadPort = warehouseEventLoadPort;
         this.warehouseEventSavePort = warehouseEventSavePort;
         this.warehouseEventsWindowLoadPort = warehouseEventsWindowLoadPort;
         this.warehouseEventsWindowSavePort = warehouseEventsWindowSavePort;
         this.warehouseLoadPort = warehouseLoadPort;
         this.warehouseSavePort = warehouseSavePort;
+        this.modelMapper = modelMapper;
     }
-
 
     public Warehouse assignWarehouseToSeller(weighTruckCommand command) {
 
@@ -57,6 +61,7 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
 
         warehouse.updateMaterialWeight(truckOutCommand.weighBridgeTicketId() , truckOutCommand.grossWeight());
 
+        warehouseSavePort.save(warehouse);
         // TODO so i how to send the waerhouse True amount of MAt is in this method
         //TODo after you run the updateMaterialWeight you would call a method in the domain to calculate the MAt
         //TODO by replaying all the events. aned make an event and send it back. that is it

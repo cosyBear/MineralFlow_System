@@ -13,7 +13,6 @@ import java.util.UUID;
 public class WarehouseEventEntity {
 
     @Id
-    @GeneratedValue
     private UUID wareHouseEventId;
 
     private LocalDateTime time;
@@ -26,7 +25,7 @@ public class WarehouseEventEntity {
     @JdbcTypeCode(SqlTypes.CHAR)  // Store UUID as CHAR(36) in the database
     private UUID weighBridgeTicketId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "events_window_id")
     private WarehouseEventsWindowEntity warehouseEventsWindow;
 

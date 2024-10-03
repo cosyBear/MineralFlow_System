@@ -31,6 +31,7 @@ public class WeighBridgeController {
 
     @PostMapping("/weigh-in")
     public ResponseEntity<Void> weighTruckIn(@RequestBody WeighInDto dto) {
+        System.out.println("PENIS 3");
 
             weighTruckInCommand TruckInCommand =  new weighTruckInCommand(new LicensePlate(dto.licensePlate() ), dto.startWeight() , dto.materialType() , new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
             weighBridgeUseCase.weighTruckIn(TruckInCommand);

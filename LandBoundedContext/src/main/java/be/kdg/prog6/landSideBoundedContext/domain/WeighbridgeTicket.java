@@ -23,7 +23,9 @@ public class WeighbridgeTicket {
 
     private MaterialType materialType;
 
+    public WeighbridgeTicket(){
 
+    }
     public WeighbridgeTicket(WeighBridgeTicketId weighBridgeTicketId, LicensePlate licensePlate, SellerId sellerId, double startWeight, double endWeight, MaterialType materialType, LocalDateTime startTime) {
 
         this.weighBridgeTicketId = weighBridgeTicketId;

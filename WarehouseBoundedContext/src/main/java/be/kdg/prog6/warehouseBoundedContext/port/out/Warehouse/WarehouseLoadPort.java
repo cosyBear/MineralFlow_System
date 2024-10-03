@@ -5,6 +5,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.MaterialType;
 import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;
 import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseId;
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
+import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
@@ -17,6 +18,12 @@ public interface WarehouseLoadPort {
 
     // Find WarehouseEntity by WarehouseId
     Optional<Warehouse> findByWarehouseNumber(WarehouseId warehouseId);
+
+
+    @Query("SELECT DISTINCT w FROM WarehouseEntity w " +
+            "LEFT JOIN FETCH w.warehouseEventsWindowEntity we " +
+            "LEFT JOIN FETCH we.warehouseEventList " +
+            "WHERE w.sellerId = :sellerId AND w.materialType = :materialType")
 
     Warehouse findBySellerIdAndMaterialType(SellerId sellerId , MaterialType materialType);
 

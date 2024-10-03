@@ -1,5 +1,6 @@
 ###
 
+#0c9b8b1a-d181-4447-911f-ca2c59adfe14
 
 ### Weigh-In Test Request
 
@@ -23,6 +24,35 @@ Content-Type: application/json
   "endWeight": 100.0,
   "materialType": "IRON",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "weighInTime": "2024-09-23T11:00:00",
+  "warehouseStatus": "DISREGARD"
+}
+
+
+
+
+####
+
+POST http://localhost:8091/api/bridge/weigh-in
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1001",
+  "startWeight": 200.0,
+  "materialType": "IRON",
+  "sellerId": "326f5d06-17d0-42b6-8f68-ae815d9ce5f6",
+  "weighInTime": "2024-09-23T11:00:00"
+}
+
+###
+POST http://localhost:8091/api/bridge/weigh-out
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1001",
+  "endWeight": 100.0,
+  "materialType": "IRON",
+  "sellerId": "326f5d06-17d0-42b6-8f68-ae815d9ce5f6",
   "weighInTime": "2024-09-23T11:00:00",
   "warehouseStatus": "DISREGARD"
 }

@@ -80,9 +80,31 @@ public class ModelMapperConfig {
             }
         };
 
+        Converter<UUID, WeighBridgeTicketId> uuidToWeighBridgeTicketId = new Converter<>() {
+            @Override
+            public WeighBridgeTicketId convert(MappingContext<UUID, WeighBridgeTicketId> context) {
+                return new WeighBridgeTicketId(context.getSource());
+            }
+        };
+
+        Converter<WeighBridgeTicketId, UUID> WeighBridgeTicketIdToUUIDConverter = new Converter<>() {
+            @Override
+            public UUID convert(MappingContext<WeighBridgeTicketId, UUID> context) {
+                return context.getSource().id();  // Assuming WarehouseId has a method id() that returns UUID
+            }
+        };
+
+
 
         modelMapper.addConverter(uuidToWarehouseIdConverter);
         modelMapper.addConverter(warehouseIdToUUIDConverter);
+
+
+
+
+
+        modelMapper.addConverter(uuidToWeighBridgeTicketId);
+        modelMapper.addConverter(WeighBridgeTicketIdToUUIDConverter);
 
 
 

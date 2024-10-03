@@ -2,7 +2,6 @@ package be.kdg.prog6.landSideBoundedContext.adapters.out;
 
 import be.kdg.prog6.landSideBoundedContext.domain.WeighEvent;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighBridgeEventPublisher;
-import be.kdg.prog6.messaging.RabbitMQConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -25,7 +24,6 @@ public class WeighBridgeEventPublisherImp implements WeighBridgeEventPublisher {
 
     @Override
     public void publishTruckWeightedIn(WeighEvent weighInEvent) {
-        logger.info("WTFFFFFFFFFFFFFFFFFFFFFFFFFFF");
         final String routingKey = "truck." + weighInEvent.getLicensePlate() + ".in";
         logger.info("Publishing truck weighbridge: " + weighInEvent.getLicensePlate());
         logger.info("The Truck has been weight: " + weighInEvent.getLicensePlate());
