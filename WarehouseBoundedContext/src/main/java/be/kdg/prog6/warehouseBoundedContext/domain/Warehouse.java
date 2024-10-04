@@ -30,7 +30,8 @@ public class Warehouse {
         this.sellerId = sellerId;
         this.materialType = materialType;
         this.eventsWindow = new WarehouseEventsWindow();
-        this.eventsWindow.setWarehouseId(warehouseNumber);  // Set warehouseId here
+        this.eventsWindow.setWarehouseId(warehouseNumber);
+        this.eventsWindow.setWarehouseEventsWindowId(UUID.randomUUID());
     }
 
     public void updateMaterialWeight(UUID weighBridgeTicketId, double materialTrueWeight) {

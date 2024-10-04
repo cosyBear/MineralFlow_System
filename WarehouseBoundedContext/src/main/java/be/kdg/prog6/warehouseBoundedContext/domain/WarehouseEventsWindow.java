@@ -15,6 +15,11 @@ public class WarehouseEventsWindow {
         this.warehouseEventList = new ArrayList<>();
     }
 
+    public WarehouseEventsWindow(UUID warehouseEventsWindowId , WarehouseId warehouseId) {
+        this.warehouseEventList = new ArrayList<>();
+    }
+
+
 
     public void addEvent(WarehouseEvent event) {
         warehouseEventList.add(event);
