@@ -57,6 +57,7 @@ public class WarehouseEntity {
         return warehouseEventsWindow;
     }
 
+
     public void setWarehouseEventsWindow(WarehouseEventsWindowEntity warehouseEventsWindow) {
         this.warehouseEventsWindow = warehouseEventsWindow;
     }

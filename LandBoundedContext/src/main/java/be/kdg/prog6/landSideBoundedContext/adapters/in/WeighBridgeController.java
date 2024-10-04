@@ -31,27 +31,18 @@ public class WeighBridgeController {
 
     @PostMapping("/weigh-in")
     public ResponseEntity<Void> weighTruckIn(@RequestBody WeighInDto dto) {
-        System.out.println("PENIS 3");
-
-            weighTruckInCommand TruckInCommand =  new weighTruckInCommand(new LicensePlate(dto.licensePlate() ), dto.startWeight() , dto.materialType() , new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
-            weighBridgeUseCase.weighTruckIn(TruckInCommand);
-            return ResponseEntity.ok().build();
+        weighTruckInCommand TruckInCommand = new weighTruckInCommand(new LicensePlate(dto.licensePlate()), dto.startWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
+        weighBridgeUseCase.weighTruckIn(TruckInCommand);
+        return ResponseEntity.ok().build();
     }
-
-
-
-
-
 
 
     @PostMapping("/weigh-out")
     public ResponseEntity<Void> weighTruckOut(@RequestBody WeighOutDto dto) {
 
-
-        weighTruckOutCommand  truckOutCommand = new weighTruckOutCommand(
-                dto.licensePlate(), dto.endWeight() , dto.materialType() ,     new SellerId(UUID.fromString(dto.sellerId())), dto.weighInTime()
+        weighTruckOutCommand truckOutCommand = new weighTruckOutCommand(
+                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighInTime()
         );
-
 
         weighBridgeUseCase.weighTruckOut(truckOutCommand);
 

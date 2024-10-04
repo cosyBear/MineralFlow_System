@@ -19,8 +19,8 @@ public class Warehouse {
         this.warehouseNumber = warehouseNumber;
         this.sellerId = sellerId;
         this.materialType = materialType;
-        this.eventsWindow = new WarehouseEventsWindow();
-        this.eventsWindow.setWarehouseId(warehouseNumber);
+        this.eventsWindow = new WarehouseEventsWindow(this.warehouseNumber, UUID.randomUUID());
+
     }
 
     // Method to add new event instead of updating an existing one

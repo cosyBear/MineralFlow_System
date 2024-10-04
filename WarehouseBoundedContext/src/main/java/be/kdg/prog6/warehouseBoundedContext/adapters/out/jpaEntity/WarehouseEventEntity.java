@@ -15,19 +15,17 @@ public class WarehouseEventEntity {
 
     private double materialWeight;
 
-    private double amount;
 
     private UUID weighBridgeTicketId;
 
     public WarehouseEventEntity() {
     }
 
-    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight, double amount, UUID weighBridgeTicketId) {
+    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight,  UUID weighBridgeTicketId) {
         this.eventId = eventId;
         this.eventTime = eventTime;
         this.eventType = eventType;
         this.materialWeight = materialWeight;
-        this.amount = amount;
         this.weighBridgeTicketId = weighBridgeTicketId;
     }
 
@@ -63,13 +61,7 @@ public class WarehouseEventEntity {
         this.materialWeight = materialWeight;
     }
 
-    public double getAmount() {
-        return amount;
-    }
 
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
 
     public UUID getWeighBridgeTicketId() {
         return weighBridgeTicketId;
