@@ -22,6 +22,8 @@ public final class SellerId {
 
     }
 
+
+
     public UUID getSellerID() {
         return sellerID;
     }

@@ -5,9 +5,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEventId;
 
 public interface WarehouseEventSavePort {
 
-    WarehouseEvent save(WarehouseEvent warehouseEvent);
+    void save(WarehouseEvent warehouseEvent);
 
-
-    WarehouseEvent updateEvent(WarehouseEventId id, double newAmount);
 
 }

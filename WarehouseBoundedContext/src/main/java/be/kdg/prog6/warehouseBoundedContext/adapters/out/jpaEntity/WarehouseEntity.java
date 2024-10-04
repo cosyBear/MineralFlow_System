@@ -1,74 +1,65 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
-import be.kdg.prog6.warehouseBoundedContext.domain.*;
 import jakarta.persistence.*;
-import be.kdg.prog6.warehouseBoundedContext.domain.MaterialType;
-import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import java.util.UUID;
 
+
 @Entity
-@Table(  catalog = "warehouse_db")
+@Table(catalog = "warehouse_db")
 public class WarehouseEntity {
 
-
     @Id
-    @GeneratedValue
-    private UUID warehouseNumber;
+    private UUID warehouseId;
 
-    @Enumerated(EnumType.STRING)
-    private MaterialType materialType;
+    private UUID sellerId;
 
-    @Embedded
-    private SellerId sellerId;
+    private String materialType;
 
+    // One Warehouse has one WarehouseEventsWindowEntity
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "events_window_id")
-    private WarehouseEventsWindowEntity warehouseEventsWindowEntity;
+    @JoinColumn(name = "warehouse_events_window_id", referencedColumnName = "warehouseEventsWindowId")
+    private WarehouseEventsWindowEntity warehouseEventsWindow;
 
-    public WarehouseEntity() {}
+    public WarehouseEntity() {
+    }
 
-
-    public WarehouseEntity(UUID warehouseNumber, MaterialType materialType, SellerId sellerId, WarehouseEventsWindowEntity warehouseEventsWindowEntity) {
-        this.warehouseNumber = warehouseNumber;
-        this.materialType = materialType;
+    public WarehouseEntity(UUID warehouseId, UUID sellerId, String materialType, WarehouseEventsWindowEntity warehouseEventsWindow) {
+        this.warehouseId = warehouseId;
         this.sellerId = sellerId;
-        this.warehouseEventsWindowEntity = warehouseEventsWindowEntity;
-    }
-
-    public UUID getWarehouseNumber() {
-        return warehouseNumber;
-    }
-
-    public void setWarehouseNumber(UUID warehouseNumber) {
-        this.warehouseNumber = warehouseNumber;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
         this.materialType = materialType;
+        this.warehouseEventsWindow = warehouseEventsWindow;
     }
 
-    public SellerId getSellerId() {
+    public UUID getWarehouseId() {
+        return warehouseId;
+    }
+
+    public void setWarehouseId(UUID warehouseId) {
+        this.warehouseId = warehouseId;
+    }
+
+    public UUID getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(SellerId sellerId) {
+    public void setSellerId(UUID sellerId) {
         this.sellerId = sellerId;
     }
 
-    public WarehouseEventsWindowEntity getWarehouseEventsWindowEntity() {
-        return warehouseEventsWindowEntity;
+    public String getMaterialType() {
+        return materialType;
     }
 
-    public void setWarehouseEventsWindowEntity(WarehouseEventsWindowEntity warehouseEventsWindowEntity) {
-        this.warehouseEventsWindowEntity = warehouseEventsWindowEntity;
+    public void setMaterialType(String materialType) {
+        this.materialType = materialType;
+    }
+
+    public WarehouseEventsWindowEntity getWarehouseEventsWindow() {
+        return warehouseEventsWindow;
+    }
+
+    public void setWarehouseEventsWindow(WarehouseEventsWindowEntity warehouseEventsWindow) {
+        this.warehouseEventsWindow = warehouseEventsWindow;
     }
 }
-
 
 

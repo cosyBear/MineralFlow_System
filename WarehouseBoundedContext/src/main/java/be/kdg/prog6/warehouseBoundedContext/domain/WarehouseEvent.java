@@ -6,11 +6,18 @@ import java.util.Objects;
 import java.util.UUID;
 
 
-public record WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialTrueWeight, UUID WeighBridgeTicketId) {
+public record WarehouseEvent(WarehouseEventId id,
+                             LocalDateTime time,
+                             EventType type,
+                             double materialTrueWeight,
+                             UUID weighBridgeTicketId,
+                             UUID warehouseEventsWindowId) {
+
     public WarehouseEvent {
         Objects.requireNonNull(id);
         Objects.requireNonNull(type);
-        Objects.requireNonNull(WeighBridgeTicketId);
+        Objects.requireNonNull(weighBridgeTicketId);
+        Objects.requireNonNull(warehouseEventsWindowId);
         Objects.requireNonNull(time);
     }
 
@@ -18,5 +25,3 @@ public record WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType 
         return type == EventType.DELIVER ? materialTrueWeight : -materialTrueWeight;
     }
 }
-
-

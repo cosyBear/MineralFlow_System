@@ -1,71 +1,66 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
-
-import be.kdg.prog6.warehouseBoundedContext.domain.EventType;
 import jakarta.persistence.*;
-import org.hibernate.annotations.JdbcTypeCode;
-import org.hibernate.type.SqlTypes;
-
 import java.time.LocalDateTime;
 import java.util.UUID;
-
 @Entity
 @Table(catalog = "warehouse_db")
 public class WarehouseEventEntity {
 
     @Id
-    private UUID wareHouseEventId;
+    private UUID eventId;
 
-    private LocalDateTime time;
+    private LocalDateTime eventTime;
 
-    @Enumerated(EnumType.STRING)
-    private EventType type;
+    private String eventType;
+
+    private double materialWeight;
 
     private double amount;
 
-    @JdbcTypeCode(SqlTypes.CHAR)  // Store UUID as CHAR(36) in the database
     private UUID weighBridgeTicketId;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "events_window_id")
-    private WarehouseEventsWindowEntity warehouseEventsWindow;
-
-
     public WarehouseEventEntity() {
-
     }
 
-    public WarehouseEventEntity(UUID wareHouseEventId, LocalDateTime time, EventType type, double amount, UUID weighBridgeTicketId, WarehouseEventsWindowEntity warehouseEventsWindow) {
-        this.wareHouseEventId = wareHouseEventId;
-        this.time = time;
-        this.type = type;
+    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight, double amount, UUID weighBridgeTicketId) {
+        this.eventId = eventId;
+        this.eventTime = eventTime;
+        this.eventType = eventType;
+        this.materialWeight = materialWeight;
         this.amount = amount;
         this.weighBridgeTicketId = weighBridgeTicketId;
-        this.warehouseEventsWindow = warehouseEventsWindow;
     }
 
-
-    public UUID getWareHouseEventId() {
-        return wareHouseEventId;
+    public UUID getEventId() {
+        return eventId;
     }
 
-    public void setWareHouseEventId(UUID id) {
-        this.wareHouseEventId = id;
+    public void setEventId(UUID eventId) {
+        this.eventId = eventId;
     }
 
-    public LocalDateTime getTime() {
-        return time;
+    public LocalDateTime getEventTime() {
+        return eventTime;
     }
 
-    public void setTime(LocalDateTime time) {
-        this.time = time;
+    public void setEventTime(LocalDateTime eventTime) {
+        this.eventTime = eventTime;
     }
 
-    public EventType getType() {
-        return type;
+    public String getEventType() {
+        return eventType;
     }
 
-    public void setType(EventType type) {
-        this.type = type;
+    public void setEventType(String eventType) {
+        this.eventType = eventType;
+    }
+
+    public double getMaterialWeight() {
+        return materialWeight;
+    }
+
+    public void setMaterialWeight(double materialWeight) {
+        this.materialWeight = materialWeight;
     }
 
     public double getAmount() {
@@ -82,13 +77,5 @@ public class WarehouseEventEntity {
 
     public void setWeighBridgeTicketId(UUID weighBridgeTicketId) {
         this.weighBridgeTicketId = weighBridgeTicketId;
-    }
-
-    public WarehouseEventsWindowEntity getWarehouseEventsWindow() {
-        return warehouseEventsWindow;
-    }
-
-    public void setWarehouseEventsWindow(WarehouseEventsWindowEntity warehouseEventsWindow) {
-        this.warehouseEventsWindow = warehouseEventsWindow;
     }
 }

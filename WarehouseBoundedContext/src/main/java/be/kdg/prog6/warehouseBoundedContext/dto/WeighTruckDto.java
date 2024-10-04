@@ -1,12 +1,13 @@
 package be.kdg.prog6.warehouseBoundedContext.dto;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 
 public record WeighTruckDto(
-        String weighBridgeTicketId,
+        UUID weighBridgeTicketId,
         String licensePlate,  // change to simple String
-        String sellerId,      // change to simple String or UUID
+        UUID sellerId,      // change to simple String or UUID
         String materialType,
         LocalDateTime weighTime,
         double weight,

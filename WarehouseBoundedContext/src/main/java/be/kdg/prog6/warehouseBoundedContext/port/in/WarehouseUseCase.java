@@ -1,12 +1,11 @@
 package be.kdg.prog6.warehouseBoundedContext.port.in;
 
-import be.kdg.prog6.warehouseBoundedContext.domain.weighTruckCommand;
-import be.kdg.prog6.warehouseBoundedContext.domain.weighTruckOutCommand;
+import be.kdg.prog6.warehouseBoundedContext.domain.WeighTruckCommand;
 
 public interface WarehouseUseCase {
 
 
-    void truckIn(weighTruckCommand weighTruckCommand);
-    void truckOut(weighTruckCommand weighTruckCommand);
+    void truckIn(WeighTruckCommand weighTruckCommand);
+    void truckOut(WeighTruckCommand weighTruckCommand);
 
 }

@@ -15,27 +15,37 @@ import java.util.UUID;
 
 public interface WarehouseRepository extends JpaRepository<WarehouseEntity, UUID> {
 
+        // Custom query to fetch warehouse along with its events window and all events
+        @Query("SELECT w FROM WarehouseEntity w " +
+                "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
+                "LEFT JOIN FETCH wew.eventList " +
+                "WHERE w.warehouseId = :warehouseId")
+        WarehouseEntity fetchWarehouseWithEvents(@Param("warehouseId") UUID warehouseId);
 
+        // Find by sellerId only
+        @Query("SELECT w FROM WarehouseEntity w " +
+                "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
+                "LEFT JOIN FETCH wew.eventList " +
+                "WHERE w.sellerId = :sellerId")
+        WarehouseEntity findBySellerId(@Param("sellerId") SellerId sellerId);
 
-        @Query("SELECT w FROM WarehouseEntity w LEFT JOIN FETCH w.warehouseEventsWindowEntity WHERE w.sellerId = :sellerId")
-        Optional<WarehouseEntity> findBySellerId(@Param("sellerId") SellerId sellerId);
-
-        @Query("SELECT w FROM WarehouseEntity w LEFT JOIN FETCH w.warehouseEventsWindowEntity WHERE w.warehouseNumber = :warehouseNumber")
-        Optional<WarehouseEntity> findByWarehouseNumber(@Param("warehouseNumber") WarehouseId warehouseNumber);
-
-
-// In WarehouseRepository.java
-
-        @Query("SELECT DISTINCT w FROM WarehouseEntity w " +
-                "LEFT JOIN FETCH w.warehouseEventsWindowEntity we " +
-                "LEFT JOIN FETCH we.warehouseEventList " +
-                "WHERE w.sellerId = :sellerId AND w.materialType = :materialType")
-        Optional<WarehouseEntity> findBySellerIdAndMaterialType(
+        // Find by sellerId and warehouseId
+        @Query("SELECT w FROM WarehouseEntity w " +
+                "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
+                "LEFT JOIN FETCH wew.eventList " +
+                "WHERE w.sellerId = :sellerId AND w.warehouseId = :warehouseId")
+        WarehouseEntity findBySellerIdAndWarehouseId(
                 @Param("sellerId") SellerId sellerId,
-                @Param("materialType") MaterialType materialType
-        );
+                @Param("warehouseId") UUID warehouseId);
 
+        // Find by sellerId and materialType
+        @Query("SELECT w FROM WarehouseEntity w " +
+                "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
+                "LEFT JOIN FETCH wew.eventList " +
+                "WHERE w.sellerId = :sellerId AND w.materialType = :materialType")
+        WarehouseEntity findBySellerIdAndMaterialType(
+                @Param("sellerId") SellerId sellerId,
+                @Param("materialType") MaterialType materialType);
 
 
 }
-
