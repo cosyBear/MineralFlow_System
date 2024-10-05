@@ -1,8 +1,8 @@
-//package be.kdg.prog6.boundedcontextB.port.out;
-//
-//import be.kdg.prog6.boundedcontextB.domain.PDT;
-//
-//public interface EventPublisherPort {
-//
-//    public void publishPDTCompletedEvent(PDT pdt);
-//}
+package be.kdg.prog6.warehouseBoundedContext.port.out;
+
+import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseMaterialEvent;
+
+public interface EventPublisherPort {
+
+    public void publishPDTCompletedEvent(WarehouseMaterialEvent warehouseMaterialEvent);
+}

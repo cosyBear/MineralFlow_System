@@ -28,6 +28,10 @@ public class WareHouse {
         this.amountOfMaterial = amountOfMaterial;
     }
 
+    public void updateWarehouseMaterialAmount(double amount) {
+        this.amountOfMaterial += amount;
+    }
+
 
     public WarehouseId getWarehouseId() {
         return warehouseId;

@@ -42,14 +42,14 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
         this.modelMapper = modelMapper;
     }
 
-    public Warehouse assignWarehouseToSeller(WeighTruckCommand command) {
+    public Warehouse assignWarehouseToSeller(SellerId sellerId , MaterialType materialType , String wareHouseStatus) {
 
-        switch (command.wareHouseStatus()) {
+        switch (wareHouseStatus) {
             case "ALREADY_EXISTS_NOT_FULL" -> {
-                return warehouseLoadPort.findBySellerIdAndMaterialType(command.sellerId() , command.materialType());
+                return warehouseLoadPort.findBySellerIdAndMaterialType(sellerId , materialType);
             }
             case "CAN_CREATE" -> {
-                return new Warehouse(new WarehouseId(UUID.randomUUID()), command.sellerId(), command.materialType());
+                return new Warehouse(new WarehouseId(UUID.randomUUID()), sellerId, materialType);
             }
             default ->
                     throw new IllegalArgumentException("Invalid warehouse status."); // change this later ot something better.
@@ -57,11 +57,11 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
     }
 
 
-    public void truckOut(WeighTruckCommand truckOutCommand) {
+    public void truckOut(WeighTruckOutCommand truckOutCommand) {
 
-        Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType(truckOutCommand.sellerId(), truckOutCommand.materialType());
+        Warehouse warehouse = assignWarehouseToSeller(truckOutCommand.sellerId() , truckOutCommand.materialType() , truckOutCommand.wareHouseStatus());
 
-        warehouse.updateMaterialWeight(truckOutCommand.weighBridgeTicketId() , truckOutCommand.grossWeight());
+        warehouse.updateMaterialWeight(truckOutCommand );
 
         warehouseSavePort.save(warehouse);
 
@@ -69,11 +69,13 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
 
 
     @Override
-    public void truckIn(WeighTruckCommand command) {
+    public void truckIn(WeighTruckInCommand command) {
         // maybe you need to create a ticket here from asked a teacher because we never saved it so ?
-        Warehouse warehouse = assignWarehouseToSeller(command);
+        Warehouse warehouse = assignWarehouseToSeller(command.sellerId() , command.materialType() , command.wareHouseStatus());
         warehouse.beginDeliveryProcess(command);
         warehouseSavePort.save(warehouse);
+        WarehouseMaterialEvent  warehouseMaterialEvent =  new WarehouseMaterialEvent(warehouse.getWarehouseNumber().getId(),warehouse.getCurrentLoadOfWarehouse() , warehouse.getMaterialType(), warehouse.getSellerId().getSellerID());
+
 
     }
 }

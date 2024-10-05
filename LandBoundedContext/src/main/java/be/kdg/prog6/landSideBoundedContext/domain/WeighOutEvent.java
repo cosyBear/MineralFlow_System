@@ -2,37 +2,35 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-public class WeighInEvent {
-
+public class WeighOutEvent {
     private UUID weighBridgeTicketId;
 
     private String licensePlate;
 
     private UUID sellerId;
-    private double startWeight;
+    private double EndWeight;
 
     private MaterialType materialType;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime weighInTime;
+    private LocalDateTime weighOutTime;
 
     private WarehouseStatus warehouseStatus;
 
 
-    public WeighInEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double startWeight, MaterialType materialType, LocalDateTime weighInTime, WarehouseStatus warehouseStatus) {
+    public WeighOutEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double endWeight, MaterialType materialType, LocalDateTime weighOutTime, WarehouseStatus warehouseStatus) {
         this.weighBridgeTicketId = weighBridgeTicketId;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
-        this.startWeight = startWeight;
+        this.EndWeight = endWeight;
         this.materialType = materialType;
-        this.weighInTime = weighInTime;
+        this.weighOutTime = weighOutTime;
         this.warehouseStatus = warehouseStatus;
     }
 
@@ -71,12 +69,12 @@ public class WeighInEvent {
         this.sellerId = sellerId;
     }
 
-    public double getStartWeight() {
-        return startWeight;
+    public double getEndWeight() {
+        return EndWeight;
     }
 
-    public void setStartWeight(double startWeight) {
-        this.startWeight = startWeight;
+    public void setEndWeight(double endWeight) {
+        EndWeight = endWeight;
     }
 
     public MaterialType getMaterialType() {
@@ -87,11 +85,11 @@ public class WeighInEvent {
         this.materialType = materialType;
     }
 
-    public LocalDateTime getWeighInTime() {
-        return weighInTime;
+    public LocalDateTime getWeighOutTime() {
+        return weighOutTime;
     }
 
-    public void setWeighInTime(LocalDateTime weighInTime) {
-        this.weighInTime = weighInTime;
+    public void setWeighOutTime(LocalDateTime weighOutTime) {
+        this.weighOutTime = weighOutTime;
     }
 }

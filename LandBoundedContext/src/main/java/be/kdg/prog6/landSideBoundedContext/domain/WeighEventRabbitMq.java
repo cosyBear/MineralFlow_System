@@ -1,12 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
-import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
@@ -15,40 +10,30 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
-
-public class WeighEvent {
+public class WeighEventRabbitMq {
 
     private UUID weighBridgeTicketId; // chane this to UUID and change the name to the full name
 
-    private String licensePlate;
-
-    private UUID sellerId;
+    private LicensePlate licensePlate;
+    private SellerId sellerId;
     private double Weight;
 
     private MaterialType materialType;
+
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    private LocalDateTime weighOutTime;
+    private LocalDateTime weighInTime;
 
     private WarehouseStatus warehouseStatus;
 
 
-    public WeighEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double weight, MaterialType materialType, LocalDateTime weighOutTime, WarehouseStatus warehouseStatus) {
+    public WeighEventRabbitMq(UUID weighBridgeTicketId, LicensePlate licensePlate, SellerId sellerId, double weight, MaterialType materialType, LocalDateTime weighInTime, WarehouseStatus warehouseStatus) {
         this.weighBridgeTicketId = weighBridgeTicketId;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
-        Weight = weight;
+        this.Weight = weight;
         this.materialType = materialType;
-        this.weighOutTime = weighOutTime;
+        this.weighInTime = weighInTime;
         this.warehouseStatus = warehouseStatus;
     }
 
@@ -68,19 +53,19 @@ public class WeighEvent {
         this.warehouseStatus = warehouseStatus;
     }
 
-    public String getLicensePlate() {
+    public LicensePlate getLicensePlate() {
         return licensePlate;
     }
 
-    public void setLicensePlate(String licensePlate) {
+    public void setLicensePlate(LicensePlate licensePlate) {
         this.licensePlate = licensePlate;
     }
 
-    public UUID getSellerId() {
+    public SellerId getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(UUID sellerId) {
+    public void setSellerId(SellerId sellerId) {
         this.sellerId = sellerId;
     }
 
@@ -100,11 +85,11 @@ public class WeighEvent {
         this.materialType = materialType;
     }
 
-    public LocalDateTime getWeighOutTime() {
-        return weighOutTime;
+    public LocalDateTime getWeighInTime() {
+        return weighInTime;
     }
 
-    public void setWeighOutTime(LocalDateTime weighOutTime) {
-        this.weighOutTime = weighOutTime;
+    public void setWeighInTime(LocalDateTime weighInTime) {
+        this.weighInTime = weighInTime;
     }
 }

@@ -14,5 +14,7 @@ public interface WarehouseLoadPort {
 
     WareHouse findBySellerIdAAndMaterialType(UUID sellerId , MaterialType materialType);
 
+    WareHouse findById(UUID id);
+
 
 }

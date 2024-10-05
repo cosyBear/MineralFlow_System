@@ -2,6 +2,7 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TimeSlotFullException;
+import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WarehouseCannotStoreMaterial;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,13 +28,21 @@ public class DayCalendar {
 
     }
 
-    public Appointment scheduleAppointment(ScheduleAppointmentCommand requestDTO)  {
+    public Appointment scheduleAppointment(ScheduleAppointmentCommand requestDTO , double wareHouseCapacity)  {
 
-        Appointment appointment = new Appointment(requestDTO.materialType(), requestDTO.time(), requestDTO.sellerId(), requestDTO.licensePlate() ,requestDTO.payload());
-        if (addAppointment(appointment)) {
-            return appointment;
-        } else {
-            throw new TimeSlotFullException("Failed to add appointment. Time slot may be full.");
+
+        if(wareHouseCapacity >= requestDTO.payload())
+        {
+            Appointment appointment = new Appointment(requestDTO.materialType(),
+                    requestDTO.time(), requestDTO.sellerId(), requestDTO.licensePlate()
+                    , requestDTO.payload());
+            if (addAppointment(appointment)) {
+                return appointment;
+            } else {
+                throw new TimeSlotFullException("Failed to add appointment. Time slot may be full.");
+            }
+        }else {
+            throw new WarehouseCannotStoreMaterial("Warehouse does not have enough capacity to store the material.");
         }
     }
 
@@ -44,10 +53,10 @@ public class DayCalendar {
         } else {
             long count = appointments.stream()
                     .filter(existingAppointment ->
-                            existingAppointment.getTime().toLocalDate().equals(appointment.getTime().toLocalDate()) && // Match by day
-                                    existingAppointment.getTime().getHour() == appointment.getTime().getHour()) // Match by hour
+                            existingAppointment.getTime().toLocalDate().equals(appointment.getTime().toLocalDate()) &&
+                                    existingAppointment.getTime().getHour() == appointment.getTime().getHour())
                     .count();
-            if (count < 40) {
+            if (count < 40 ) {
                 appointments.add(appointment);
                 return true;
             } else {

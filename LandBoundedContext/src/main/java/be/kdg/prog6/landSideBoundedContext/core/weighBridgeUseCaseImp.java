@@ -14,6 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.UUID;
@@ -25,16 +26,21 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
 
     private final WeighBridgeEventPublisher eventPublisher;
     private final CalendarLoadPort calendarLoadPort;
+    private AppointmentSavePort appointmentSavePort;
     private final WeighbridgeTicketLoadPort weighbridgeTicketLoadPort;
     private final WeighbridgeTicketSavePort weighbridgeTicketSavePort;
     private final WarehouseLoadPort warehouseLoadPort;
+    private final WarehouseSavePort warehouseSavePort;
 
-    public weighBridgeUseCaseImp(WeighBridgeEventPublisher eventPublisher, CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, WeighbridgeTicketLoadPort weighbridgeTicketLoadPort, WeighbridgeTicketSavePort weighbridgeTicketSavePort, WarehouseLoadPort warehouseLoadPort) {
+
+    public weighBridgeUseCaseImp(WeighBridgeEventPublisher eventPublisher, CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, WeighbridgeTicketLoadPort weighbridgeTicketLoadPort, WeighbridgeTicketSavePort weighbridgeTicketSavePort, WarehouseLoadPort warehouseLoadPort, WarehouseSavePort warehouseSavePort) {
         this.eventPublisher = eventPublisher;
         this.calendarLoadPort = calendarLoadPort;
         this.weighbridgeTicketLoadPort = weighbridgeTicketLoadPort;
         this.weighbridgeTicketSavePort = weighbridgeTicketSavePort;
         this.warehouseLoadPort = warehouseLoadPort;
+        this.warehouseSavePort = warehouseSavePort;
+        this.appointmentSavePort = appointmentSavePort;
     }
 
 
@@ -48,10 +54,7 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
         if (sellerWarehouseList.size() < 5) {
             return WarehouseStatus.CAN_CREATE;
         }
-        throw new TruckIsNotAllowedToEnter(
-                String.format("The truck is not allowed to enter. The seller has reached the maximum number of warehouses (%d) and cannot store more material of type %s.",
-                        sellerWarehouseList.size(), materialType)
-        );
+        throw new TruckIsNotAllowedToEnter(String.format("The truck is not allowed to enter. The seller has reached the maximum number of warehouses (%d) and cannot store more material of type %s.", sellerWarehouseList.size(), materialType));
     }
 
 
@@ -60,28 +63,21 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
 
         logger.info("check licensePlate of the truck ... ");
         WeighbridgeTicket weighbridgeTicket;
-        WeighEvent weighEvent;
+        WeighInEvent weighInEvent;
         try {
             DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(command.weighInTime().toLocalDate());
 
             if (dayCalendar.allowTruckToEnter(command.licensePlate(), command.weighInTime())) {
                 logger.info(" the Truck is on time the gate is open.....");
-                weighbridgeTicket = new WeighbridgeTicket(new WeighBridgeTicketId(UUID.randomUUID()),
-                        command.licensePlate(), command.sellerId(), command.startWeight(), 0,
-                        command.materialType(), command.weighInTime());
+                weighbridgeTicket = new WeighbridgeTicket(new WeighBridgeTicketId(UUID.randomUUID()), command.licensePlate(), command.sellerId(), command.startWeight(), 0, command.materialType(), command.weighInTime());
 
-                weighEvent = new WeighEvent(weighbridgeTicket.getWeighBridgeTicketId().id(),
-                        weighbridgeTicket.getLicensePlate().licensePlate(), weighbridgeTicket.getSellerId().id(),
-                        weighbridgeTicket.getStartWeight(), weighbridgeTicket.getMaterialType(),
-                        weighbridgeTicket.getStartTime(),
-                        assignAWarehouseTruck(weighbridgeTicket.getSellerId(), weighbridgeTicket.getMaterialType()));
+                weighInEvent = new WeighInEvent(weighbridgeTicket.getWeighBridgeTicketId().id(), command.licensePlate().licensePlate(), command.sellerId().id(), command.startWeight(), command.materialType(), command.weighInTime(), assignAWarehouseTruck(command.sellerId(), command.materialType()));
                 logger.info(" WeighbridgeTicket (WBT) has be created.....");
                 logger.info(" weighInEvent has be created.....");
 
                 weighbridgeTicketSavePort.save(weighbridgeTicket);
-                eventPublisher.publishTruckWeightedIn(weighEvent);
-            } else
-                throw new TruckIsNotOnTime();
+                eventPublisher.publishTruckWeightedIn(weighInEvent);
+            } else throw new TruckIsNotOnTime();
         } catch (NoSuchElementException ex) {
             throw new AppointmentDontExist("Appointment not found you may not Enter ");
         }
@@ -94,16 +90,30 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
         bridgeTicket.correctTicket(command.weighOutTime(), command.endWeight());
         weighbridgeTicketSavePort.save(bridgeTicket);
 
-        WeighEvent weighEvent = new WeighEvent(bridgeTicket.getWeighBridgeTicketId().id(),
-                bridgeTicket.getLicensePlate().licensePlate(), bridgeTicket.getSellerId().id(),
-                bridgeTicket.getStartWeight(), bridgeTicket.getMaterialType(),
-                bridgeTicket.getStartTime() , WarehouseStatus.DISREGARD);
+        WeighOutEvent weighEvent = new WeighOutEvent(bridgeTicket.getWeighBridgeTicketId().id(), command.licensePlate().toString(), command.sellerId().id(), command.endWeight(), command.materialType(), command.weighOutTime(), WarehouseStatus.valueOf(command.warehouseStatus()));
         eventPublisher.publishTruckWeighedOut(weighEvent);
+        appointmentDone(command);
 
     }
 
-    //TODO maybe make other useCase like a core for data projection for the event from the warehouse.
-    //TODO make a method that listen to the event from the warehouse for the Mat true amount
-    //TODO in here you would remove the appointment in the database
-    // make a method in here
+    private void appointmentDone(weighTruckOutCommand command) {
+        DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(command.weighOutTime().toLocalDate());
+        calendar.getAppointments().forEach(appointment -> {
+            if (appointment.getLicensePlate() == command.licensePlate() && appointment.getSellerId() == command.sellerId()) {
+                appointmentSavePort.deleteAppointment(appointment);
+            }
+        });
+
+    }
+
+    @Override
+    public void updateWarehouse(UpdateWarehouseCommand updateWarehouseCommand) {
+        WareHouse wareHouse = warehouseLoadPort.findById(updateWarehouseCommand.warehouseId().warehouseId());
+        wareHouse.updateWarehouseMaterialAmount(updateWarehouseCommand.materialAmountInWarehouse());
+        System.out.println(wareHouse.getAmountOfMaterial());
+        warehouseSavePort.Save(wareHouse);
+
+
+    }
+
 }

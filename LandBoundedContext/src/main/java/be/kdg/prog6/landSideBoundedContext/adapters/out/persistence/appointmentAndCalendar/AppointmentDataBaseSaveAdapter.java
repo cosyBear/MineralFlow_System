@@ -31,4 +31,10 @@ public class AppointmentDataBaseSaveAdapter implements AppointmentSavePort  {
         }
     }
 
+    @Override
+    public void deleteAppointment(Appointment Appointment)  {
+            appointmentRepository.delete(modelMapper.map(Appointment, AppointmentEntity.class));
+
+    }
+
 }

@@ -62,4 +62,14 @@ public class WareHouseEntity {
     public void setMaterialType(MaterialType materialType) {
         this.materialType = materialType;
     }
+
+    @Override
+    public String toString() {
+        return "WareHouseEntity{" +
+                "warehouseId=" + warehouseId +
+                ", sellerId=" + sellerId +
+                ", amountOfMaterial=" + amountOfMaterial +
+                ", materialType=" + materialType +
+                '}';
+    }
 }

@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 
-public record WeighTruckDto(
+public record WeighInTruckDto(
         UUID weighBridgeTicketId,
         String licensePlate,  // change to simple String
         UUID sellerId,      // change to simple String or UUID

@@ -1,26 +1,26 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
-public final class WeighTruckCommand {
+public class WeighTruckOutCommand {
+
     private final UUID weighBridgeTicketId;
     private final String licensePlate;
     private final SellerId sellerId;
-    private final double grossWeight;
+    private final double materialTrueWeight;
     private final MaterialType materialType;
-    private final LocalDateTime weighInTime;
+    private final LocalDateTime weighOutTime;
     private final String wareHouseStatus;
 
-    public WeighTruckCommand(UUID weighBridgeTicketId, String licensePlate, SellerId sellerId, double grossWeight, MaterialType materialType,
-                             LocalDateTime weighInTime, String wareHouseStatus) {
+    public WeighTruckOutCommand(UUID weighBridgeTicketId, String licensePlate, SellerId sellerId, double materialTrueWeight, MaterialType materialType,
+                                LocalDateTime weighOutTime, String wareHouseStatus) {
         this.weighBridgeTicketId = weighBridgeTicketId;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
-        this.grossWeight = grossWeight;
+        this.materialTrueWeight = materialTrueWeight;
         this.materialType = materialType;
-        this.weighInTime = weighInTime;
+        this.weighOutTime = weighOutTime;
         this.wareHouseStatus = wareHouseStatus;
     }
 
@@ -40,16 +40,16 @@ public final class WeighTruckCommand {
         return sellerId;
     }
 
-    public double getGrossWeight() {
-        return grossWeight;
+    public double getMaterialTrueWeight() {
+        return materialTrueWeight;
     }
 
     public MaterialType getMaterialType() {
         return materialType;
     }
 
-    public LocalDateTime getWeighInTime() {
-        return weighInTime;
+    public LocalDateTime getWeighOutTime() {
+        return weighOutTime;
     }
 
     public String getWareHouseStatus() {
@@ -65,7 +65,7 @@ public final class WeighTruckCommand {
     }
 
     public double grossWeight() {
-        return grossWeight;
+        return materialTrueWeight;
     }
 
     public MaterialType materialType() {
@@ -73,31 +73,13 @@ public final class WeighTruckCommand {
     }
 
     public LocalDateTime weighInTime() {
-        return weighInTime;
+        return weighOutTime;
     }
 
     public String wareHouseStatus() {
         return wareHouseStatus;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == this) return true;
-        if (obj == null || obj.getClass() != this.getClass()) return false;
-        var that = (WeighTruckCommand) obj;
-        return Objects.equals(this.weighBridgeTicketId, that.weighBridgeTicketId) &&
-                Objects.equals(this.licensePlate, that.licensePlate) &&
-                Objects.equals(this.sellerId, that.sellerId) &&
-                Double.doubleToLongBits(this.grossWeight) == Double.doubleToLongBits(that.grossWeight) &&
-                Objects.equals(this.materialType, that.materialType) &&
-                Objects.equals(this.weighInTime, that.weighInTime) &&
-                Objects.equals(this.wareHouseStatus, that.wareHouseStatus);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(weighBridgeTicketId, licensePlate, sellerId, grossWeight, materialType, weighInTime, wareHouseStatus);
-    }
 
     @Override
     public String toString() {
@@ -105,11 +87,10 @@ public final class WeighTruckCommand {
                 "weighBridgeTicketId=" + weighBridgeTicketId + ", " +
                 "licensePlate=" + licensePlate + ", " +
                 "sellerId=" + sellerId + ", " +
-                "grossWeight=" + grossWeight + ", " +
+                "grossWeight=" + materialTrueWeight + ", " +
                 "materialType=" + materialType + ", " +
-                "weighInTime=" + weighInTime + ", " +
+                "weighInTime=" + weighOutTime + ", " +
                 "wareHouseStatus=" + wareHouseStatus + ']';
     }
-
 
 }

@@ -3,9 +3,6 @@ package be.kdg.prog6.warehouseBoundedContext.domain;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 public class Warehouse {
 
     private WarehouseId warehouseNumber;
@@ -16,26 +13,31 @@ public class Warehouse {
     public Warehouse() {}
 
     public Warehouse(WarehouseId warehouseNumber, SellerId sellerId, MaterialType materialType) {
+
         this.warehouseNumber = warehouseNumber;
         this.sellerId = sellerId;
         this.materialType = materialType;
         this.eventsWindow = new WarehouseEventsWindow(this.warehouseNumber, UUID.randomUUID());
-
     }
+
 
     // Method to add new event instead of updating an existing one
-    public void updateMaterialWeight(UUID weighBridgeTicketId, double materialTrueWeight) {
-        eventsWindow.addMaterialWeightEvent(weighBridgeTicketId, materialTrueWeight);
+    public void updateMaterialWeight(WeighTruckOutCommand truckOutCommand) {
+        if (this.eventsWindow == null) {
+            this.eventsWindow = new WarehouseEventsWindow(this.warehouseNumber, UUID.randomUUID());
+        }
+
+        eventsWindow.addMaterialWeightEvent( truckOutCommand);
     }
 
-    public void beginDeliveryProcess(WeighTruckCommand command) {
+    public void beginDeliveryProcess(WeighTruckInCommand command) {
         if (this.eventsWindow == null) {
             this.eventsWindow = new WarehouseEventsWindow(this.warehouseNumber, UUID.randomUUID());
         }
 
         WarehouseEvent event = new WarehouseEvent(
                 new WarehouseEventId(),
-                LocalDateTime.now(),
+                command.weighInTime(),
                 EventType.DELIVER,
                 0,
                 command.weighBridgeTicketId(),

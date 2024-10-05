@@ -5,7 +5,10 @@ import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseSavePort;
+import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WareHouseNotFound;
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -17,6 +20,7 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
 
     private final  WareHouseRepository warehouseRepo;
     private final ModelMapper modelMapper;
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseDatabaseAdapter.class);
 
     public WarehouseDatabaseAdapter(WareHouseRepository warehouseRepo, ModelMapper modelMapper) {
         this.warehouseRepo = warehouseRepo;
@@ -45,7 +49,17 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
     }
 
     @Override
+    public WareHouse findById(UUID id) {
+        WareHouseEntity warehouseEntity = warehouseRepo.findById(id).orElseThrow( () ->
+            new WareHouseNotFound("the warehouse with id " + id + " was not found"));
+
+
+        LOGGER.info(warehouseEntity.toString());
+        return modelMapper.map(warehouseEntity, WareHouse.class);
+    }
+    @Override
     public void Save(WareHouse warehouse) {
-        warehouseRepo.save(modelMapper.map(warehouse, WareHouseEntity.class));
+        WareHouseEntity wareHouseEntity = modelMapper.map(warehouse, WareHouseEntity.class);
+        warehouseRepo.save(wareHouseEntity);
     }
 }
