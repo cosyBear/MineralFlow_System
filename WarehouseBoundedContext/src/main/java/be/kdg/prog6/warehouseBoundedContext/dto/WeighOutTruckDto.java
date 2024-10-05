@@ -8,6 +8,6 @@ public record  WeighOutTruckDto        (UUID weighBridgeTicketId,
                                         UUID sellerId,      // change to simple String or UUID
                                         String materialType,
                                         LocalDateTime weighOutTime,
-                                        double materialTrueWeight,
+                                        double endWeight,
                                         String warehouseStatus
 ) {}

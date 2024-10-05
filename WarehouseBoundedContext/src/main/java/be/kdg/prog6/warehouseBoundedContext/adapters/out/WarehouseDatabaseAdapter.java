@@ -46,7 +46,7 @@
 //                    warehouseEntity,
 //                    event.time(),
 //                    event.type(),
-//                    event.materialTrueWeight()
+//                    event.endWeight()
 //            );
 //            eventRepository.save(eventEntity);
 //        });

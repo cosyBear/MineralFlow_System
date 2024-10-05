@@ -19,6 +19,7 @@ public class WarehouseEventEntity {
     private UUID weighBridgeTicketId;
 
     public WarehouseEventEntity() {
+
     }
 
     public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight,  UUID weighBridgeTicketId) {

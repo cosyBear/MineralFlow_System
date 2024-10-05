@@ -1,3 +1,6 @@
+
+
+
 package be.kdg.prog6.landSideBoundedContext.adapters.out;
 
 import be.kdg.prog6.landSideBoundedContext.domain.WeighInEvent;
@@ -28,19 +31,21 @@ public class WeighBridgeEventPublisherImp implements WeighBridgeEventPublisher {
         final String routingKey = "truck." + weighInEvent.getLicensePlate() + ".in";
         logger.info("Publishing truck weighbridge: " + weighInEvent.getLicensePlate());
         logger.info("The Truck has been weight: " + weighInEvent.getLicensePlate());
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
+
+        logger.info("Publishing grossWeight: " + weighInEvent.getGrossWeight());
+        logger.info("Publishing weighInTime: " + weighInEvent.getWeighInTime());
+
 
         rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, weighInEvent);
     }
 
     @Override
-    public void publishTruckWeighedOut(WeighEvent weighEvent) {
-        final String routingKey = "truck." + weighEvent.getLicensePlate() + ".in";
+    public void publishTruckWeighedOut(WeighOutEvent weighOutEvent) {
+        final String routingKey = "truck." + weighOutEvent.getLicensePlate() + ".out";// change to out
         final String exchangeName = "weighbridgeExchange";
 
         logger.info("Notifying RabbitMQ: {}", routingKey);
 
-        rabbitTemplate.setMessageConverter(new Jackson2JsonMessageConverter());
 
 
         rabbitTemplate.convertAndSend(exchangeName, routingKey, weighOutEvent);

@@ -87,7 +87,7 @@ public class WeighTruckOutCommand {
                 "weighBridgeTicketId=" + weighBridgeTicketId + ", " +
                 "licensePlate=" + licensePlate + ", " +
                 "sellerId=" + sellerId + ", " +
-                "grossWeight=" + materialTrueWeight + ", " +
+                "weighInTime=" + materialTrueWeight + ", " +
                 "materialType=" + materialType + ", " +
                 "weighInTime=" + weighOutTime + ", " +
                 "wareHouseStatus=" + wareHouseStatus + ']';

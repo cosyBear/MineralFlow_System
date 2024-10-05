@@ -1,5 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -16,27 +18,29 @@ public class WeighInEvent {
     private String licensePlate;
 
     private UUID sellerId;
-    private double startWeight;
+
+
+    @JsonProperty("grossWeight")
+    private double grossWeight;
 
     private MaterialType materialType;
     @JsonSerialize(using = LocalDateTimeSerializer.class)
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+    @JsonProperty("weighInTime")
     private LocalDateTime weighInTime;
 
     private WarehouseStatus warehouseStatus;
 
 
-    public WeighInEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double startWeight, MaterialType materialType, LocalDateTime weighInTime, WarehouseStatus warehouseStatus) {
+    public WeighInEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double grossWeight, MaterialType materialType, LocalDateTime weighInTime, WarehouseStatus warehouseStatus) {
         this.weighBridgeTicketId = weighBridgeTicketId;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
-        this.startWeight = startWeight;
+        this.grossWeight = grossWeight;
         this.materialType = materialType;
         this.weighInTime = weighInTime;
         this.warehouseStatus = warehouseStatus;
     }
-
-
 
 
     public UUID getWeighBridgeTicketId() {
@@ -71,12 +75,12 @@ public class WeighInEvent {
         this.sellerId = sellerId;
     }
 
-    public double getStartWeight() {
-        return startWeight;
+    public double getGrossWeight() {
+        return grossWeight;
     }
 
-    public void setStartWeight(double startWeight) {
-        this.startWeight = startWeight;
+    public void setGrossWeight(double grossWeight) {
+        this.grossWeight = grossWeight;
     }
 
     public MaterialType getMaterialType() {

@@ -80,7 +80,7 @@ public final class WarehouseEvent {
                 "id=" + id + ", " +
                 "time=" + time + ", " +
                 "type=" + type + ", " +
-                "materialTrueWeight=" + materialWeight + ", " +
+                "endWeight=" + materialWeight + ", " +
                 "weighBridgeTicketId=" + weighBridgeTicketId + ", " +
                 "warehouseEventsWindowId=" + warehouseEventsWindowId + ']';
     }

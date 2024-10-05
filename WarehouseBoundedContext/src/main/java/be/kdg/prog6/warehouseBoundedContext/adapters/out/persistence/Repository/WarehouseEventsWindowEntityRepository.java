@@ -12,12 +12,12 @@ import java.util.UUID;
 public interface WarehouseEventsWindowEntityRepository extends JpaRepository<WarehouseEventsWindowEntity, UUID> {
 
     @Query("SELECT wew FROM WarehouseEventsWindowEntity wew " +
-            "LEFT JOIN FETCH wew.eventList " +
+            "LEFT JOIN FETCH wew.warehouseEventList " +
             "WHERE wew.warehouseId = :warehouseId")
     Optional<WarehouseEventsWindowEntity> fetchByWarehouseIdWithEvents(@Param("warehouseId") UUID warehouseId);
 
     @Query("SELECT wew FROM WarehouseEventsWindowEntity wew " +
-            "LEFT JOIN FETCH wew.eventList " +
+            "LEFT JOIN FETCH wew.warehouseEventList " +
             "WHERE wew.warehouseEventsWindowId = :warehouseEventsWindowId")
     Optional<WarehouseEventsWindowEntity> fetchByWarehouseEventsWindowIdWithEvents(@Param("warehouseEventsWindowId") UUID warehouseEventsWindowId);
 

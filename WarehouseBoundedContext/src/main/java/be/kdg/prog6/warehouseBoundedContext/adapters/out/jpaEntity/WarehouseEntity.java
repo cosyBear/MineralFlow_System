@@ -8,6 +8,7 @@ import java.util.UUID;
 public class WarehouseEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID warehouseId;
 
     private UUID sellerId;

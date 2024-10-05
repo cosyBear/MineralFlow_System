@@ -1,5 +1,7 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -15,15 +17,17 @@ public class WarehouseEventsWindowEntity {
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_events_window_id")
-    private List<WarehouseEventEntity> eventList;
+    private List<WarehouseEventEntity> warehouseEventList;
 
     public WarehouseEventsWindowEntity() {
+        this.warehouseEventList = new ArrayList<>();
+
     }
 
-    public WarehouseEventsWindowEntity(UUID warehouseEventsWindowId, UUID warehouseId, List<WarehouseEventEntity> eventList) {
+    public WarehouseEventsWindowEntity(UUID warehouseEventsWindowId, UUID warehouseId, List<WarehouseEventEntity> warehouseEventList) {
         this.warehouseEventsWindowId = warehouseEventsWindowId;
         this.warehouseId = warehouseId;
-        this.eventList = eventList;
+        this.warehouseEventList = warehouseEventList;
     }
 
     public UUID getWarehouseEventsWindowId() {
@@ -42,11 +46,11 @@ public class WarehouseEventsWindowEntity {
         this.warehouseId = warehouseId;
     }
 
-    public List<WarehouseEventEntity> getEventList() {
-        return eventList;
+    public List<WarehouseEventEntity> getWarehouseEventList() {
+        return warehouseEventList;
     }
 
-    public void setEventList(List<WarehouseEventEntity> eventList) {
-        this.eventList = eventList;
+    public void setWarehouseEventList(List<WarehouseEventEntity> eventList) {
+        this.warehouseEventList = eventList;
     }
 }

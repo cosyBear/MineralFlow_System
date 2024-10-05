@@ -10,6 +10,7 @@ import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEventsWindow.Wareh
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEventsWindow.WarehouseEventsWindowSavePort;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
 
@@ -55,8 +56,11 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
                     throw new IllegalArgumentException("Invalid warehouse status."); // change this later ot something better.
         }
     }
+    // maybe you need to create a ticket here from asked a teacher because we never saved it so ?
 
 
+    @Override
+    @Transactional
     public void truckOut(WeighTruckOutCommand truckOutCommand) {
 
         Warehouse warehouse = assignWarehouseToSeller(truckOutCommand.sellerId() , truckOutCommand.materialType() , truckOutCommand.wareHouseStatus());
@@ -70,7 +74,6 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
 
     @Override
     public void truckIn(WeighTruckInCommand command) {
-        // maybe you need to create a ticket here from asked a teacher because we never saved it so ?
         Warehouse warehouse = assignWarehouseToSeller(command.sellerId() , command.materialType() , command.wareHouseStatus());
         warehouse.beginDeliveryProcess(command);
         warehouseSavePort.save(warehouse);

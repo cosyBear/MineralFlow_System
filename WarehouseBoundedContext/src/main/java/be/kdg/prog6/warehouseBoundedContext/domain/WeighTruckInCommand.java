@@ -105,7 +105,7 @@ public final class WeighTruckInCommand {
                 "weighBridgeTicketId=" + weighBridgeTicketId + ", " +
                 "licensePlate=" + licensePlate + ", " +
                 "sellerId=" + sellerId + ", " +
-                "grossWeight=" + grossWeight + ", " +
+                "weighInTime=" + grossWeight + ", " +
                 "materialType=" + materialType + ", " +
                 "weighInTime=" + weighInTime + ", " +
                 "wareHouseStatus=" + wareHouseStatus + ']';

@@ -16,6 +16,12 @@ public class WarehouseEventsWindow {
     public WarehouseEventsWindow() {
     }
 
+    public WarehouseEventsWindow(WarehouseId warehouseId, UUID warehouseEventsWindowId , List<WarehouseEvent> warehouseEventList) {
+        this.warehouseId = warehouseId;
+        this.warehouseEventsWindowId = warehouseEventsWindowId;
+        this.warehouseEventList = new ArrayList<>();
+    }
+
     public WarehouseEventsWindow(WarehouseId warehouseId, UUID warehouseEventsWindowId) {
         this.warehouseId = warehouseId;
         this.warehouseEventsWindowId = warehouseEventsWindowId;

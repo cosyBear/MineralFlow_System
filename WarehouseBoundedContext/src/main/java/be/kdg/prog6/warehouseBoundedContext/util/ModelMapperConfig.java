@@ -12,6 +12,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Configuration
 @EnableCaching
 @EnableAsync
@@ -20,14 +22,10 @@ public class ModelMapperConfig {
     @Bean
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
+
+        // Customize ModelMapper to prevent final class mapping issues
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-
-
 
         return modelMapper;
     }
-
 }
-
-
-

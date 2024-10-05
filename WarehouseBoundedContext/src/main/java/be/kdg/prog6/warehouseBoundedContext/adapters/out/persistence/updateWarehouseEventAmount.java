@@ -4,9 +4,9 @@
 //    Optional<WarehouseEventEntity> optionalEvent = eventRepository.findById(eventId.id());
 //
 //    if (optionalEvent.isPresent()) {
-//        // Update the materialTrueWeight
+//        // Update the endWeight
 //        WarehouseEventEntity eventEntity = optionalEvent.get();
-//        eventEntity.setAmount(newAmount);  // Update the weight, e.g., 50
+//        eventEntity.setAmount(newAmount);  // Update the weighInTime, e.g., 50
 //
 //        // Save the updated event
 //        eventRepository.save(eventEntity);

@@ -9,13 +9,11 @@ import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.
 import be.kdg.prog6.warehouseBoundedContext.domain.*;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -57,12 +55,44 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     public Warehouse findBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
         UUID sellerUuid = sellerId.sellerID();
 
-        // Use LEFT JOIN FETCH to load the warehouse along with the events window and events list
+        // Fetch the WarehouseEntity from the repository
         WarehouseEntity warehouseEntity = warehouseRepository.findBySellerIdAndMaterialType(sellerUuid, materialType.toString());
 
-        // Use modelMapper or manual mapping to map the entity to the domain object
+        if (warehouseEntity == null) {
+            return null; // Handle the case when no entity is found
+        }
 
-        return modelMapper.map(warehouseEntity, Warehouse.class);
+        // Map WarehouseEntity to Warehouse domain object
+        WarehouseId warehouseId = new WarehouseId(warehouseEntity.getWarehouseId());
+        SellerId domainSellerId = new SellerId(warehouseEntity.getSellerId());
+        MaterialType domainMaterialType = MaterialType.valueOf(warehouseEntity.getMaterialType());
+
+        // Instantiate the domain Warehouse object
+        Warehouse warehouse = new Warehouse(warehouseId, domainSellerId, domainMaterialType);
+
+        // Map WarehouseEventsWindowEntity to WarehouseEventsWindow
+        WarehouseEventsWindowEntity eventsWindowEntity = warehouseEntity.getWarehouseEventsWindow();
+        if (eventsWindowEntity != null) {
+            List<WarehouseEvent> warehouseEvents = eventsWindowEntity.getWarehouseEventList().stream()
+                    .map(eventEntity -> new WarehouseEvent(
+                            new WarehouseEventId(eventEntity.getEventId()),
+                            eventEntity.getEventTime(),
+                            EventType.valueOf(eventEntity.getEventType()),
+                            eventEntity.getMaterialWeight(),
+                            eventEntity.getWeighBridgeTicketId(),
+                            eventsWindowEntity.getWarehouseEventsWindowId()))
+                    .collect(Collectors.toList());
+
+            WarehouseEventsWindow eventsWindow = new WarehouseEventsWindow(
+                    warehouseId,
+                    eventsWindowEntity.getWarehouseEventsWindowId(),
+                    warehouseEvents
+            );
+
+            warehouse.setEventsWindow(eventsWindow);
+        }
+
+        return warehouse;
     }
 
 
@@ -88,13 +118,13 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
                         event.id().getId(),  // Map the event ID
                         event.time(),  // Map the timestamp
                         event.type().toString(),  // Convert event type to string
-                        event.materialTrueWeight(),  // Map the material weight
+                        event.materialTrueWeight(),  // Map the material weighInTime
                         event.weighBridgeTicketId()  // Map the weighbridge ticket ID
                 ))
                 .collect(Collectors.toList());
 
         // Set the event list in the events window entity
-        eventsWindowEntity.setEventList(eventEntities);
+        eventsWindowEntity.setWarehouseEventList(eventEntities);
 
         // Set the events window in the warehouse entity
         warehouseEntity.setWarehouseEventsWindow(eventsWindowEntity);
