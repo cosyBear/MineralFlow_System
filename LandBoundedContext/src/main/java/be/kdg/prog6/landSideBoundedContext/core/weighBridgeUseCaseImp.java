@@ -14,10 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.util.Calendar;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
@@ -67,6 +64,7 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
         try {
             DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(command.weighInTime().toLocalDate());
 
+
             if (dayCalendar.allowTruckToEnter(command.licensePlate(), command.weighInTime())) {
                 logger.info(" the Truck is on time the gate is open.....");
                 weighbridgeTicket = new WeighbridgeTicket(new WeighBridgeTicketId(UUID.randomUUID()), command.licensePlate(), command.sellerId(), command.startWeight(), 0, command.materialType(), command.weighInTime());
@@ -88,10 +86,13 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
     public void weighTruckOut(weighTruckOutCommand command) {
         WeighbridgeTicket bridgeTicket = weighbridgeTicketLoadPort.loadById(command.sellerId().id());
         bridgeTicket.correctTicket(command.weighOutTime(), command.endWeight());
+        //50
         weighbridgeTicketSavePort.save(bridgeTicket);
 
         WeighOutEvent weighEvent = new WeighOutEvent(bridgeTicket.getWeighBridgeTicketId().id(), command.licensePlate().toString(), command.sellerId().id(), command.endWeight(), command.materialType(), command.weighOutTime(), WarehouseStatus.valueOf(command.warehouseStatus()));
+
         eventPublisher.publishTruckWeighedOut(weighEvent);
+
         appointmentDone(command);
 
     }
@@ -108,12 +109,27 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
 
     @Override
     public void updateWarehouse(UpdateWarehouseCommand updateWarehouseCommand) {
-        WareHouse wareHouse = warehouseLoadPort.findById(updateWarehouseCommand.warehouseId().warehouseId());
-        wareHouse.updateWarehouseMaterialAmount(updateWarehouseCommand.materialAmountInWarehouse());
-        System.out.println(wareHouse.getAmountOfMaterial());
-        warehouseSavePort.Save(wareHouse);
 
+        // Try to find the warehouse by ID
+        Optional<WareHouse> existingWarehouse = warehouseLoadPort.findById(updateWarehouseCommand.warehouseId().warehouseId());
 
+        // If the warehouse is not found, create a new one
+        if (existingWarehouse.isEmpty()) {
+            WareHouse wareHouse = new WareHouse(
+                    updateWarehouseCommand.warehouseId(),
+                    updateWarehouseCommand.sellerId(),
+                    updateWarehouseCommand.materialType(),
+                    updateWarehouseCommand.materialAmountInWarehouse()
+            );
+            warehouseSavePort.Save(wareHouse);
+        } else {
+            // If the warehouse is found, update it
+            WareHouse wareHouse = existingWarehouse.get();
+            wareHouse.updateWarehouseMaterialAmount(updateWarehouseCommand.materialAmountInWarehouse());
+            System.out.println(wareHouse.getAmountOfMaterial());
+            warehouseSavePort.Save(wareHouse);
+        }
     }
+
 
 }

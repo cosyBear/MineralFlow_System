@@ -107,11 +107,11 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
         warehouseEntity.setMaterialType(warehouse.getMaterialType().toString());  // Convert MaterialType enum to String
         warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());  // Convert SellerId to UUID
 
+
         // Map the events window from the domain model
         WarehouseEventsWindowEntity eventsWindowEntity = new WarehouseEventsWindowEntity();
         eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());  // Set the ID of the events window
         eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());  // Set the warehouse ID for the events window
-
         // Map the list of WarehouseEventEntity
         List<WarehouseEventEntity> eventEntities = warehouse.getEventsWindow().getWarehouseEventList().stream()
                 .map(event -> new WarehouseEventEntity(

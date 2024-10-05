@@ -21,7 +21,7 @@ public class WeighInEvent {
 
 
     @JsonProperty("grossWeight")
-    private double grossWeight;
+    private double grossWeight;// 100 tons truck pls materiuals
 
     private MaterialType materialType;
     @JsonSerialize(using = LocalDateTimeSerializer.class)

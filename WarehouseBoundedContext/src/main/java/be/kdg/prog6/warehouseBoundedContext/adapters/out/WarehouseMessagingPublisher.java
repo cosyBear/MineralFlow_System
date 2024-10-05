@@ -19,9 +19,9 @@ public class WarehouseMessagingPublisher implements EventPublisherPort {
 
 
     @Override
-    public void publishPDTCompletedEvent(WarehouseMaterialEvent warehouseMaterialEvent) {
+    public void publishWarehouseMaterialEvent(WarehouseMaterialEvent warehouseMaterialEvent) {
 
         LOGGER.info("notifying  the landSide about the material amount in the warehouse");
-        rabbitTemplate.convertAndSend("pdtExchange", "pdt.completed", warehouseMaterialEvent);
+        rabbitTemplate.convertAndSend("WarehouseExchange", "WarehouseRoutingKey", warehouseMaterialEvent);
     }
 }

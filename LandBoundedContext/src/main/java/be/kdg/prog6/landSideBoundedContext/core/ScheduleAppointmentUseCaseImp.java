@@ -31,7 +31,7 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
             WareHouse wareHouse = warehouseLoadPort.findBySellerIdAAndMaterialType(command.sellerId().id() , command.materialType());
             DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(command.time().toLocalDate());
             Appointment newAppointment = dayCalendar.scheduleAppointment(command , wareHouse.availableCapacity());
-             appointmentSavePort.saveAppointment(newAppointment);
+            appointmentSavePort.saveAppointment(newAppointment);
             return newAppointment;
         } catch (Exception e)  {
             logger.info(e.getMessage());

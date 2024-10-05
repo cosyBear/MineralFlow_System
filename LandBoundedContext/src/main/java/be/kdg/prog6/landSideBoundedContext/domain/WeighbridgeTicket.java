@@ -13,19 +13,20 @@ public class WeighbridgeTicket {
 
     private SellerId sellerId;
 
-    private double startWeight;
+    private double startWeight;// total 100
 
-    private double endWeight;
+    private double endWeight;// 50
 
-    private LocalDateTime endTime;
+    private LocalDateTime endTime; // truck out
 
-    private LocalDateTime startTime;
+    private LocalDateTime startTime;// truck in
 
     private MaterialType materialType;
 
     public WeighbridgeTicket(){
 
     }
+
     public WeighbridgeTicket(WeighBridgeTicketId weighBridgeTicketId, LicensePlate licensePlate, SellerId sellerId, double startWeight, double endWeight, MaterialType materialType, LocalDateTime startTime) {
 
         this.weighBridgeTicketId = weighBridgeTicketId;

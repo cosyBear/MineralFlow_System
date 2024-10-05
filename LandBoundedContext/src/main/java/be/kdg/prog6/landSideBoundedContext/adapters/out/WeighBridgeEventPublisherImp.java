@@ -29,6 +29,7 @@ public class WeighBridgeEventPublisherImp implements WeighBridgeEventPublisher {
     @Override
     public void publishTruckWeightedIn(WeighInEvent weighInEvent) {
         final String routingKey = "truck." + weighInEvent.getLicensePlate() + ".in";
+
         logger.info("Publishing truck weighbridge: " + weighInEvent.getLicensePlate());
         logger.info("The Truck has been weight: " + weighInEvent.getLicensePlate());
 
@@ -45,8 +46,6 @@ public class WeighBridgeEventPublisherImp implements WeighBridgeEventPublisher {
         final String exchangeName = "weighbridgeExchange";
 
         logger.info("Notifying RabbitMQ: {}", routingKey);
-
-
 
         rabbitTemplate.convertAndSend(exchangeName, routingKey, weighOutEvent);
 

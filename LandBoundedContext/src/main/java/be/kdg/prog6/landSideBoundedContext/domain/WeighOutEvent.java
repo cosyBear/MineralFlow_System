@@ -14,7 +14,7 @@ public class WeighOutEvent {
     private String licensePlate;
 
     private UUID sellerId;
-    private double EndWeight;
+    private double EndWeight; // 50
 
     private MaterialType materialType;
     @JsonSerialize(using = LocalDateTimeSerializer.class)

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -49,13 +50,12 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
     }
 
     @Override
-    public WareHouse findById(UUID id) {
-        WareHouseEntity warehouseEntity = warehouseRepo.findById(id).orElseThrow( () ->
-            new WareHouseNotFound("the warehouse with id " + id + " was not found"));
-
-
-        LOGGER.info(warehouseEntity.toString());
-        return modelMapper.map(warehouseEntity, WareHouse.class);
+    public Optional<WareHouse> findById(UUID id) {
+        return warehouseRepo.findById(id)
+                .map(warehouseEntity -> {
+                    LOGGER.info(warehouseEntity.toString());
+                    return modelMapper.map(warehouseEntity, WareHouse.class);
+                });
     }
     @Override
     public void Save(WareHouse warehouse) {

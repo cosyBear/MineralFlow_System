@@ -4,6 +4,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface WarehouseLoadPort {
@@ -14,7 +15,7 @@ public interface WarehouseLoadPort {
 
     WareHouse findBySellerIdAAndMaterialType(UUID sellerId , MaterialType materialType);
 
-    WareHouse findById(UUID id);
+    Optional<WareHouse> findById(UUID id);
 
 
 }

@@ -1,40 +1,14 @@
-#@Override
-#@Transactional
-#public void save(Warehouse warehouse) {
-#    // Create a new WarehouseEntity object
-#    WarehouseEntity warehouseEntity = new WarehouseEntity();
-#
-#    // Set the fields from the domain model to the entity
-#    warehouseEntity.setWarehouseId(warehouse.getWarehouseNumber().getId());  // WarehouseId is mapped to a UUID
-#    warehouseEntity.setMaterialType(warehouse.getMaterialType().toString());  // Convert MaterialType enum to String
-#    warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());  // Convert SellerId to UUID
-#
-#    // Map the events window from the domain model
-#    WarehouseEventsWindowEntity eventsWindowEntity = new WarehouseEventsWindowEntity();
-#    eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());  // Set the ID of the events window
-#    eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());  // Set the warehouse ID for the events window
-#
-#    // Map the list of WarehouseEventEntity
-#    List<WarehouseEventEntity> eventEntities = warehouse.getEventsWindow().getWarehouseEventList().stream()
-#            .map(event -> new WarehouseEventEntity(
-#                    event.id().getId(),  // Map the event ID
-#                    event.time(),  // Map the timestamp
-#                    event.type().toString(),  // Convert event type to string
-#                    event.materialTrueWeight(),  // Map the material weighInTime
-#                    event.weighBridgeTicketId()  // Map the weighbridge ticket ID
-#            ))
-#            .collect(Collectors.toList());
-#
-#    // Set the event list in the events window entity
-#    eventsWindowEntity.setWarehouseEventList(eventEntities);
-#
-#    // Set the events window in the warehouse entity
-#    warehouseEntity.setWarehouseEventsWindow(eventsWindowEntity);
-#
-#    // Save the warehouseEntity and its nested entities
-#    warehouseRepository.save(warehouseEntity);
-#}
-###
+POST http://localhost:8091/api/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "licensePlate": "ABC1234",
+  "materialType": "IRON",
+  "time": "2024-09-23T11:00:00",
+  "payload": 500
+}
+
 ### Weigh-In Test Request
 
 POST http://localhost:8091/api/bridge/weigh-in
