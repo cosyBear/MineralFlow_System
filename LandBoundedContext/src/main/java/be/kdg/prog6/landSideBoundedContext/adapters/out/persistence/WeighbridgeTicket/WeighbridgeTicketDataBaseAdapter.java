@@ -39,6 +39,19 @@ public class WeighbridgeTicketDataBaseAdapter implements WeighbridgeTicketLoadPo
 
 
 
+    @Override
+    public WeighbridgeTicket loadBySellerIDAndMaterialType(UUID id , MaterialType materialType){
+
+        WeighbridgeTicketEntity weighbridgeTicketEntity = weighbridgeTicketEntityRepository.loadBySellerIdAndMaterialType(id, materialType);
+
+        return modelMapper.map(weighbridgeTicketEntity, WeighbridgeTicket.class);
+
+
+    }
+
+
+
+
 
 
 }

@@ -14,4 +14,17 @@ public interface WeighbridgeTicketEntityRepository extends JpaRepository<Weighbr
     WeighbridgeTicketEntity loadById(UUID id);
 
 
+
+
+
+
+
+
+
+
+
+    @Query ("SELECT w FROM WeighbridgeTicketEntity w WHERE w.sellerId = :sellerId and w.materialType = :materialType")
+    WeighbridgeTicketEntity loadBySellerIdAndMaterialType(UUID sellerId , MaterialType materialType);
+
+
 }

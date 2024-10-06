@@ -8,4 +8,7 @@ import java.util.UUID;
 public interface WeighbridgeTicketLoadPort {
 
     WeighbridgeTicket loadById(UUID id) ;
+
+    WeighbridgeTicket loadBySellerIDAndMaterialType(UUID sellerId , MaterialType materialType);
+
 }
