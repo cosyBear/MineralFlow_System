@@ -1,0 +1,86 @@
+Landside Context
+Get Available Bridge
+
+Method: getAvailableBridge()
+This method will receive the total truck weight (Gross Weight), License Plate, and Seller ID.
+It will either find an available bridge or create one if none are available.
+Next Action:
+
+Once the available bridge is retrieved, call the method weighTruckIn(Bridge bridge, WeighTruckInCommand).
+Weigh Truck In
+
+Method:weighTruckIn()
+This method should set attributes in the Bridge class:
+Bridge Number
+Current Truck Weight (gross weight)
+License Plate
+Material Type
+Seller ID
+Timestamp (Weigh-in time)
+Event Publishing:
+
+After setting these attributes, you will publish the TruckWeighedInEvent via RabbitMQ, which will be sent to the Warehouse Context.
+Warehouse Context
+Listen to Truck Weighed In Event
+
+The warehouse will listen to the event TruckWeighedInEvent.
+Create a DTO from the event data and send it to the WarehouseUseCase.
+Deliver Material
+
+Method:deliverMaterial()
+When the warehouse receives the event, you’ll need to create an event in the warehouse to represent the pending material delivery, but without the weight (set the amount to 0).
+Return the event ID, so you can later update this event when the actual material amount is known.
+Event Creation:
+
+WarehouseEvent with:
+Event ID
+Timestamp
+Material Type
+Amount (set to 0 initially)
+Save this in the warehouse event stream.
+Create PDT (Payload Delivery Ticket)
+
+After the deliverMaterial() method runs, create a PDT that includes:
+
+Warehouse Number
+Event ID (linked to the delivery event created)
+Material Type
+Timestamp
+Send the PDT back to the Landside Context to trigger the truck's weigh-out.
+
+Weigh Truck Out
+Weigh Truck Out (Landside)
+
+When the truck leaves the warehouse and passes the weighing bridge again:
+Load the PurchaseOrder for the specific License Plate to retrieve the actual amount of material delivered.
+Subtract the truck’s tare weight from the gross weight (recorded earlier) to get the net weight of the delivered material.
+Publish Weigh-Out Event:
+
+Publish the TruckWeighedOutEvent which includes:
+License Plate
+Gross Weight
+Tare Weight
+Net Weight
+Timestamp of weigh-out
+Update Warehouse with Actual Weight
+Update Warehouse with Real Material Amount
+
+Once the TruckWeighedOutEvent is processed, update the event in the warehouse with the actual net weight delivered.
+Use the Event ID created during the deliverMaterial()of
+Create WBT (Weigh Bridge Ticket)
+
+Finally, create the WBT (Weigh Bridge Ticket), which includes:
+Gross Weight
+Tare Weight
+Net Weight
+Timestamp of weigh-in and weigh-out
+License Plate
+This
+Conclusion
+Your approach is valid, but these are the key clarifications:
+
+You will publish a TruckWeighedInEvent with the gross weight initially, but do not worry about sending the material amount at this point.
+The deliverMaterial() method in the warehouse will create an empty event (with 0 material) and return the event ID.
+After the truck weighs out, calculate the net weight using the gross and tare weights, and then update the warehouse event with the actual material delivered.
+Finally, create the PDT and WBT documents to complete the process.
+This aligns well with the project description and maintains the decoupling between the LandsideandWarehouse contexts.

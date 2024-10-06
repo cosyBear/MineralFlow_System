@@ -1,0 +1,119 @@
+POST http://localhost:8091/api/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "licensePlate": "ABC1234",
+  "materialType": "IRON",
+  "time": "2024-09-23T11:00:00",
+  "payload": 500
+}
+
+### Weigh-In Test Request
+
+POST http://localhost:8091/api/bridge/weigh-in
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1001",
+  "startWeight": 200.0,
+  "materialType": "IRON",
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "weighInTime": "2024-09-23T11:00:00"
+}
+
+###
+POST http://localhost:8091/api/bridge/weigh-out
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1001",
+  "endWeight": 100.0,
+  "materialType": "IRON",
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "weighInTime": "2024-09-23T12:00:00",
+  "warehouseStatus": "ALREADY_EXISTS_NOT_FULL"
+}
+
+
+
+
+####
+
+POST http://localhost:8091/api/bridge/weigh-in
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1001",
+  "startWeight": 200.0,
+  "materialType": "IRON",
+  "sellerId": "326f5d06-17d0-42b6-8f68-ae815d9ce5f6",
+  "weighInTime": "2024-09-23T11:00:00"
+}
+
+###
+POST http://localhost:8091/api/bridge/weigh-out
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1001",
+  "endWeight": 100.0,
+  "materialType": "IRON",
+  "sellerId": "326f5d06-17d0-42b6-8f68-ae815d9ce5f6",
+  "weighInTime": "2024-09-23T11:00:00",
+  "warehouseStatus": "DISREGARD"
+}
+
+###
+
+# curl -X POST "http://localhost:8091/api/gate" -H "Content-Type: application/json" -d '{
+#    "licensePlate": "ABC1234",
+#    "localDate": "2024-09-23T11:00:00"
+#}'
+POST http://localhost:8091/api/gate
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1234",
+  "localDate": "2024-09-23T11:00:00"
+}
+
+###
+
+# curl -X POST "http://localhost:8091/api/appointments" -H "Content-Type: application/json" -d '{
+#    "sellerId": "6bc6f408-50d2-4ed5-95a4-7869322c2355",
+#    "licensePlate": "ABC1234",
+#    "materialType": "IRON",
+#    "time": "2001-11-11T11:00:00"
+#}'
+
+
+
+
+POST http://localhost:8091/api/Bridge
+Content-Type: application/json
+
+{
+    "licensePlate": "ABC1234",
+    "weight": 15000.0
+}
+
+
+
+###
+POST http://localhost:8091/api/Bridge/weighTruckIn
+Content-Type: application/json
+
+{
+"licensePlate": "ABC123",
+"weight": 25000.0
+}
+###
+
+POST http://localhost:8091/api/Bridge/weighTruckOut
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC123",
+  "grossWeight": 12000.0
+}
