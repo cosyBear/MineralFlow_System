@@ -21,7 +21,6 @@ public class Warehouse {
     }
 
 
-    // Method to add new event instead of updating an existing one
     public void updateMaterialWeight(WeighTruckOutCommand truckOutCommand) {
         if (this.eventsWindow == null) {
             this.eventsWindow = new WarehouseEventsWindow(this.warehouseNumber, UUID.randomUUID());
@@ -55,7 +54,6 @@ public class Warehouse {
         this.warehouseNumber = warehouseNumber;
     }
 
-    // Getter and setter for materialType
     public MaterialType getMaterialType() {
         return materialType;
     }
@@ -64,7 +62,6 @@ public class Warehouse {
         this.materialType = materialType;
     }
 
-    // Getter and setter for sellerId
     public SellerId getSellerId() {
         return sellerId;
     }
@@ -73,7 +70,6 @@ public class Warehouse {
         this.sellerId = sellerId;
     }
 
-    // Getter and setter for eventsWindow
     public WarehouseEventsWindow getEventsWindow() {
         return eventsWindow;
     }

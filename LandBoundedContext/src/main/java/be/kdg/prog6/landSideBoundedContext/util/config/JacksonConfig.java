@@ -10,30 +10,7 @@ import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
 import org.springframework.boot.autoconfigure.amqp.SimpleRabbitListenerContainerFactoryConfigurer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.converter.json.Jackson2ObjectMapperBuilder;
 
-//@Configuration
-//
-//public class JacksonConfig {
-//
-//    @Bean
-//    public ObjectMapper objectMapper() {
-//        ObjectMapper mapper = new ObjectMapper();
-//        // Register the JavaTimeModule to handle LocalDateTime and other Java 8 date/time types
-//        mapper.registerModule(new JavaTimeModule());
-//        // Disable writing dates as timestamps to serialize them as ISO-8601 strings
-//        mapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//        return mapper;
-//    }
-//
-//    /**
-//     * Configures the Jackson2JsonMessageConverter with the customized ObjectMapper.
-//     */
-//    @Bean
-//    public Jackson2JsonMessageConverter jackson2JsonMessageConverter(ObjectMapper objectMapper) {
-//        return new Jackson2JsonMessageConverter(objectMapper);
-//    }
-//}
 @Configuration
 @EnableRabbit
 public class JacksonConfig {

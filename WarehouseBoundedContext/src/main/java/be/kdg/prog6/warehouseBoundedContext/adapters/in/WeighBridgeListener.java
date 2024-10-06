@@ -34,7 +34,7 @@ public class WeighBridgeListener {
         WeighTruckInCommand command = new WeighTruckInCommand(
                 truckOutDto.weighBridgeTicketId(),
                 truckOutDto.licensePlate(),
-                new SellerId(truckOutDto.sellerId()),  // Create SellerId manually from UUID
+                new SellerId(truckOutDto.sellerId()),
                 truckOutDto.grossWeight(),
                 MaterialType.valueOf(truckOutDto.materialType()),
                 truckOutDto.weighInTime(),

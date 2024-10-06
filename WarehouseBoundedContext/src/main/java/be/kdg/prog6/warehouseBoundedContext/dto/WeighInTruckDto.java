@@ -11,8 +11,8 @@ import java.util.UUID;
 
 public record WeighInTruckDto(
         UUID weighBridgeTicketId,
-        String licensePlate,  // change to simple String
-        UUID sellerId,      // change to simple String or UUID
+        String licensePlate,
+        UUID sellerId,
         String materialType,
         @JsonSerialize(using = LocalDateTimeSerializer.class)
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)

@@ -5,6 +5,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface WareHouseRepository extends JpaRepository<WareHouseEntity , UUID> {
@@ -14,7 +15,7 @@ public interface WareHouseRepository extends JpaRepository<WareHouseEntity , UUI
 
     WareHouseEntity findBySellerId(UUID sellerId);
 
-    WareHouseEntity findBySellerIdAndMaterialType(UUID sellerId , MaterialType materialType);
+    WareHouseEntity  findBySellerIdAndMaterialType(UUID sellerId , MaterialType materialType);
 
 
 

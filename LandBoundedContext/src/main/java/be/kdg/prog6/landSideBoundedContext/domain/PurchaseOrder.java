@@ -4,16 +4,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 
 import java.time.LocalDate;
 
-// purchase order is jsut id
-// seller id // custome number,
-//
-// so the purchase order lines is about like each item in the cart
-// like 10 tons of iron or 5 tons of
-//
-//purchase order lines means
-// using the seller id  from the  appoitment we link the PurchaseOrder
-//
-// so the way we know how much we dump into the waerhouse is look at this shit class.
+
 public class PurchaseOrder {
     // the date is when the order was placed.
     private LocalDate orderDate;

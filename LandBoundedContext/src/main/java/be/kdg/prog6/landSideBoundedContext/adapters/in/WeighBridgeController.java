@@ -2,6 +2,7 @@ package be.kdg.prog6.landSideBoundedContext.adapters.in;
 
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
+import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
 import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
 import be.kdg.prog6.landSideBoundedContext.dto.WeighInDto;
 import be.kdg.prog6.landSideBoundedContext.dto.WeighOutDto;
@@ -41,7 +42,7 @@ public class WeighBridgeController {
     public ResponseEntity<Void> weighTruckOut(@RequestBody WeighOutDto dto) {
 
         weighTruckOutCommand truckOutCommand = new weighTruckOutCommand(
-                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighInTime() , dto.warehouseStatus()
+                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighInTime() , dto.warehouseStatus() , new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId()))
         );
 
         weighBridgeUseCase.weighTruckOut(truckOutCommand);
