@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/bridge")
+@RequestMapping("/weighbridge")
 public class WeighBridgeController {
 
 
@@ -30,7 +30,7 @@ public class WeighBridgeController {
     }
 
 
-    @PostMapping("/weigh-in")
+    @PostMapping("/trucks/weighIn")
     public ResponseEntity<Void> weighTruckIn(@RequestBody WeighInDto dto) {
         weighTruckInCommand TruckInCommand = new weighTruckInCommand(new LicensePlate(dto.licensePlate()), dto.startWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
         weighBridgeUseCase.weighTruckIn(TruckInCommand);
@@ -38,7 +38,7 @@ public class WeighBridgeController {
     }
 
 
-    @PostMapping("/weigh-out")
+    @PostMapping("/trucks/weighOut")
     public ResponseEntity<Void> weighTruckOut(@RequestBody WeighOutDto dto) {
 
         weighTruckOutCommand truckOutCommand = new weighTruckOutCommand(
