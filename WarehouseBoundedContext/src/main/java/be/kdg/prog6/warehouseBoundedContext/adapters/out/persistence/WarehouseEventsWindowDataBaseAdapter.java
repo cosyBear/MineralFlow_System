@@ -44,7 +44,6 @@ public class WarehouseEventsWindowDataBaseAdapter implements WarehouseEventsWind
 
     @Override
     public void save(WarehouseEventsWindow warehouseEventsWindow) {
-        // Convert domain WarehouseEventsWindow to WarehouseEventsWindowEntity
         WarehouseEventsWindowEntity windowEntity = modelMapper.map(warehouseEventsWindow, WarehouseEventsWindowEntity.class);
         windowRepository.save(windowEntity);
 

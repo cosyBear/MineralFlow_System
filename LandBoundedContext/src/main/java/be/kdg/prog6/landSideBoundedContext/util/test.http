@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
   "licensePlate": "ABC1001",
-  "startWeight": 200.0,
+  "startWeight": 300.0,
   "materialType": "IRON",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
   "weighInTime": "2024-09-23T11:00:00"
@@ -28,11 +28,12 @@ Content-Type: application/json
 
 {
   "licensePlate": "ABC1001",
-  "endWeight": 100.0,
+  "endWeight": 33.0,
   "materialType": "IRON",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
   "weighInTime": "2024-09-23T12:00:00",
-  "warehouseStatus": "ALREADY_EXISTS_NOT_FULL"
+  "warehouseStatus": "ALREADY_EXISTS_NOT_FULL",
+  "WeighBridgeTicketId": "fd73b03f-9573-437c-8133-2e9d8cc422b5"
 }
 
 

@@ -41,20 +41,6 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
     }
 
 
-    public WarehouseStatus assignAWarehouseTruck(SellerId sellerId, MaterialType materialType) {
-        List<WareHouse> sellerWarehouseList = warehouseLoadPort.findAllBySellerId(sellerId.id());
-        for (WareHouse warehouse : sellerWarehouseList) {
-            if (warehouse.getMaterialType().equals(materialType)) {
-                return warehouse.checkWarehouseCapacity();
-            }
-        }
-        if (sellerWarehouseList.size() < 5) {
-            return WarehouseStatus.CAN_CREATE;
-        }
-        throw new TruckIsNotAllowedToEnter(String.format("The truck is not allowed to enter. The seller has reached the maximum number of warehouses (%d) and cannot store more material of type %s.", sellerWarehouseList.size(), materialType));
-    }
-
-
     @Override
     public void weighTruckIn(weighTruckInCommand command) {
 
@@ -82,11 +68,13 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
 
     }
 
+
     @Override
     public void weighTruckOut(weighTruckOutCommand command) {
-        WeighbridgeTicket bridgeTicket = weighbridgeTicketLoadPort.loadById(command.sellerId().id());
+        WeighbridgeTicket bridgeTicket = weighbridgeTicketLoadPort.loadById(command.WeighBridgeTicketId().id());
+
         bridgeTicket.correctTicket(command.weighOutTime(), command.endWeight());
-        //50
+
         weighbridgeTicketSavePort.save(bridgeTicket);
 
         WeighOutEvent weighEvent = new WeighOutEvent(bridgeTicket.getWeighBridgeTicketId().id(), command.licensePlate().toString(), command.sellerId().id(), command.endWeight(), command.materialType(), command.weighOutTime(), WarehouseStatus.valueOf(command.warehouseStatus()));
@@ -96,6 +84,24 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
         appointmentDone(command);
 
     }
+
+    @Override
+    public WarehouseStatus assignAWarehouseTruck(SellerId sellerId, MaterialType materialType) {
+        List<WareHouse> sellerWarehouseList = warehouseLoadPort.findAllBySellerId(sellerId.id());
+        for (WareHouse warehouse : sellerWarehouseList) {
+            if (warehouse.getMaterialType().equals(materialType)) {
+                if (!warehouse.isFull())
+                    return WarehouseStatus.ALREADY_EXISTS_NOT_FULL;
+                else
+                    return WarehouseStatus.FULL;
+            }
+        }
+        if (sellerWarehouseList.size() < 5) {
+            return WarehouseStatus.CAN_CREATE;
+        }
+        throw new TruckIsNotAllowedToEnter(String.format("The truck is not allowed to enter. The seller has reached the maximum number of warehouses (%d) and cannot store more material of type %s.", sellerWarehouseList.size(), materialType));
+    }
+
 
     private void appointmentDone(weighTruckOutCommand command) {
         DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(command.weighOutTime().toLocalDate());
