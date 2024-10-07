@@ -53,7 +53,7 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
             case "ALREADY_EXISTS_NOT_FULL" -> {
                 return warehouseLoadPort.findBySellerIdAndMaterialType(sellerId, materialType);
             }
-            case "CAN_CREATE" -> {
+            case "WAREHOUSE_NOT_FOUND" -> {
                 return new Warehouse(new WarehouseId(UUID.randomUUID()), sellerId, materialType);
             }
             default ->

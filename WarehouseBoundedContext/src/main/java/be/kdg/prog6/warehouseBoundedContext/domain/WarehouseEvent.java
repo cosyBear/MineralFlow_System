@@ -56,6 +56,55 @@ public final class WarehouseEvent {
         return warehouseEventsWindowId;
     }
 
+    public WarehouseEventId getId() {
+
+        return id;
+    }
+
+    public void setId(WarehouseEventId id) {
+        this.id = id;
+    }
+
+    public LocalDateTime getTime() {
+        return time;
+    }
+
+    public void setTime(LocalDateTime time) {
+        this.time = time;
+    }
+
+    public EventType getType() {
+        return type;
+    }
+
+    public void setType(EventType type) {
+        this.type = type;
+    }
+
+    public double getMaterialWeight() {
+        return materialWeight;
+    }
+
+    public void setMaterialWeight(double materialWeight) {
+        this.materialWeight = materialWeight;
+    }
+
+    public UUID getWeighBridgeTicketId() {
+        return weighBridgeTicketId;
+    }
+
+    public void setWeighBridgeTicketId(UUID weighBridgeTicketId) {
+        this.weighBridgeTicketId = weighBridgeTicketId;
+    }
+
+    public UUID getWarehouseEventsWindowId() {
+        return warehouseEventsWindowId;
+    }
+
+    public void setWarehouseEventsWindowId(UUID warehouseEventsWindowId) {
+        this.warehouseEventsWindowId = warehouseEventsWindowId;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (obj == this) return true;

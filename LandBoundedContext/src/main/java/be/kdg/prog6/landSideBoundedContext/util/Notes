@@ -16,3 +16,24 @@
 
 
     double materialWeight = command.startWeight() - command.endWeight();
+======================================
+stuff i need to do:
+=======================
+As a warehouse manager, I want to check if trucks arrive within the scheduled arrival
+windows. Includes UI;
+
+Lists of trucks (appoinments) for the current date with details like arrival window, seller,
+status, license plate, mineral type,.... Trucks that are delayed are visually highlighted.
+Another date can be picked.
+
+=======================
+
+● As a warehouse manager, I want to know how many trucks are on site so that in case of
+emergency I know if there is anyone on site or not. Includes UI
+
+for this user Story you dont need to create any class
+
+you only need a controller and UseCase make new ones. that returns you data like a list about the trucks that are on site.
+what i mean you return a list of all the trucks that are in the warehouse that did not leave yet.
+what kind of data?
+=======================

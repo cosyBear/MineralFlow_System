@@ -1,22 +1,40 @@
+-- Set the seller_id to a known UUID
+SET @seller_id = UNHEX(REPLACE('8d50dbe3-68a4-4afc-a242-13818629ac9d', '-', ''));
 
--- Insert into warehouse_entity with corresponding UUIDs
-INSERT INTO warehouse_entity (sellerid, events_window_id, material_type, warehouse_number)
+-- Insert into WarehouseEventsWindowEntity with unique warehouse_events_window_id
+INSERT INTO warehouse_events_window_entity (warehouse_events_window_id, warehouse_id)
 VALUES
-    ('4ecd40db-49a0-4912-bdc0-0c98a3749c25', '82815650-6231-4c7b-ab03-e798d28e1a8e', 'CEMENT', 'WH001'),
-    ('3e9100a3-4098-4fc8-9ace-da4d1142e970', '82815650-6231-4c7b-ab03-e798d28e1a8e', 'GYPSUM', 'WH002'),
-    ('3e9100a3-4098-4fc8-9ace-da4d1142e970', '82815650-6231-4c7b-ab03-e798d28e1a8e', 'IRON', 'WH003'),
-    ('3e9100a3-4098-4fc8-9ace-da4d1142e970', '82815650-6231-4c7b-ab03-e798d28e1a8e', 'PETCOKE', 'WH004'),
-    ('3e9100a3-4098-4fc8-9ace-da4d1142e970', '82815650-6231-4c7b-ab03-e798d28e1a8e', 'SLAG', 'WH005');
--- Insert into warehouse_event_entity with events for the window
-INSERT INTO warehouse_event_entity (amount, time, events_window_id, ware_house_event_id, weigh_bridge_ticket_id, type)
-VALUES
-    (1000, NOW(), '82815650-6231-4c7b-ab03-e798d28e1a8e', 'a85e62b0-dad3-41c8-9c9d-370431948818', 'f40c633f-e2e8-4456-860c-12e29cdc47a7', 'DELIVER'),
-    (500, NOW(), '82815650-6231-4c7b-ab03-e798d28e1a8e', '084c4f32-fa43-42e2-bfd9-ea091eb202ef', 'f40c633f-e2e8-4456-860c-12e29cdc47a7', 'SHIP'),
-    (2000, NOW(), '82815650-6231-4c7b-ab03-e798d28e1a8e', 'd3b7bcd9-5967-4338-b7ed-56747efedc24', 'a52d1ebd-1e83-4b68-8ae6-74a92dbb90f0', 'DELIVER');
+    (UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), UNHEX(REPLACE('f8a9f9c0-45e2-4f32-809f-2d4a73c4083b', '-', ''))), -- For IRON
+    (UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), UNHEX(REPLACE('c0e9a5a3-bbfd-4e73-bef7-9a2a8bce394b', '-', ''))), -- For GYPSUM
+    (UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', '')), UNHEX(REPLACE('aedcb3a5-f2a6-4ed8-8090-0d92c3d6955c', '-', ''))), -- For CEMENT
+    (UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', '')), UNHEX(REPLACE('acdd75b0-0712-4ef1-870f-67a8d0d7bc18', '-', ''))), -- For PETCOKE
+    (UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')), UNHEX(REPLACE('b03f68bb-6606-482d-8007-dc7f94acb1e5', '-', ''))); -- For SLAG
 
-
--- Insert into warehouse_events_window_entity
-INSERT INTO warehouse_events_window_entity  (warehouse_event_window_id, warehouse_id)
+-- Insert into WarehouseEventEntity for each warehouse
+INSERT INTO warehouse_event_entity (event_id, event_time, event_type, material_weight, weigh_bridge_ticket_id, warehouse_events_window_id)
 VALUES
-    ('82815650-6231-4c7b-ab03-e798d28e1a8e', '7e67c74b-7eed-40c6-b49d-c24c9354d20d');
--- Insert into warehouse_entity with corresponding UUIDs
+    -- Events for IRON warehouse
+    (UNHEX(REPLACE('f1a7b8c9-11d2-1112-a7b8-1234567890ff', '-', '')), '2024-10-01 12:00:00', 'DELIVER', 1000.50, UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', ''))),
+    (UNHEX(REPLACE('f2b9c8d7-22d3-2223-b9c8-1234567890aa', '-', '')), '2024-10-02 14:30:00', 'DELIVER', 500.00, UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', ''))),
+
+    -- Events for GYPSUM warehouse
+    (UNHEX(REPLACE('f3c1d2e3-33d4-3334-c1d2-1234567890bb', '-', '')), '2024-10-01 12:30:00', 'DELIVER', 1200.00, UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', ''))),
+    (UNHEX(REPLACE('f4d5e4f4-44d5-4445-d5e4-1234567890cc', '-', '')), '2024-10-03 16:00:00', 'DELIVER', 600.00, UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', ''))),
+
+    -- Events for CEMENT warehouse
+    (UNHEX(REPLACE('f5e6f5a7-55d6-5556-e6f5-1234567890dd', '-', '')), '2024-10-04 09:30:00', 'DELIVER', 1500.00, UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', '')), UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', ''))),
+
+    -- Events for PETCOKE warehouse
+    (UNHEX(REPLACE('f6f5a7b6-66d7-6667-f5a7-1234567890ee', '-', '')), '2024-10-05 10:00:00', 'DELIVER', 900.00, UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', '')), UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', ''))),
+
+    -- Events for SLAG warehouse
+    (UNHEX(REPLACE('f7b9c8d7-77d8-7778-b9c8-1234567890ff', '-', '')), '2024-10-06 11:00:00', 'DELIVER', 800.00, UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')), UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')));
+
+-- Insert into WarehouseEntity
+INSERT INTO warehouse_entity (warehouse_id, seller_id, material_type, warehouse_events_window_id)
+VALUES
+    (UNHEX(REPLACE('f8a9f9c0-45e2-4f32-809f-2d4a73c4083b', '-', '')), @seller_id, 'IRON',  UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', ''))), -- IRON
+    (UNHEX(REPLACE('c0e9a5a3-bbfd-4e73-bef7-9a2a8bce394b', '-', '')), @seller_id, 'GYPSUM',  UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', ''))), -- GYPSUM
+    (UNHEX(REPLACE('aedcb3a5-f2a6-4ed8-8090-0d92c3d6955c', '-', '')), @seller_id, 'CEMENT',  UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', ''))), -- CEMENT
+    (UNHEX(REPLACE('acdd75b0-0712-4ef1-870f-67a8d0d7bc18', '-', '')), @seller_id, 'PETCOKE',  UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', ''))), -- PETCOKE
+    (UNHEX(REPLACE('b03f68bb-6606-482d-8007-dc7f94acb1e5', '-', '')), @seller_id, 'SLAG',  UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', ''))); -- SLAG

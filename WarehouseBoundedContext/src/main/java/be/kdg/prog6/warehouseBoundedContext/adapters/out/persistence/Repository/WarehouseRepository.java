@@ -42,7 +42,7 @@ public interface WarehouseRepository extends JpaRepository<WarehouseEntity, UUID
 
 
         @Query("SELECT w FROM WarehouseEntity w LEFT JOIN FETCH w.warehouseEventsWindow e LEFT JOIN FETCH e.warehouseEventList WHERE w.sellerId = :sellerId AND w.materialType = :materialType")
-        WarehouseEntity findBySellerIdAndMaterialType(@Param("sellerId") UUID sellerId, @Param("materialType") String materialType);
+        WarehouseEntity findBySellerIdAndMaterialType(@Param("sellerId") UUID sellerId, @Param("materialType") MaterialType materialType);
 
 
 

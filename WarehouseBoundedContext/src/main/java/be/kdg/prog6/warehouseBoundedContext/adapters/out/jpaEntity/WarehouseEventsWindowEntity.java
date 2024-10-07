@@ -15,8 +15,7 @@ public class WarehouseEventsWindowEntity {
 
     private UUID warehouseId;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JoinColumn(name = "warehouse_events_window_id")
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "warehouseEventsWindow")
     private List<WarehouseEventEntity> warehouseEventList;
 
     public WarehouseEventsWindowEntity() {

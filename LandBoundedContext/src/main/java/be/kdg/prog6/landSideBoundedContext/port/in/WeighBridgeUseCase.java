@@ -13,7 +13,6 @@ public interface WeighBridgeUseCase {
 
     void weighTruckOut(weighTruckOutCommand command);
 
-    void updateWarehouse(UpdateWarehouseCommand updateWarehouseCommand);
 
     public WarehouseStatus assignAWarehouseTruck(SellerId sellerId, MaterialType materialType);
 

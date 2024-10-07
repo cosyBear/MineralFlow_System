@@ -10,7 +10,6 @@ spring:
     username: myuser
     password: mypassword
     restart: always
-
   config:
     additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
   datasource:

@@ -1,4 +1,5 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
+import be.kdg.prog6.warehouseBoundedContext.domain.MaterialType;
 import jakarta.persistence.*;
 import java.util.UUID;
 
@@ -13,7 +14,9 @@ public class WarehouseEntity {
 
     private UUID sellerId;
 
-    private String materialType;
+
+    @Enumerated(EnumType.STRING)
+    private MaterialType materialType;
 
     // One Warehouse has one WarehouseEventsWindowEntity
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
@@ -23,7 +26,7 @@ public class WarehouseEntity {
     public WarehouseEntity() {
     }
 
-    public WarehouseEntity(UUID warehouseId, UUID sellerId, String materialType, WarehouseEventsWindowEntity warehouseEventsWindow) {
+    public WarehouseEntity(UUID warehouseId, UUID sellerId, MaterialType materialType, WarehouseEventsWindowEntity warehouseEventsWindow) {
         this.warehouseId = warehouseId;
         this.sellerId = sellerId;
         this.materialType = materialType;
@@ -46,11 +49,11 @@ public class WarehouseEntity {
         this.sellerId = sellerId;
     }
 
-    public String getMaterialType() {
+    public MaterialType getMaterialType() {
         return materialType;
     }
 
-    public void setMaterialType(String materialType) {
+    public void setMaterialType(MaterialType materialType) {
         this.materialType = materialType;
     }
 

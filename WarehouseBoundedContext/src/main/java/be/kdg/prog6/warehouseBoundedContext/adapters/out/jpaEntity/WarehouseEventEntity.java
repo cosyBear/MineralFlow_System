@@ -1,4 +1,5 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
+import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEventsWindow;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -18,17 +19,24 @@ public class WarehouseEventEntity {
 
     private UUID weighBridgeTicketId;
 
+
+    @ManyToOne
+    @JoinColumn(name = "warehouse_events_window_id", nullable = false)
+    private WarehouseEventsWindowEntity warehouseEventsWindow;
+
     public WarehouseEventEntity() {
 
     }
 
-    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight,  UUID weighBridgeTicketId) {
+    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight, UUID weighBridgeTicketId, WarehouseEventsWindowEntity warehouseEventsWindow) {
         this.eventId = eventId;
         this.eventTime = eventTime;
         this.eventType = eventType;
         this.materialWeight = materialWeight;
         this.weighBridgeTicketId = weighBridgeTicketId;
+        this.warehouseEventsWindow = warehouseEventsWindow; // Set the relationship
     }
+
 
     public UUID getEventId() {
         return eventId;
@@ -62,7 +70,13 @@ public class WarehouseEventEntity {
         this.materialWeight = materialWeight;
     }
 
+    public WarehouseEventsWindowEntity getWarehouseEventsWindow() {
+        return warehouseEventsWindow;
+    }
 
+    public void setWarehouseEventsWindow(WarehouseEventsWindowEntity warehouseEventsWindow) {
+        this.warehouseEventsWindow = warehouseEventsWindow;
+    }
 
     public UUID getWeighBridgeTicketId() {
         return weighBridgeTicketId;

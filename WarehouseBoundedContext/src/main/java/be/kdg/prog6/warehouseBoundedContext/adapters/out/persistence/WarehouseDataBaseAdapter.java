@@ -52,11 +52,12 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     }
 
     @Override
+    @Transactional
     public Warehouse findBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
         UUID sellerUuid = sellerId.sellerID();
 
         // Fetch the WarehouseEntity from the repository
-        WarehouseEntity warehouseEntity = warehouseRepository.findBySellerIdAndMaterialType(sellerUuid, materialType.toString());
+        WarehouseEntity warehouseEntity = warehouseRepository.findBySellerIdAndMaterialType(sellerUuid, materialType);
 
         if (warehouseEntity == null) {
             return null; // Handle the case when no entity is found
@@ -65,7 +66,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
         // Map WarehouseEntity to Warehouse domain object
         WarehouseId warehouseId = new WarehouseId(warehouseEntity.getWarehouseId());
         SellerId domainSellerId = new SellerId(warehouseEntity.getSellerId());
-        MaterialType domainMaterialType = MaterialType.valueOf(warehouseEntity.getMaterialType());
+        MaterialType domainMaterialType = MaterialType.valueOf(warehouseEntity.getMaterialType().toString());
 
         // Instantiate the domain Warehouse object
         Warehouse warehouse = new Warehouse(warehouseId, domainSellerId, domainMaterialType);
@@ -104,7 +105,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
 
         // Set the fields from the domain model to the entity
         warehouseEntity.setWarehouseId(warehouse.getWarehouseNumber().getId());  // WarehouseId is mapped to a UUID
-        warehouseEntity.setMaterialType(warehouse.getMaterialType().toString());  // Convert MaterialType enum to String
+        warehouseEntity.setMaterialType(warehouse.getMaterialType());  // Convert MaterialType enum to String
         warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());  // Convert SellerId to UUID
 
 
@@ -119,7 +120,8 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
                         event.time(),  // Map the timestamp
                         event.type().toString(),  // Convert event type to string
                         event.materialTrueWeight(),  // Map the material weighInTime
-                        event.weighBridgeTicketId()  // Map the weighbridge ticket ID
+                        event.weighBridgeTicketId(),  // Map the weighbridge ticket ID
+                        eventsWindowEntity
                 ))
                 .collect(Collectors.toList());
 

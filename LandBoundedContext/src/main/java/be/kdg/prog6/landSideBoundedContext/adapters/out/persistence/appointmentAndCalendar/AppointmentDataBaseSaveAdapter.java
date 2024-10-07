@@ -1,6 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.persistence.appointmentAndCalendar;
 
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.AppointmentEntity;
+import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.MaterialTypeEntity;
 import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import org.apache.logging.log4j.LogManager;
@@ -33,8 +34,10 @@ public class AppointmentDataBaseSaveAdapter implements AppointmentSavePort  {
 
     @Override
     public void deleteAppointment(Appointment Appointment)  {
-            appointmentRepository.delete(modelMapper.map(Appointment, AppointmentEntity.class));
 
+        AppointmentEntity appointmentEntity = appointmentRepository.findBySellerIdAndMaterialType(Appointment.getSellerId().id() , MaterialTypeEntity.valueOf(Appointment.getMaterialType().toString()));
+
+        appointmentRepository.delete(appointmentEntity);
     }
 
 }

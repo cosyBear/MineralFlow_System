@@ -10,6 +10,7 @@ import be.kdg.prog6.landSideBoundedContext.port.out.*;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExist;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TruckIsNotAllowedToEnter;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TruckIsNotOnTime;
+import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,7 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
 
 
     @Override
+    @Transactional
     public void weighTruckIn(weighTruckInCommand command) {
 
         logger.info("check licensePlate of the truck ... ");
@@ -75,17 +77,23 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
 
         bridgeTicket.correctTicket(command.weighOutTime(), command.endWeight());
 
-        weighbridgeTicketSavePort.save(bridgeTicket);
 
         WeighOutEvent weighEvent = new WeighOutEvent(bridgeTicket.getWeighBridgeTicketId().id(), command.licensePlate().toString(), command.sellerId().id(), command.endWeight(), command.materialType(), command.weighOutTime(), WarehouseStatus.valueOf(command.warehouseStatus()));
 
         eventPublisher.publishTruckWeighedOut(weighEvent);
 
-        appointmentDone(command);
+        // 12
+        DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(bridgeTicket.getStartTime().toLocalDate());
+
+        Appointment appointment = calendar.appointmentDone(command.sellerId(), command.licensePlate());
+
+        appointmentSavePort.deleteAppointment(appointment);
+        weighbridgeTicketSavePort.save(bridgeTicket);
 
     }
 
     @Override
+    @Transactional
     public WarehouseStatus assignAWarehouseTruck(SellerId sellerId, MaterialType materialType) {
         List<WareHouse> sellerWarehouseList = warehouseLoadPort.findAllBySellerId(sellerId.id());
         for (WareHouse warehouse : sellerWarehouseList) {
@@ -97,45 +105,13 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
             }
         }
         if (sellerWarehouseList.size() < 5) {
-            return WarehouseStatus.CAN_CREATE;
+            return WarehouseStatus.WAREHOUSE_NOT_FOUND;
         }
         throw new TruckIsNotAllowedToEnter(String.format("The truck is not allowed to enter. The seller has reached the maximum number of warehouses (%d) and cannot store more material of type %s.", sellerWarehouseList.size(), materialType));
     }
 
 
-    private void appointmentDone(weighTruckOutCommand command) {
-        DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(command.weighOutTime().toLocalDate());
-        calendar.getAppointments().forEach(appointment -> {
-            if (appointment.getLicensePlate() == command.licensePlate() && appointment.getSellerId() == command.sellerId()) {
-                appointmentSavePort.deleteAppointment(appointment);
-            }
-        });
 
-    }
-
-    @Override
-    public void updateWarehouse(UpdateWarehouseCommand updateWarehouseCommand) {
-
-        // Try to find the warehouse by ID
-        Optional<WareHouse> existingWarehouse = warehouseLoadPort.findById(updateWarehouseCommand.warehouseId().warehouseId());
-
-        // If the warehouse is not found, create a new one
-        if (existingWarehouse.isEmpty()) {
-            WareHouse wareHouse = new WareHouse(
-                    updateWarehouseCommand.warehouseId(),
-                    updateWarehouseCommand.sellerId(),
-                    updateWarehouseCommand.materialType(),
-                    updateWarehouseCommand.materialAmountInWarehouse()
-            );
-            warehouseSavePort.Save(wareHouse);
-        } else {
-            // If the warehouse is found, update it
-            WareHouse wareHouse = existingWarehouse.get();
-            wareHouse.updateWarehouseMaterialAmount(updateWarehouseCommand.materialAmountInWarehouse());
-            System.out.println(wareHouse.getAmountOfMaterial());
-            warehouseSavePort.Save(wareHouse);
-        }
-    }
 
 
 }

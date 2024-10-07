@@ -1,6 +1,8 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
+import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
+import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExist;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TimeSlotFullException;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WarehouseCannotStoreMaterial;
 import org.apache.logging.log4j.LogManager;
@@ -22,6 +24,16 @@ public class DayCalendar {
     public DayCalendar(LocalDate date, List<Appointment> appointments) {
         this.date = date;
         this.appointments = appointments;
+    }
+
+    public Appointment appointmentDone(SellerId sellerId , LicensePlate licensePlate) {
+        System.out.println(sellerId);
+        System.out.println(licensePlate);
+        Optional<Appointment> matchingAppointment = appointments.stream()
+                .filter(appointment -> appointment.getLicensePlate().equals(licensePlate) && appointment.getSellerId().equals(sellerId))
+                .findFirst();
+
+        return matchingAppointment.orElseThrow(() -> new AppointmentDontExist("the appointment dont exit "));
     }
 
     public DayCalendar() {
@@ -81,8 +93,13 @@ public class DayCalendar {
 
     public Optional<Appointment> isTruckOnTime(LocalDateTime time) {
         for (Appointment appointment : appointments) {
-            if (appointment.getTime().toLocalDate().equals(time.toLocalDate()) && appointment.getTime().getHour() == time.getHour()) {
-                logger.info("truck is on time ");
+
+            LocalDateTime scheduledTime = appointment.getTime();  // Scheduled time of the appointment
+
+            LocalDateTime windowEndTime = scheduledTime.plusHours(1);
+
+            if (!time.isBefore(scheduledTime) && time.isBefore(windowEndTime)) {
+                logger.info("Truck is on time.");
                 return Optional.of(appointment);
             }
         }

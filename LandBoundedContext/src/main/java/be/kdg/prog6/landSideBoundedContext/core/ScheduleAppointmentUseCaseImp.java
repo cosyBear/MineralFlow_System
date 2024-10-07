@@ -8,6 +8,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.landSideBoundedContext.domain.DayCalendar;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TimeSlotFullException;
+import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
@@ -26,6 +27,7 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
     }
 
     @Override
+    @Transactional
     public Appointment scheduleAppointment(ScheduleAppointmentCommand command) {
         try {
             WareHouse wareHouse = warehouseLoadPort.findBySellerIdAAndMaterialType(command.sellerId().id() , command.materialType());

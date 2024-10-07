@@ -45,7 +45,7 @@ public class WarehouseEventsWindow {
                 EventType.DELIVER,
                 truckOutCommand.getMaterialTrueWeight(),
                 truckOutCommand.weighBridgeTicketId(),
-                this.warehouseEventsWindowId
+                this.getWarehouseEventsWindowId()
         );
         addEvent(newEvent);
     }

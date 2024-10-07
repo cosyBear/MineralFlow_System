@@ -1,7 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
 public enum WarehouseStatus {
-    CAN_CREATE,             // The seller can create a new warehouse
+    WAREHOUSE_NOT_FOUND,             // The seller can create a new warehouse
     ALREADY_EXISTS_NOT_FULL,// The seller has a warehouse for the material type, and it's not full (below 80%)
     FULL,                   // The warehouse is full (80% - 100%)
     OVERFLOW,               // The warehouse is at overflow capacity (100% - 110%)
