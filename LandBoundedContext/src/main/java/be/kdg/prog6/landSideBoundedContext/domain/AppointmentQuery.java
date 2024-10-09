@@ -1,36 +1,29 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
+
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
-public class Appointment {
-    private UUID appointmentId;
+public class AppointmentQuery {
+
     private AppointmentStatus AppointmentStatus;
-    private MaterialType materialType;
-    private LocalDateTime time; // replace withTime
-    private SellerId sellerId;
-    private LicensePlate licensePlate;
-    private double payload;
-
-    public Appointment(){
+    private  MaterialType materialType;
+    private  LocalDateTime time;
+    private  SellerId sellerId;
+    private  LicensePlate licensePlate;
+    private  double payload;
+    public AppointmentQuery(){
 
     }
-    public Appointment(MaterialType materialType, LocalDateTime date, SellerId sellerId, LicensePlate licensePlate , double payload , AppointmentStatus AppointmentStatus) {
+
+    public AppointmentQuery(AppointmentStatus AppointmentStatus, MaterialType materialType, LocalDateTime time, SellerId sellerId, LicensePlate licensePlate, double payload) {
+        this.AppointmentStatus = AppointmentStatus;
         this.materialType = materialType;
-        this.time = date;
+        this.time = time;
         this.sellerId = sellerId;
         this.licensePlate = licensePlate;
         this.payload = payload;
-        this.AppointmentStatus = AppointmentStatus;
     }
-
-
-    public Appointment(UUID appointmentId, AppointmentStatus AppointmentStatus, MaterialType materialType, LocalDateTime time, SellerId sellerId, LicensePlate licensePlate, double payload) {
-        this(materialType, time, sellerId, licensePlate, payload, AppointmentStatus);  // Constructor chaining
-        this.appointmentId = appointmentId;  // Additional field initialization
-    }
-
 
     public AppointmentStatus getAppointmentStatus() {
         return AppointmentStatus;
@@ -39,15 +32,6 @@ public class Appointment {
     public void setAppointmentStatus(AppointmentStatus appointmentStatus) {
         this.AppointmentStatus = appointmentStatus;
     }
-
-    public UUID getAppointmentId() {
-        return appointmentId;
-    }
-
-    public void setAppointmentId(UUID appointmentId) {
-        this.appointmentId = appointmentId;
-    }
-
 
     public MaterialType getMaterialType() {
         return materialType;
@@ -91,11 +75,12 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "Appointment{" +
-                "materialType=" + materialType +
-                ", time=" + time +
-                ", sellerId=" + sellerId +
-                ", licensePlate=" + licensePlate +
-                '}';
+        return "AppointmentQuery[" +
+                "onTime=" + AppointmentStatus + ", " +
+                "materialType=" + materialType + ", " +
+                "time=" + time + ", " +
+                "sellerId=" + sellerId + ", " +
+                "licensePlate=" + licensePlate + ", " +
+                "payload=" + payload + ']';
     }
 }

@@ -29,9 +29,22 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
     private final WeighbridgeTicketSavePort weighbridgeTicketSavePort;
     private final WarehouseLoadPort warehouseLoadPort;
     private final WarehouseSavePort warehouseSavePort;
+    private CalendarSavePort calendarSavePort;
 
 
-    public weighBridgeUseCaseImp(WeighBridgeEventPublisher eventPublisher, CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, WeighbridgeTicketLoadPort weighbridgeTicketLoadPort, WeighbridgeTicketSavePort weighbridgeTicketSavePort, WarehouseLoadPort warehouseLoadPort, WarehouseSavePort warehouseSavePort) {
+    /** ((((((((((((ask the TEACHER about this))))))))))))
+     * ● As a warehouse manager, I want to know how many trucks are on site so that in case of ((((((NOTE)))))) FOR THIS maybe in the UI display  info and the AMOUNT OF TRUCKS BY COUNTING THE APPOINTMENTS
+     *ask the teacher for this you solved these two one with one look at the AppointmentStatus
+     *op what i mean by solving two with one code. is if the Appointment is on Site meaning its on time.
+     * i check this in the truck in method.
+     *  this solve two user storyes ?
+     *  As a warehouse manager, I want to check if trucks arrive within the scheduled arrival
+     *   windows. Includes UI
+     * ● As a warehouse manager, I want to know how many trucks are on site so that in case of
+     *    emergency I know if there is anyone on site or not. Includes UI
+     */
+
+    public weighBridgeUseCaseImp(WeighBridgeEventPublisher eventPublisher, CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, WeighbridgeTicketLoadPort weighbridgeTicketLoadPort, WeighbridgeTicketSavePort weighbridgeTicketSavePort, WarehouseLoadPort warehouseLoadPort, WarehouseSavePort warehouseSavePort , CalendarSavePort calendarSavePort) {
         this.eventPublisher = eventPublisher;
         this.calendarLoadPort = calendarLoadPort;
         this.weighbridgeTicketLoadPort = weighbridgeTicketLoadPort;
@@ -39,6 +52,7 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
         this.warehouseLoadPort = warehouseLoadPort;
         this.warehouseSavePort = warehouseSavePort;
         this.appointmentSavePort = appointmentSavePort;
+        this.calendarSavePort = calendarSavePort;
     }
 
 
@@ -63,6 +77,7 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
 
                 weighbridgeTicketSavePort.save(weighbridgeTicket);
                 eventPublisher.publishTruckWeightedIn(weighInEvent);
+                calendarSavePort.saveDayCalendar(dayCalendar);
             } else throw new TruckIsNotOnTime();
         } catch (NoSuchElementException ex) {
             throw new AppointmentDontExist("Appointment not found you may not Enter ");
@@ -82,7 +97,6 @@ public class weighBridgeUseCaseImp implements WeighBridgeUseCase {
 
         eventPublisher.publishTruckWeighedOut(weighEvent);
 
-        // 12
         DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(bridgeTicket.getStartTime().toLocalDate());
 
         Appointment appointment = calendar.appointmentDone(command.sellerId(), command.licensePlate());

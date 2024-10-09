@@ -4,13 +4,10 @@ package be.kdg.prog6.landSideBoundedContext.util.config;
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.WareHouseEntity;
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.WeighbridgeTicketEntity;
-import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
+import be.kdg.prog6.landSideBoundedContext.domain.*;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
-import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighbridgeTicket;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -140,23 +137,26 @@ public class ModelMapperConfig {
         modelMapper.addMappings(new PropertyMap<Appointment, AppointmentEntity>() {
             @Override
             protected void configure() {
-                skip(destination.getId());
+                map(source.getAppointmentId(), destination.getId());
                 map(source.getMaterialType(), destination.getMaterialTypeEntity());
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
                 map(source.getTime(), destination.getTime());
                 map(source.getPayload() , destination.getPayload());
+                map(source.getAppointmentStatus() , destination.getAppointmentStatus());
             }
         });
 
         modelMapper.addMappings(new PropertyMap<AppointmentEntity, Appointment>() {
             @Override
             protected void configure() {
+                map(source.getId(), destination.getAppointmentId());
                 map(source.getMaterialTypeEntity(), destination.getMaterialType());
                 map(source.getTime(), destination.getTime());
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
                 map(source.getPayload() , destination.getPayload());
+                map(source.getAppointmentStatus() , destination.getAppointmentStatus());
             }
         });
 
@@ -180,6 +180,20 @@ public class ModelMapperConfig {
                 map(source.getAmountOfMaterial(), destination.getAmountOfMaterial());
             }
         });
+
+
+        modelMapper.addMappings(new PropertyMap<Appointment, AppointmentQuery>() {
+            @Override
+            protected void configure() {
+                map(source.getAppointmentStatus(), destination.getAppointmentStatus());
+                map(source.getMaterialType(), destination.getMaterialType());
+                map(source.getTime(), destination.getTime());
+                map(source.getSellerId(), destination.getSellerId());
+                map(source.getLicensePlate(), destination.getLicensePlate());
+                map(source.getPayload(), destination.getPayload());
+            }
+        });
+
 
 
 

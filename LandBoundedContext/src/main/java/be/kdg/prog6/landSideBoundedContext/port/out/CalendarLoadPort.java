@@ -8,6 +8,7 @@ public interface CalendarLoadPort {
 
      DayCalendar loadAppointmentsByDate(LocalDate date);
 
+     public DayCalendar fetchTrucksOnSite(LocalDate time);
 
 
 

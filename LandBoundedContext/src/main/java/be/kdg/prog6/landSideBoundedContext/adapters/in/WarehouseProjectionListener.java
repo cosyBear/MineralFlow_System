@@ -7,19 +7,18 @@ import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.domain.UpdateWarehouseCommand;
 import be.kdg.prog6.landSideBoundedContext.dto.WarehouseDto;
 import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseProjectionUseCase;
-import be.kdg.prog6.landSideBoundedContext.port.in.WeighBridgeUseCase;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
 @Component
-public class WarehouseListener {
+public class WarehouseProjectionListener {
 
 
     private final WarehouseProjectionUseCase warehouseProjectionUseCase;
 
-    public WarehouseListener(WarehouseProjectionUseCase warehouseProjectionUseCase) {
+    public WarehouseProjectionListener(WarehouseProjectionUseCase warehouseProjectionUseCase) {
         this.warehouseProjectionUseCase = warehouseProjectionUseCase;
     }
 

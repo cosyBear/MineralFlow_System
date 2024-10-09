@@ -20,7 +20,6 @@ public class WarehouseProjectionUseCaseImp implements WarehouseProjectionUseCase
         this.warehouseSavePort = warehouseSavePort;
     }
 
-    // create other use case called warehouse projection  Usecase
     @Override
     @Transactional
     public void updateWarehouse(UpdateWarehouseCommand updateWarehouseCommand) {

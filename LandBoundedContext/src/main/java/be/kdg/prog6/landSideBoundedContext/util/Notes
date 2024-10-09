@@ -37,3 +37,10 @@ you only need a controller and UseCase make new ones. that returns you data like
 what i mean you return a list of all the trucks that are in the warehouse that did not leave yet.
 what kind of data?
 =======================
+
+so what i need to do for this use story
+● As a buyer, I want to send a PO to KDG to make sure they can expect a shipment soon.
+is just make a api that tha recive data and create a PurchaseOrder and save it in the database.
+
+
+so i PurchaseOrder is used when the seller try to store Mat so you make one when you want to Deliver to the warehouse . and also its used when the Ship try to like take matriles from the warehouse we look at the PurchaseOrder to see what can we give and also can we give it.

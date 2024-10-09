@@ -65,6 +65,13 @@ public class WareHouse {
         this.amountOfMaterial = amountOfMaterial;
     }
 
+
+    public boolean canStoreMaterial(double amount) {
+        // Check if the current amount of material plus the new amount does not exceed the maximum capacity
+        return this.amountOfMaterial + amount <= MAX_CAPACITY;
+    }
+
+
     // Method to check if the warehouse is full
     public boolean isFull() {
         return this.amountOfMaterial >= FULL_THRESHOLD;  // Warehouse is considered full at 80% capacity

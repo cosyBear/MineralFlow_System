@@ -26,6 +26,7 @@ public class WeighbridgeTicketEntity {
 
     private LocalDateTime endTime;
 
+    @Enumerated(EnumType.STRING)
     private MaterialType materialType;
 
 

@@ -4,7 +4,6 @@ import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExist;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TimeSlotFullException;
-import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WarehouseCannotStoreMaterial;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,7 +25,23 @@ public class DayCalendar {
         this.appointments = appointments;
     }
 
-    public Appointment appointmentDone(SellerId sellerId , LicensePlate licensePlate) {
+
+
+    public DayCalendar() {
+
+    }
+
+
+
+    public Appointment getAppointmentByDate(LocalDateTime dateTime) {
+        return appointments.stream()
+                .filter(appointment -> appointment.getTime().isEqual(dateTime))
+                .findFirst()
+                .orElseThrow(() -> new AppointmentDontExist("The appointment doesn't exist."));
+    }
+
+
+    public Appointment appointmentDone(SellerId sellerId, LicensePlate licensePlate) {
         System.out.println(sellerId);
         System.out.println(licensePlate);
         Optional<Appointment> matchingAppointment = appointments.stream()
@@ -35,27 +50,20 @@ public class DayCalendar {
 
         return matchingAppointment.orElseThrow(() -> new AppointmentDontExist("the appointment dont exit "));
     }
-
-    public DayCalendar() {
-
-    }
-
-    public Appointment scheduleAppointment(ScheduleAppointmentCommand requestDTO , double wareHouseCapacity)  {
+    public Appointment scheduleAppointment(ScheduleAppointmentCommand requestDTO) {
 
 
-        if(wareHouseCapacity >= requestDTO.payload())
-        {
-            Appointment appointment = new Appointment(requestDTO.materialType(),
-                    requestDTO.time(), requestDTO.sellerId(), requestDTO.licensePlate()
-                    , requestDTO.payload());
-            if (addAppointment(appointment)) {
-                return appointment;
-            } else {
-                throw new TimeSlotFullException("Failed to add appointment. Time slot may be full.");
-            }
-        }else {
-            throw new WarehouseCannotStoreMaterial("Warehouse does not have enough capacity to store the material.");
+        Appointment appointment = new Appointment(requestDTO.materialType(),
+                requestDTO.time(), requestDTO.sellerId(), requestDTO.licensePlate()
+                , requestDTO.payload(), AppointmentStatus.AWAITING_ARRIVAL);
+
+
+        if (addAppointment(appointment)) {
+            return appointment;
+        } else {
+            throw new TimeSlotFullException("Failed to add appointment. Time slot may be full.");
         }
+
     }
 
     public boolean addAppointment(Appointment appointment) {
@@ -68,7 +76,7 @@ public class DayCalendar {
                             existingAppointment.getTime().toLocalDate().equals(appointment.getTime().toLocalDate()) &&
                                     existingAppointment.getTime().getHour() == appointment.getTime().getHour())
                     .count();
-            if (count < 40 ) {
+            if (count < 40) {
                 appointments.add(appointment);
                 return true;
             } else {
@@ -78,15 +86,13 @@ public class DayCalendar {
     }
 
 
-
-    public Boolean allowTruckToEnter(LicensePlate licensePlate , LocalDateTime dateAndTime){
+    public Boolean allowTruckToEnter(LicensePlate licensePlate, LocalDateTime dateAndTime) {
 
         Optional<Appointment> appointment = isTruckOnTime(dateAndTime);
 
         if (appointment.isPresent() && passGate(licensePlate)) {
-
             return true;
-        }else
+        } else
             return false;
 
     }
@@ -94,14 +100,16 @@ public class DayCalendar {
     public Optional<Appointment> isTruckOnTime(LocalDateTime time) {
         for (Appointment appointment : appointments) {
 
-            LocalDateTime scheduledTime = appointment.getTime();  // Scheduled time of the appointment
+            LocalDateTime scheduledTime = appointment.getTime();
 
             LocalDateTime windowEndTime = scheduledTime.plusHours(1);
 
             if (!time.isBefore(scheduledTime) && time.isBefore(windowEndTime)) {
                 logger.info("Truck is on time.");
+                appointment.setAppointmentStatus(AppointmentStatus.ON_SITE);
                 return Optional.of(appointment);
-            }
+            } else
+                appointment.setAppointmentStatus(AppointmentStatus.LATE);
         }
         return Optional.empty();
     }

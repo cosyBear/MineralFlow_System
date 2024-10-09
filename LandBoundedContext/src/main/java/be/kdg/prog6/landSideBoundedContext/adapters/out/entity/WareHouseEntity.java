@@ -2,9 +2,7 @@ package be.kdg.prog6.landSideBoundedContext.adapters.out.entity;
 
 
 import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
@@ -17,6 +15,7 @@ public class WareHouseEntity {
     private UUID warehouseId;
     private UUID sellerId;
     private double amountOfMaterial;
+    @Enumerated(EnumType.STRING)
     private MaterialType materialType;
 
 

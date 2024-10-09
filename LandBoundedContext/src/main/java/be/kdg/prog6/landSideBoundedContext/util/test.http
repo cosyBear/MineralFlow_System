@@ -1,12 +1,18 @@
+
+GET http://localhost:8091/api/warehousemanager/trucks/onSite?date=2024-09-23
+Content-Type: application/json
+###
+
+
 POST http://localhost:8091/api/appointments
 Content-Type: application/json
 
 {
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
   "licensePlate": "ABC1234",
-  "materialType": "IRON",
-  "time": "2024-09-23T11:00:00",
-  "payload": 500
+  "materialType": "PETCOKE",
+  "time": "2024-10-23T11:00:00",
+  "payload": 100
 }
 
 ### Weigh-In Test Request
@@ -15,11 +21,11 @@ POST http://localhost:8091/api/weighbridge/trucks/weighIn
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC1001",
-  "startWeight": 300.0,
-  "materialType": "IRON",
+  "licensePlate": "ABC1234",
+  "startWeight": 100.0,
+  "materialType": "PETCOKE",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
-  "weighInTime": "2024-09-23T11:00:00"
+  "weighInTime": "2024-10-23T11:00:00"
 }
 
 ###
@@ -27,13 +33,13 @@ POST http://localhost:8091/api/weighbridge/trucks/weighOut
 Content-Type: application/json
 
 {
-  "licensePlate": "ABC1001",
+  "licensePlate": "ABC1234",
   "endWeight": 33.0,
-  "materialType": "IRON",
+  "materialType": "PETCOKE",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
-  "weighInTime": "2024-09-23T12:00:00",
+  "weighInTime": "2024-10-23T12:00:00",
   "warehouseStatus": "ALREADY_EXISTS_NOT_FULL",
-  "WeighBridgeTicketId": "caecc61e-50e0-4623-8a4e-5085e4a39bf6"
+  "WeighBridgeTicketId": "e8a1114f-a239-4d78-b319-0018824ac802"
 }
 
 

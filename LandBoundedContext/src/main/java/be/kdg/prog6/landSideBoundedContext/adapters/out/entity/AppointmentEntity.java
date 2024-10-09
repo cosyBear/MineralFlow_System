@@ -1,4 +1,5 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.entity;
+import be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -10,8 +11,8 @@ import java.util.UUID;
 )
 public class AppointmentEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID id;
 
     private String licensePlate;
 
@@ -23,22 +24,35 @@ public class AppointmentEntity {
     private LocalDateTime time; // replace withTime
     private double payload;
 
+    @Enumerated(EnumType.STRING)
+    private AppointmentStatus AppointmentStatus;
+
     public AppointmentEntity() {}
 
-    public AppointmentEntity(Integer id, String licensePlate, UUID sellerId, be.kdg.prog6.landSideBoundedContext.adapters.out.entity.MaterialTypeEntity materialTypeEntity, LocalDateTime date , double payload) {
-        this.id = id;
+
+    public AppointmentEntity(UUID id, String licensePlate, UUID sellerId, be.kdg.prog6.landSideBoundedContext.adapters.out.entity.MaterialTypeEntity materialTypeEntity, LocalDateTime time, double payload, AppointmentStatus AppointmentStatus) {
+        this.id= id;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
         MaterialTypeEntity = materialTypeEntity;
-        this.time = date;
+        this.time = time;
         this.payload = payload;
+        this.AppointmentStatus = AppointmentStatus;
     }
 
-    public Integer getId() {
+    public be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus getAppointmentStatus() {
+        return AppointmentStatus;
+    }
+
+    public void setAppointmentStatus(be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus appointmentStatus) {
+        AppointmentStatus = appointmentStatus;
+    }
+
+    public UUID getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
@@ -81,4 +95,5 @@ public class AppointmentEntity {
     public void setPayload(double payload) {
         this.payload = payload;
     }
+
 }
