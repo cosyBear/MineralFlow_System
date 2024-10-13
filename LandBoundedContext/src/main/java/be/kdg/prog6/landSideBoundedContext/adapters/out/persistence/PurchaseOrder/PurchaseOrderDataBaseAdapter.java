@@ -22,54 +22,49 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort , Pur
         this.purchaseOrderRepository = purchaseOrderRepository;
     }
 
-    public PurchaseOrder getPurchaseOrderById(int purchaseOrderId) {
+    public PurchaseOrder getPurchaseOrderById(UUID purchaseOrderId) {
         return purchaseOrderRepository.findById(purchaseOrderId)
                 .map(this::mapToDomain)
                 .orElse(null);
     }
 
     @Override
-    public PurchaseOrder loadById(int purchaseOrderId) {
+    public PurchaseOrder loadById(UUID purchaseOrderId) {
         return getPurchaseOrderById(purchaseOrderId);
     }
 
     @Override
-    public PurchaseOrder save(PurchaseOrder purchaseOrder) {
+    public PurchaseOrder createPurchaseOrder(PurchaseOrder purchaseOrder) {
         PurchaseOrderEntity entity = mapToEntity(purchaseOrder);
         PurchaseOrderEntity savedEntity = purchaseOrderRepository.save(entity);
         return mapToDomain(savedEntity);
     }
 
-    // Example method for loading PurchaseOrders by SellerId
     public List<PurchaseOrder> loadBySellerId(SellerId sellerId) {
-        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerId(sellerId); // Convert SellerId to UUID
+        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerId(sellerId.id()); // Convert SellerId to UUID
         return entities.stream().map(this::mapToDomain).toList(); // Map entities to domain objects
     }
 
-    // Example method for loading PurchaseOrders by MaterialType
     public List<PurchaseOrder> loadByMaterialType(MaterialType materialType) {
         List<PurchaseOrderEntity> entities = purchaseOrderRepository.findByMaterialType(materialType);
         return entities.stream().map(this::mapToDomain).toList();
     }
 
-    // Example method for loading PurchaseOrders by Customer Name
     public List<PurchaseOrder> loadByCustomerName(String customerName) {
         List<PurchaseOrderEntity> entities = purchaseOrderRepository.findByCustomerName(customerName);
         return entities.stream().map(this::mapToDomain).toList();
     }
 
-    // Example method for loading PurchaseOrders by SellerId and MaterialType
     public List<PurchaseOrder> loadBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
-        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerIdAndMaterialType(sellerId, materialType);
+        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerIdAndMaterialType(sellerId.id(), materialType);
         return entities.stream().map(this::mapToDomain).toList();
     }
 
-    // Mapping methods for converting between domain and entity
     private PurchaseOrder mapToDomain(PurchaseOrderEntity entity) {
         PurchaseOrder purchaseOrder = new PurchaseOrder();
         purchaseOrder.setOrderDate(entity.getOrderDate());
         purchaseOrder.setPurchaseOrderNumber(entity.getPurchaseOrderId());
-        purchaseOrder.setSellerId(new SellerId(entity.getSellerId())); // Convert from String to SellerId
+        purchaseOrder.setSellerId(new SellerId(entity.getSellerId()));
         purchaseOrder.setCustomerName(entity.getCustomerName());
         purchaseOrder.setMaterialType(entity.getMaterialType());
         purchaseOrder.setAmountOfMaterialInTons(entity.getAmountOfMaterialInTons());

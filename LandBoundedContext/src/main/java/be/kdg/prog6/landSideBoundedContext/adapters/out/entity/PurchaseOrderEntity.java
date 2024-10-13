@@ -10,12 +10,12 @@ import java.util.UUID;
 
 @Entity
 @Table(catalog = "app_db")
-
 public class PurchaseOrderEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer purchaseOrderId;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "purchase_order_id")
+    private UUID purchaseOrderId;
 
     private LocalDate orderDate;
 
@@ -31,7 +31,7 @@ public class PurchaseOrderEntity {
     public PurchaseOrderEntity() {
 
     }
-    public PurchaseOrderEntity(Integer purchaseOrderId, LocalDate orderDate, UUID sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
+    public PurchaseOrderEntity(UUID purchaseOrderId, LocalDate orderDate, UUID sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
         this.purchaseOrderId = purchaseOrderId;
         this.orderDate = orderDate;
         this.sellerId = sellerId;
@@ -40,11 +40,12 @@ public class PurchaseOrderEntity {
         this.amountOfMaterialInTons = amountOfMaterialInTons;
     }
 
-    public Integer getPurchaseOrderId() {
+
+    public UUID getPurchaseOrderId() {
         return purchaseOrderId;
     }
 
-    public void setPurchaseOrderId(Integer purchaseOrderId) {
+    public void setPurchaseOrderId(UUID purchaseOrderId) {
         this.purchaseOrderId = purchaseOrderId;
     }
 

@@ -1,6 +1,4 @@
-package be.kdg.prog6.landSideBoundedContext.dto;
-
-import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
+package be.kdg.prog6.landSideBoundedContext.domain;
 
 import java.time.LocalDateTime;
 

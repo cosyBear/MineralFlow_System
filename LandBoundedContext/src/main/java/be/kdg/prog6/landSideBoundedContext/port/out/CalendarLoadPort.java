@@ -11,5 +11,6 @@ public interface CalendarLoadPort {
      public DayCalendar fetchTrucksOnSite(LocalDate time);
 
 
+     public DayCalendar fetchTrucksOnTime(LocalDate time);
 
 }

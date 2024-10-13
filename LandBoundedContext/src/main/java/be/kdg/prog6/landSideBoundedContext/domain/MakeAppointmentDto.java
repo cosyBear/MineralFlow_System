@@ -1,6 +1,5 @@
-package be.kdg.prog6.landSideBoundedContext.dto;
+package be.kdg.prog6.landSideBoundedContext.domain;
 
-import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.format.annotation.DateTimeFormat;
 

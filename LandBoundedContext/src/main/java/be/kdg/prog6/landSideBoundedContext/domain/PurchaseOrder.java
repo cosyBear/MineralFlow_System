@@ -3,13 +3,14 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 
 import java.time.LocalDate;
+import java.util.UUID;
 
 
 public class PurchaseOrder {
     // the date is when the order was placed.
     private LocalDate orderDate;
 
-    private Integer purchaseOrderNumber;
+    private UUID purchaseOrderNumber;
 
     private SellerId sellerId;
 
@@ -19,6 +20,23 @@ public class PurchaseOrder {
 
     private double amountOfMaterialInTons;
 
+    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderNumber, SellerId sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
+        this.orderDate = orderDate;
+        this.purchaseOrderNumber = purchaseOrderNumber;
+        this.sellerId = sellerId;
+        CustomerName = customerName;
+        this.materialType = materialType;
+        this.amountOfMaterialInTons = amountOfMaterialInTons;
+    }
+
+    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
+        this.orderDate = orderDate;
+        this.sellerId = sellerId;
+        CustomerName = customerName;
+        this.materialType = materialType;
+        this.amountOfMaterialInTons = amountOfMaterialInTons;
+    }
+    public PurchaseOrder(){}
 
     public LocalDate getOrderDate() {
         return orderDate;
@@ -28,11 +46,11 @@ public class PurchaseOrder {
         this.orderDate = orderDate;
     }
 
-    public Integer getPurchaseOrderNumber() {
+    public UUID getPurchaseOrderNumber() {
         return purchaseOrderNumber;
     }
 
-    public void setPurchaseOrderNumber(Integer purchaseOrderNumber) {
+    public void setPurchaseOrderNumber(UUID purchaseOrderNumber) {
         this.purchaseOrderNumber = purchaseOrderNumber;
     }
 

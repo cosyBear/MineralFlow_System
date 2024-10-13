@@ -9,3 +9,4 @@ public enum WarehouseStatus {
     MAX_REACHED     ,        // The seller has reached the maximum number of warehouses (5 warehouses)
     DISREGARD
 }
+

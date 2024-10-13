@@ -5,11 +5,12 @@ import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrder;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface PurchaseOrderLoadPort {
 
     // Load a single PurchaseOrder by its ID
-    PurchaseOrder loadById(int purchaseOrderId);
+    PurchaseOrder loadById(UUID purchaseOrderId);
 
     // Load all PurchaseOrders by a SellerId
     List<PurchaseOrder> loadBySellerId(SellerId sellerId);

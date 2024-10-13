@@ -57,6 +57,18 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
                     return modelMapper.map(warehouseEntity, WareHouse.class);
                 });
     }
+
+    @Override
+    public List<WareHouse> warehouseOverview() {
+        List<WareHouse> wareHouseList = new ArrayList<>();
+
+        for(WareHouseEntity warehouseEntity : warehouseRepo.findAll()) {
+            wareHouseList.add(modelMapper.map(warehouseEntity, WareHouse.class));
+        }
+        return wareHouseList;
+
+    }
+
     @Override
     public void Save(WareHouse warehouse) {
         WareHouseEntity wareHouseEntity = modelMapper.map(warehouse, WareHouseEntity.class);

@@ -1,7 +1,5 @@
-package be.kdg.prog6.landSideBoundedContext.dto;
-import be.kdg.prog6.landSideBoundedContext.domain.*;
+package be.kdg.prog6.landSideBoundedContext.domain;
 //import be.kdg.prog6.landSideBoundedContext.util.LicensePlateDeserializer;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 import java.time.LocalDateTime;
 

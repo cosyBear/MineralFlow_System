@@ -17,5 +17,5 @@ public interface WarehouseLoadPort {
 
     Optional<WareHouse> findById(UUID id);
 
-
+    List<WareHouse> warehouseOverview();
 }

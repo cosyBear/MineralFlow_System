@@ -74,6 +74,12 @@ public class CalendarDataBaseAdapter implements CalendarLoadPort, CalendarSavePo
 
     }
 
+    @Override
+    public DayCalendar fetchTrucksOnTime(LocalDate time) {
+        List<AppointmentEntity> appointmentEntities = appointmentRepository.fetchTrucksOnTime(time);
+        return createCalendarFromEntities(appointmentEntities);
+    }
+
 }
 
 

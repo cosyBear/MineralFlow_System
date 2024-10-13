@@ -7,11 +7,12 @@ import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketSavePort;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WeighbridgeTicketNotFound;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
 
-@Service
+@Component
 public class WeighbridgeTicketDataBaseAdapter implements WeighbridgeTicketLoadPort, WeighbridgeTicketSavePort {
 
     private final WeighbridgeTicketEntityRepository weighbridgeTicketEntityRepository;

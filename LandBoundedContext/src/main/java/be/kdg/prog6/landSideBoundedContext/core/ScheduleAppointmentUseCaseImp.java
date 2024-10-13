@@ -1,7 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.core;
 
 import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
-import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
+import be.kdg.prog6.landSideBoundedContext.domain.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.AppointmentSavePort;

@@ -7,11 +7,12 @@ import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
+import java.util.UUID;
 
-public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderEntity, Integer> {
+public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderEntity, UUID> {
 
     // Find all PurchaseOrders by sellerId
-    List<PurchaseOrderEntity> findBySellerId(SellerId sellerId);
+    List<PurchaseOrderEntity> findBySellerId(UUID sellerId);
 
     // Find PurchaseOrders by material type
     List<PurchaseOrderEntity> findByMaterialType(MaterialType materialType);
@@ -20,7 +21,7 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderEnti
     List<PurchaseOrderEntity> findByCustomerName(String customerName);
 
     // Find PurchaseOrder by both sellerId and material type
-    List<PurchaseOrderEntity> findBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType);
+    List<PurchaseOrderEntity> findBySellerIdAndMaterialType(UUID sellerId, MaterialType materialType);
 
-    PurchaseOrderEntity getPurchaseOrderByPurchaseOrderId(Integer id);
+    PurchaseOrderEntity getPurchaseOrderByPurchaseOrderId(UUID id);
 }
