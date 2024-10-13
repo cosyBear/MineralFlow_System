@@ -1,5 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
+import domain.MaterialType;
+
 import java.time.LocalDate;
 import java.util.UUID;
 

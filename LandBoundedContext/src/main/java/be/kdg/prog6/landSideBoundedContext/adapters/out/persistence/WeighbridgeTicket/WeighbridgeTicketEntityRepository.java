@@ -1,7 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.persistence.WeighbridgeTicket;
 
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.WeighbridgeTicketEntity;
-import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
+import domain.MaterialType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

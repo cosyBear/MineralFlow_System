@@ -1,5 +1,7 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
+import domain.MaterialType;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;

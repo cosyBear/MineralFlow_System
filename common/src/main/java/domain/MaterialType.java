@@ -1,4 +1,4 @@
-package be.kdg.prog6.landSideBoundedContext.domain;
+package domain;
 
 public enum MaterialType {
 

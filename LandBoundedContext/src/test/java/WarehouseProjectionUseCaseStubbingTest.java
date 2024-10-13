@@ -1,7 +1,4 @@
 import be.kdg.prog6.landSideBoundedContext.core.WarehouseProjectionUseCaseImp;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
-import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.domain.UpdateWarehouseCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
 import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseProjectionUseCase;
@@ -9,8 +6,6 @@ import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseSavePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;

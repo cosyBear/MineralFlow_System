@@ -3,13 +3,13 @@
 
 
 package be.kdg.prog6.warehouseBoundedContext.adapters.in;
-import be.kdg.prog6.warehouseBoundedContext.domain.MaterialType;
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
 import be.kdg.prog6.warehouseBoundedContext.domain.WeighTruckInCommand;
 import be.kdg.prog6.warehouseBoundedContext.domain.WeighTruckOutCommand;
 import be.kdg.prog6.warehouseBoundedContext.dto.WeighInTruckDto;
 import be.kdg.prog6.warehouseBoundedContext.dto.WeighOutTruckDto;
 import be.kdg.prog6.warehouseBoundedContext.port.in.WarehouseUseCase;
+import domain.MaterialType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;

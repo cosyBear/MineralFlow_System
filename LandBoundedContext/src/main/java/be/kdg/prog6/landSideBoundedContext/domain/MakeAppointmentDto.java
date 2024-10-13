@@ -1,6 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import domain.MaterialType;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;

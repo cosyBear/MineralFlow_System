@@ -2,6 +2,7 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
+import domain.MaterialType;
 
 public class WareHouse {
 

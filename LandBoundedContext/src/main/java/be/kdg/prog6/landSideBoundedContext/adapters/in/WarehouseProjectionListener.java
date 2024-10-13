@@ -3,10 +3,10 @@ package be.kdg.prog6.landSideBoundedContext.adapters.in;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
-import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.domain.UpdateWarehouseCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.WarehouseDto;
 import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseProjectionUseCase;
+import domain.MaterialType;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 

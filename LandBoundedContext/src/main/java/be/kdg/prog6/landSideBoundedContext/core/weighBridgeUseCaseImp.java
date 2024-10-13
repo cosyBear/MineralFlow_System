@@ -12,6 +12,7 @@ import be.kdg.prog6.landSideBoundedContext.port.out.*;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExist;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TruckIsNotAllowedToEnter;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TruckIsNotOnTime;
+import domain.MaterialType;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

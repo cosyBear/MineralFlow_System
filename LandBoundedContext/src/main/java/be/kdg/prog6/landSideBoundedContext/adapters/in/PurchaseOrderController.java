@@ -3,8 +3,8 @@ package be.kdg.prog6.landSideBoundedContext.adapters.in;
 
 import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrderCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrderDto;
-import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.port.in.PurchaseOrderUseCase;
+import domain.MaterialType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

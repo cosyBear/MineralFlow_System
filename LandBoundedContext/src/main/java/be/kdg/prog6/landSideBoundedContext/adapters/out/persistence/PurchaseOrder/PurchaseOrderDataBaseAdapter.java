@@ -1,11 +1,11 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.persistence.PurchaseOrder;
 
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.PurchaseOrderEntity;
-import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrder;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.port.out.PurchaseOrderLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.PurchaseOrderSavePort;
+import domain.MaterialType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

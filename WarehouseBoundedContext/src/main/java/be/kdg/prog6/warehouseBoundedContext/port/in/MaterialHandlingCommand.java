@@ -1,7 +1,7 @@
 package be.kdg.prog6.warehouseBoundedContext.port.in;
 
-import be.kdg.prog6.warehouseBoundedContext.domain.MaterialType;
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
+import domain.MaterialType;
 
 public class MaterialHandlingCommand {
 

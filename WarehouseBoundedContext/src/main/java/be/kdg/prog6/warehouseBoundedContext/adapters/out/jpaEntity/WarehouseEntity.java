@@ -1,5 +1,5 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
-import be.kdg.prog6.warehouseBoundedContext.domain.MaterialType;
+import domain.MaterialType;
 import jakarta.persistence.*;
 import java.util.UUID;
 

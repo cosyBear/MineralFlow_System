@@ -9,6 +9,7 @@ import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.
 import be.kdg.prog6.warehouseBoundedContext.domain.*;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
+import domain.MaterialType;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;

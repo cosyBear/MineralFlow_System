@@ -1,6 +1,3 @@
-import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
-import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
 import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 

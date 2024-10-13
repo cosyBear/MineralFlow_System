@@ -1,7 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.entity;
 
 
-import be.kdg.prog6.landSideBoundedContext.domain.MaterialType;
+import domain.MaterialType;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;

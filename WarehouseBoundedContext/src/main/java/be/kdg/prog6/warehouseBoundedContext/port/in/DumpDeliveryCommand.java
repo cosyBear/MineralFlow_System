@@ -1,6 +1,6 @@
 package be.kdg.prog6.warehouseBoundedContext.port.in;
 
-import be.kdg.prog6.warehouseBoundedContext.domain.MaterialType;
+import domain.MaterialType;
 
 public class DumpDeliveryCommand {
     private final String licensePlate;
