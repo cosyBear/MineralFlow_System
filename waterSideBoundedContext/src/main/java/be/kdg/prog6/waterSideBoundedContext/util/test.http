@@ -1,0 +1,68 @@
+
+GET http://localhost:8091/api/warehousemanager/trucks/onSite?date=2024-09-23
+Content-Type: application/json
+###
+
+
+GET http://localhost:8091/api/warehousemanager/trucks/onTime?date=2024-09-23
+Content-Type: application/json
+###
+POST http://localhost:8091/api/appointments
+Content-Type: application/json
+
+{
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "licensePlate": "ABC1236",
+  "materialType": "PETCOKE",
+  "time": "2024-10-23T11:00:00",
+  "payload": 100
+}
+
+### Weigh-In Test Request
+
+POST http://localhost:8091/api/weighbridge/trucks/weighIn
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1236",
+  "startWeight": 150.0,
+  "materialType": "PETCOKE",
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "weighInTime": "2024-10-23T11:00:00"
+}
+
+###
+POST http://localhost:8091/api/weighbridge/trucks/weighOut
+Content-Type: application/json
+
+{
+  "licensePlate": "ABC1236",
+  "endWeight": 50.0,
+  "materialType": "PETCOKE",
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "weighInTime": "2024-10-23T12:00:00",
+  "warehouseStatus": "ALREADY_EXISTS_NOT_FULL",
+  "WeighBridgeTicketId": "a26d17f6-cca2-4a5e-8084-7c217aca9817"
+}
+
+
+
+###
+# get wearhouse overView with deatsil about the warehouse
+GET http://localhost:8091/api/warehousemanager/warehouses
+Content-Type: application/json
+
+
+###
+
+
+POST http://localhost:8091/api/PurchaseOrder
+Content-Type: application/json
+
+{
+  "orderDate": "2024-10-23",
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "customerName": "coco",
+  "materialType": "IRON",
+  "amountOfMaterialInTons": 100.0
+}

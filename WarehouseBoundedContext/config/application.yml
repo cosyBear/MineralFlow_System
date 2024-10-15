@@ -1,7 +1,7 @@
 server:
-  port: ${PORT:8093}
+  port: ${PORT:8094}
   servlet:
-    context-path: /bcb
+    context-path: /api
 
 
 spring:
@@ -32,4 +32,4 @@ spring:
 # what you have to do is data projection from the waerhouse bounded context to the landside for the waerhouse info like reaplying all teh event
 # ask the teacher about the PDT and teh BRIDGE and use story ?
 # also add error handling
-
+#

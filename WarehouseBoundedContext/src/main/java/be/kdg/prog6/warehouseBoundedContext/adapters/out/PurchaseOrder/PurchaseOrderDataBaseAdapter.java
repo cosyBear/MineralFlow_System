@@ -1,19 +1,17 @@
-package be.kdg.prog6.landSideBoundedContext.adapters.out.persistence.PurchaseOrder;
+package be.kdg.prog6.warehouseBoundedContext.adapters.out.PurchaseOrder;
 
-import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.PurchaseOrderEntity;
-import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrder;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.port.out.PurchaseOrderLoadPort;
-import be.kdg.prog6.landSideBoundedContext.port.out.PurchaseOrderSavePort;
+import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.PurchaseOrderEntity;
+import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrder;
+import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
+import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderLoadPort;
+import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
 import domain.MaterialType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 @Service
-public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort , PurchaseOrderSavePort {
-
-
+public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, PurchaseOrderSavePort {
 
 
     private final PurchaseOrderRepository purchaseOrderRepository;
@@ -41,7 +39,7 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort , Pur
     }
 
     public List<PurchaseOrder> loadBySellerId(SellerId sellerId) {
-        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerId(sellerId.id()); // Convert SellerId to UUID
+        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerId(sellerId.getSellerID()); // Convert SellerId to UUID
         return entities.stream().map(this::mapToDomain).toList(); // Map entities to domain objects
     }
 
@@ -56,7 +54,7 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort , Pur
     }
 
     public List<PurchaseOrder> loadBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
-        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerIdAndMaterialType(sellerId.id(), materialType);
+        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerIdAndMaterialType(sellerId.getSellerID(), materialType);
         return entities.stream().map(this::mapToDomain).toList();
     }
 
@@ -75,7 +73,7 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort , Pur
         PurchaseOrderEntity entity = new PurchaseOrderEntity();
         entity.setOrderDate(purchaseOrder.getOrderDate());
         entity.setPurchaseOrderId(purchaseOrder.getPurchaseOrderNumber());
-        entity.setSellerId(purchaseOrder.getSellerId().id());
+        entity.setSellerId(purchaseOrder.getSellerId().getSellerID());
         entity.setCustomerName(purchaseOrder.getCustomerName());
         entity.setMaterialType(purchaseOrder.getMaterialType());
         entity.setAmountOfMaterialInTons(purchaseOrder.getAmountOfMaterialInTons());
