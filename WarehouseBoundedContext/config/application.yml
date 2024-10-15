@@ -1,7 +1,7 @@
 server:
   port: ${PORT:8093}
   servlet:
-    context-path: /bcb
+    context-path: /api
 
 
 spring:
@@ -17,6 +17,10 @@ spring:
       ddl-auto: create
     show-sql: true
     database-platform: org.hibernate.dialect.MySQLDialect
+  sql:
+    init:
+      mode: always
+      username : user
   server:
       port: 8092
   rabbitmq:
@@ -25,9 +29,7 @@ spring:
     username: myuser
     password: mypassword
     restart: always
-  sql:
-    init:
-      mode: always
+
 
 # what you have to do is data projection from the waerhouse bounded context to the landside for the waerhouse info like reaplying all teh event
 # ask the teacher about the PDT and teh BRIDGE and use story ?

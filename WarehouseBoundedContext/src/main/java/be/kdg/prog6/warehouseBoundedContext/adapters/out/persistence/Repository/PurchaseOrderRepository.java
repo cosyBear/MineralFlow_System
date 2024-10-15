@@ -1,7 +1,7 @@
-package be.kdg.prog6.landSideBoundedContext.adapters.out.persistence.PurchaseOrder;
+package be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository;
 
 
-import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.PurchaseOrderEntity;
+import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.PurchaseOrderEntity;
 import domain.MaterialType;
 import org.springframework.data.jpa.repository.JpaRepository;
 

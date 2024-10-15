@@ -1,5 +1,6 @@
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
+import domain.MaterialType;
 
 import java.util.UUID;
 

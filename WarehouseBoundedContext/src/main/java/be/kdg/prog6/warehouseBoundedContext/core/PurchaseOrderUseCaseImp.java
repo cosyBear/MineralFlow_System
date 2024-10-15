@@ -1,11 +1,11 @@
-package be.kdg.prog6.landSideBoundedContext.core;
+package be.kdg.prog6.warehouseBoundedContext.core;
 
-import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrderCommand;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrder;
-import be.kdg.prog6.landSideBoundedContext.port.in.PurchaseOrderUseCase;
-import be.kdg.prog6.landSideBoundedContext.port.out.PurchaseOrderLoadPort;
-import be.kdg.prog6.landSideBoundedContext.port.out.PurchaseOrderSavePort;
+import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrder;
+import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderCommand;
+import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
+import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderUseCase;
+import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderLoadPort;
+import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
 import org.springframework.stereotype.Service;
 
 @Service

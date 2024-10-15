@@ -6,6 +6,7 @@ import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import be.kdg.prog6.landSideBoundedContext.port.out.AppointmentSavePort;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
+import domain.MaterialType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;

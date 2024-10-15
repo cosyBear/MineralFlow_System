@@ -1,9 +1,9 @@
-package be.kdg.prog6.landSideBoundedContext.adapters.in;
+package be.kdg.prog6.warehouseBoundedContext.adapters.in;
 
 
-import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrderCommand;
-import be.kdg.prog6.landSideBoundedContext.domain.PurchaseOrderDto;
-import be.kdg.prog6.landSideBoundedContext.port.in.PurchaseOrderUseCase;
+import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderCommand;
+import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderDto;
+import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderUseCase;
 import domain.MaterialType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

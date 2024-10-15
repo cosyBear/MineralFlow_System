@@ -1,5 +1,6 @@
 import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
+import domain.MaterialType;
 
 import java.util.List;
 import java.util.Optional;

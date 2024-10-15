@@ -1,4 +1,4 @@
-package be.kdg.prog6.landSideBoundedContext.adapters.out.entity;
+package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
 
 
 import domain.MaterialType;
