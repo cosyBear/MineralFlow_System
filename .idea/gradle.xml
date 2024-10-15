@@ -24,11 +24,17 @@
             <option value="$PROJECT_DIR$/application" />
             <option value="$PROJECT_DIR$/buildSrc" />
             <option value="$PROJECT_DIR$/common" />
+            <option value="$PROJECT_DIR$/waterSide" />
           </set>
         </option>
       </GradleProjectSettings>
       <GradleProjectSettings>
-        <option name="externalProjectPath" value="$PROJECT_DIR$/waterSideBoundedContext" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/water" />
+        <option name="modules">
+          <set>
+            <option value="$PROJECT_DIR$/water" />
+          </set>
+        </option>
       </GradleProjectSettings>
     </option>
   </component>

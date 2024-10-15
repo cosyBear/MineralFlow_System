@@ -10,6 +10,9 @@
         <module name="template.WarehouseBoundedContext.main" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="17" />
+    <bytecodeTargetLevel target="17">
+      <module name="template.waterSide.main" target="21" />
+      <module name="template.waterSide.test" target="21" />
+    </bytecodeTargetLevel>
   </component>
 </project>

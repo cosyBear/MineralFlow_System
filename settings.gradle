@@ -4,4 +4,5 @@ include 'application'
 include 'common'
 include 'LandBoundedContext'
 include 'WarehouseBoundedContext'
-include 'waterSideBou
+include 'waterSide'
+

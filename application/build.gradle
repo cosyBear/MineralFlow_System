@@ -7,4 +7,5 @@ dependencies {
     implementation project(":common")
     implementation project(':LandBoundedContext')
     implementation project(':WarehouseBoundedContext')
+    implementation project(':waterSide')
 }
