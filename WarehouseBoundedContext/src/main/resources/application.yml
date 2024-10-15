@@ -1,0 +1,37 @@
+server:
+  port: ${PORT:8093}
+  servlet:
+    context-path: /bcb
+
+
+spring:
+  config:
+    additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
+  datasource:
+    url: jdbc:mysql://localhost:3306/app_db
+    username: user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    database-platform: org.hibernate.dialect.MySQLDialect
+  server:
+      port: 8092
+  rabbitmq:
+    host: localhost  # Use service name from Docker Compose
+    port: 5672
+    username: myuser
+    password: mypassword
+    restart: always
+  sql:
+    init:
+      mode: always
+      username: user
+
+
+# what you have to do is data projection from the waerhouse bounded context to the landside for the waerhouse info like reaplying all teh event
+# ask the teacher about the PDT and teh BRIDGE and use story ?
+# also add error handling
+

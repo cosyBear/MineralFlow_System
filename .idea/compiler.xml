@@ -7,12 +7,16 @@
         <processorPath useClasspath="false">
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.mapstruct/mapstruct-processor/1.5.5.Final/897f6f115930b936287bef552bf5fe28cc64717d/mapstruct-processor-1.5.5.Final.jar" />
         </processorPath>
+        <module name="template.WaterSideBoundedContext.main" />
         <module name="template.WarehouseBoundedContext.main" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17">
       <module name="template.waterSide.main" target="21" />
       <module name="template.waterSide.test" target="21" />
+      <module name="WaterSideBoundedContext" target="21" />
+      <module name="WaterSideBoundedContext.main" target="21" />
+      <module name="WaterSideBoundedContext.test" target="21" />
     </bytecodeTargetLevel>
   </component>
 </project>
