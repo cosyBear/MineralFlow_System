@@ -22,7 +22,7 @@ spring:
       mode: always
       username : user
   server:
-      port: 8092
+    port: 8092
   rabbitmq:
     host: localhost  # Use service name from Docker Compose
     port: 5672
