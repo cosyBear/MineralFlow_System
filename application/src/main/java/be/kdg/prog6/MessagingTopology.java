@@ -1,5 +1,6 @@
 package be.kdg.prog6;
 
+import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.context.annotation.Bean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -18,7 +19,19 @@ public class MessagingTopology {
     public static final String WAREHOUSE_EXCHANGE = "WarehouseExchange";
     public static final String WAREHOUSE_MATERIAL_QUEUE = "WarehouseMaterial_QUEUE";
     public static final String ROUTING_KEY = "WarehouseRoutingKey";
+    private static final String RABBITMQ_USERNAME = "myuser"; // replace with your username
+    private static final String RABBITMQ_PASSWORD = "mypassword"; // replace with your password
+    private static final String RABBITMQ_VIRTUAL_HOST = "/"; // if you have a specific virtual host
+    private static final String RABBITMQ_HOST = "localhost"; // or your RabbitMQ server's host
 
+    @Bean
+    public ConnectionFactory connectionFactory() {
+        CachingConnectionFactory connectionFactory = new CachingConnectionFactory(RABBITMQ_HOST);
+        connectionFactory.setUsername(RABBITMQ_USERNAME);
+        connectionFactory.setPassword(RABBITMQ_PASSWORD);
+        connectionFactory.setVirtualHost(RABBITMQ_VIRTUAL_HOST);
+        return connectionFactory;
+    }
     // Create the direct exchange
     @Bean
     public DirectExchange warehouseExchange() {
@@ -39,11 +52,20 @@ public class MessagingTopology {
                 .with(ROUTING_KEY);
     }
     @Bean
-    RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
-        final var rabbitTemplate = new RabbitTemplate(connectionFactory);
-        rabbitTemplate.setMessageConverter(producerJackson2MessageConverter());
-        return rabbitTemplate;
+    public Jackson2JsonMessageConverter jsonMessageConverter() {
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
+
+    @Bean
+    public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setMessageConverter(jsonMessageConverter());
+        return template;
+    }
+
 
     @Bean
     Jackson2JsonMessageConverter producerJackson2MessageConverter() {
