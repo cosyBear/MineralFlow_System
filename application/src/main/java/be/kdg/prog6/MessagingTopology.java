@@ -1,5 +1,6 @@
-package be.kdg.prog6.warehouseBoundedContext.util;
+package be.kdg.prog6;
 
+import org.springframework.context.annotation.Bean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -11,7 +12,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-public class RabbitMQConfig {
+public class MessagingTopology {
+
 
     public static final String WAREHOUSE_EXCHANGE = "WarehouseExchange";
     public static final String WAREHOUSE_MATERIAL_QUEUE = "WarehouseMaterial_QUEUE";
@@ -51,5 +53,45 @@ public class RabbitMQConfig {
 
         return new Jackson2JsonMessageConverter(objectMapper);
     }
+
+
+
+    public static final String WEIGHBRIDGE_EXCHANGE = "weighbridgeExchange";
+    public static final String TRUCK_WEIGHTED_IN_QUEUE = "truckWeightedInQueue";
+    public static final String TRUCK_WEIGHTED_Out_QUEUE = "truckWeightedOutQueue";
+
+    @Bean
+    public TopicExchange weighbridgeExchange() {
+        return new TopicExchange(WEIGHBRIDGE_EXCHANGE);
+    }
+
+    @Bean
+    Queue truckWeightedInQueue() {
+        return new Queue(TRUCK_WEIGHTED_IN_QUEUE, true);
+    }
+
+    @Bean
+    Queue truckWeightedOutQueue() {
+        return new Queue(TRUCK_WEIGHTED_Out_QUEUE, true);
+    }
+
+
+    @Bean
+    Binding truckWeightedInBinding(Queue truckWeightedInQueue, TopicExchange weighbridgeExchange) {
+        return BindingBuilder.bind(truckWeightedInQueue)
+                .to(weighbridgeExchange).
+                with("truck.*.in");
+    }
+
+
+
+    @Bean
+    public Binding truckWeightedOutBinding(Queue truckWeightedOutQueue, TopicExchange weighbridgeExchange) {
+        return BindingBuilder.bind(truckWeightedOutQueue)
+                .to(weighbridgeExchange).
+                with("truck.*.out");
+    }
+
+
 
 }

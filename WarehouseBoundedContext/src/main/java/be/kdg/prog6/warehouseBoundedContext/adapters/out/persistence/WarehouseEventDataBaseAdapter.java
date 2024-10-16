@@ -7,6 +7,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEventId;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEvent.WarehouseEventLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEvent.WarehouseEventSavePort;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ public class WarehouseEventDataBaseAdapter implements WarehouseEventSavePort, Wa
     private final WarehouseEventEntityRepository warehouseEventEntityRepository;
     private final ModelMapper modelMapper;
 
-    public WarehouseEventDataBaseAdapter(WarehouseEventEntityRepository warehouseEventEntityRepository, ModelMapper modelMapper) {
+    public WarehouseEventDataBaseAdapter(WarehouseEventEntityRepository warehouseEventEntityRepository,@Qualifier("warehouse") ModelMapper modelMapper) {
         this.warehouseEventEntityRepository = warehouseEventEntityRepository;
         this.modelMapper = modelMapper;
     }

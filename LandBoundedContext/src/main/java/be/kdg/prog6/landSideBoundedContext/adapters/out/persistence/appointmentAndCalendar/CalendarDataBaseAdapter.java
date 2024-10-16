@@ -11,6 +11,7 @@ import jakarta.persistence.PersistenceContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,7 +28,7 @@ public class CalendarDataBaseAdapter implements CalendarLoadPort, CalendarSavePo
     @PersistenceContext
     private EntityManager entityManager;  // Inject the EntityManager
 
-    public CalendarDataBaseAdapter(AppointmentRepository appointmentRepository, ModelMapper modelMapper) {
+    public CalendarDataBaseAdapter(AppointmentRepository appointmentRepository, @Qualifier("landModelMapper")ModelMapper modelMapper) {
         this.appointmentRepository = appointmentRepository;
         this.modelMapper = modelMapper;
     }

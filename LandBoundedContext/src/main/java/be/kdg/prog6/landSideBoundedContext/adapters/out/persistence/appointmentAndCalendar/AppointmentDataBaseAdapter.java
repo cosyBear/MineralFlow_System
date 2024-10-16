@@ -7,6 +7,7 @@ import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import be.kdg.prog6.landSideBoundedContext.port.out.AppointmentSavePort;
 @Service
@@ -17,7 +18,7 @@ public class AppointmentDataBaseAdapter implements AppointmentSavePort  {
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentUseCase.class);
 
 
-    public AppointmentDataBaseAdapter(AppointmentRepository appointmentRepository, ModelMapper modelMapper) {
+    public AppointmentDataBaseAdapter(AppointmentRepository appointmentRepository, @Qualifier("landModelMapper")ModelMapper modelMapper) {
         this.appointmentRepository = appointmentRepository;
         this.modelMapper = modelMapper;
     }

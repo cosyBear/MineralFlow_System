@@ -7,6 +7,7 @@ import be.kdg.prog6.landSideBoundedContext.adapters.in.dto.MakeAppointmentDto;
 import be.kdg.prog6.landSideBoundedContext.domain.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +19,7 @@ public class AppointmentController  {
     private final ModelMapper modelMapper;
     private ScheduleAppointmentUseCase scheduleAppointmentUseCase;
 
-    public AppointmentController(ScheduleAppointmentUseCase scheduleAppointmentUseCase, ModelMapper modelMapper) {
+    public AppointmentController(ScheduleAppointmentUseCase scheduleAppointmentUseCase, @Qualifier("landModelMapper")ModelMapper modelMapper) {
         this.scheduleAppointmentUseCase = scheduleAppointmentUseCase;
         this.modelMapper = modelMapper;
     }

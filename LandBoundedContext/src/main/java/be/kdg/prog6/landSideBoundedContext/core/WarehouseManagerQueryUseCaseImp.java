@@ -6,6 +6,7 @@ import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseManagerQueryUseCase;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
     private final ModelMapper modelMapper;
     private final WarehouseLoadPort warehouseLoadPort;
 
-    public WarehouseManagerQueryUseCaseImp(CalendarLoadPort calendarLoadPort, ModelMapper modelMapper , WarehouseLoadPort warehouseLoadPort) {
+    public WarehouseManagerQueryUseCaseImp(CalendarLoadPort calendarLoadPort, @Qualifier("landModelMapper")ModelMapper modelMapper , WarehouseLoadPort warehouseLoadPort) {
         this.calendarLoadPort = calendarLoadPort;
         this.modelMapper = modelMapper;
         this.warehouseLoadPort = warehouseLoadPort;

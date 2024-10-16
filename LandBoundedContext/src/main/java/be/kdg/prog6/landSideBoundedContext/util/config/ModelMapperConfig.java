@@ -22,7 +22,7 @@ import java.util.UUID;
 @Configuration
 public class ModelMapperConfig {
 
-    @Bean
+    @Bean(name = "landModelMapper")
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);

@@ -7,6 +7,7 @@ import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketSavePort;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WeighbridgeTicketNotFound;
 import domain.MaterialType;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.UUID;
@@ -17,7 +18,7 @@ public class WeighbridgeTicketDataBaseAdapter implements WeighbridgeTicketLoadPo
     private final WeighbridgeTicketEntityRepository weighbridgeTicketEntityRepository;
     private final ModelMapper modelMapper;
 
-    public WeighbridgeTicketDataBaseAdapter(WeighbridgeTicketEntityRepository weighbridgeTicketEntityRepository, ModelMapper modelMapper) {
+    public WeighbridgeTicketDataBaseAdapter(WeighbridgeTicketEntityRepository weighbridgeTicketEntityRepository, @Qualifier("landModelMapper")ModelMapper modelMapper) {
         this.weighbridgeTicketEntityRepository = weighbridgeTicketEntityRepository;
         this.modelMapper = modelMapper;
     }

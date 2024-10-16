@@ -12,6 +12,7 @@ import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort
 import domain.MaterialType;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     private WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository;
     private final ModelMapper modelMapper;
 
-    public WarehouseDataBaseAdapter(ModelMapper modelMapper, WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository, WarehouseEventEntityRepository warehouseEventEntityRepository, WarehouseRepository warehouseRepository) {
+    public WarehouseDataBaseAdapter(@Qualifier("warehouse")ModelMapper modelMapper, WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository, WarehouseEventEntityRepository warehouseEventEntityRepository, WarehouseRepository warehouseRepository) {
         this.modelMapper = modelMapper;
         this.warehouseEventsWindowEntityRepository = warehouseEventsWindowEntityRepository;
         this.warehouseEventEntityRepository = warehouseEventEntityRepository;

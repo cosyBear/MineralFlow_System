@@ -13,6 +13,7 @@ import domain.MaterialType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,7 +38,7 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
 
    private final  List<WarehouseSavePort> warehouseSavePorts;
 
-    public WarehouseUseCaseImp(WarehouseEventLoadPort warehouseEventLoadPort, WarehouseEventSavePort warehouseEventSavePort, WarehouseEventsWindowLoadPort warehouseEventsWindowLoadPort, WarehouseEventsWindowSavePort warehouseEventsWindowSavePort, WarehouseLoadPort warehouseLoadPort, ModelMapper modelMapper, List<WarehouseSavePort> warehouseSavePorts) {
+    public WarehouseUseCaseImp(WarehouseEventLoadPort warehouseEventLoadPort, WarehouseEventSavePort warehouseEventSavePort, WarehouseEventsWindowLoadPort warehouseEventsWindowLoadPort, WarehouseEventsWindowSavePort warehouseEventsWindowSavePort, WarehouseLoadPort warehouseLoadPort, @Qualifier("warehouse") ModelMapper modelMapper, List<WarehouseSavePort> warehouseSavePorts) {
         this.warehouseEventLoadPort = warehouseEventLoadPort;
         this.warehouseEventSavePort = warehouseEventSavePort;
         this.warehouseEventsWindowLoadPort = warehouseEventsWindowLoadPort;
