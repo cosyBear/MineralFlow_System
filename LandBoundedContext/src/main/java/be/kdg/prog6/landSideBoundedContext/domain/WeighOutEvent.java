@@ -22,17 +22,15 @@ public class WeighOutEvent {
     @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime weighOutTime;
 
-    private WarehouseStatus warehouseStatus;
 
 
-    public WeighOutEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double endWeight, MaterialType materialType, LocalDateTime weighOutTime, WarehouseStatus warehouseStatus) {
+    public WeighOutEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double endWeight, MaterialType materialType, LocalDateTime weighOutTime) {
         this.weighBridgeTicketId = weighBridgeTicketId;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
         this.EndWeight = endWeight;
         this.materialType = materialType;
         this.weighOutTime = weighOutTime;
-        this.warehouseStatus = warehouseStatus;
     }
 
 
@@ -46,13 +44,6 @@ public class WeighOutEvent {
         this.weighBridgeTicketId = weighBridgeTicketId;
     }
 
-    public WarehouseStatus getWarehouseStatus() {
-        return warehouseStatus;
-    }
-
-    public void setWarehouseStatus(WarehouseStatus warehouseStatus) {
-        this.warehouseStatus = warehouseStatus;
-    }
 
     public String getLicensePlate() {
         return licensePlate;

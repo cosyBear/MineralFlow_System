@@ -48,7 +48,7 @@ public class WeighbridgeTicket {
         this.weighBridgeTicketId = weighBridgeTicketId;
     }
 
-    public void correctTicket(LocalDateTime endTime , double endWeight){
+    public void truckWeighsOut(LocalDateTime endTime , double endWeight){
         this.endTime = endTime;
         this.endWeight = endWeight;
     }

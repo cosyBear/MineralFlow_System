@@ -37,8 +37,7 @@ public class WeighBridgeListener {
                 new SellerId(truckOutDto.sellerId()),
                 truckOutDto.grossWeight(),
                 MaterialType.valueOf(truckOutDto.materialType()),
-                truckOutDto.weighInTime(),
-                truckOutDto.warehouseStatus()
+                truckOutDto.weighInTime()
         );
         wareHouseUseCase.truckIn(command);
     }
@@ -47,7 +46,6 @@ public class WeighBridgeListener {
 
     @RabbitListener(queues = truckWeightedOutQueue)
     public void truckWeightedOut(WeighOutTruckDto truckOutDto ) {
-        // why is this WeighTruckInCommand throw this error ?
 
         WeighTruckOutCommand command = new WeighTruckOutCommand(
                 truckOutDto.weighBridgeTicketId(),
@@ -55,15 +53,11 @@ public class WeighBridgeListener {
                 new SellerId(truckOutDto.sellerId()),
                 truckOutDto.endWeight(),
                 MaterialType.valueOf(truckOutDto.materialType()),
-                truckOutDto.weighOutTime(),
-                truckOutDto.warehouseStatus()
+                truckOutDto.weighOutTime()
         );
 
         wareHouseUseCase.truckOut(command);
 
     }
-
-
-
 
 }

@@ -1,5 +1,7 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
+import domain.MaterialType;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -13,6 +15,8 @@ public class WarehouseEventsWindow {
     private WarehouseId warehouseId;
     private List<WarehouseEvent> warehouseEventList;
 
+
+    // TODO make a snap shot and also make a method to get the oldest mat
     public WarehouseEventsWindow() {
     }
 
@@ -38,16 +42,19 @@ public class WarehouseEventsWindow {
                 .sum();
     }
 
-    public void addMaterialWeightEvent(WeighTruckOutCommand truckOutCommand) {
+    public WarehouseEvent addMaterialWeightEvent(LocalDateTime weighOutTime , double amount  , UUID weighBridgeTicketId , MaterialType typeofMaterial) {
         WarehouseEvent newEvent = new WarehouseEvent(
                 new WarehouseEventId(),
-                truckOutCommand.getWeighOutTime(),
+                weighOutTime,
                 EventType.DELIVER,
-                truckOutCommand.getMaterialTrueWeight(),
-                truckOutCommand.weighBridgeTicketId(),
-                this.getWarehouseEventsWindowId()
+                amount,
+                weighBridgeTicketId,
+                this.getWarehouseEventsWindowId(),
+                typeofMaterial
+
         );
         addEvent(newEvent);
+        return newEvent;
     }
 
     public List<WarehouseEvent> getWarehouseEventList() {

@@ -9,8 +9,6 @@ public record ScheduleAppointmentCommand(
         LicensePlate licensePlate,
         MaterialType materialType,
         LocalDateTime time,
-        SellerId sellerId,
-        double payload
-) {
+        SellerId sellerId) {
 
 }

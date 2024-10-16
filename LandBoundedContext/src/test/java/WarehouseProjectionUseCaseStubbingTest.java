@@ -1,6 +1,6 @@
 import be.kdg.prog6.landSideBoundedContext.core.WarehouseProjectionUseCaseImp;
 import be.kdg.prog6.landSideBoundedContext.domain.UpdateWarehouseCommand;
-import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
+import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
 import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseProjectionUseCase;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseSavePort;
 import org.junit.jupiter.api.BeforeEach;
@@ -31,7 +31,7 @@ public class WarehouseProjectionUseCaseStubbingTest {
 
         sut.updateWarehouse(new UpdateWarehouseCommand(testData.warehouseId() , 200 , testData.materialType()  ,testData.sellerId()));
 
-        final ArgumentCaptor<WareHouse> warehouseCaptor = ArgumentCaptor.forClass(WareHouse.class);
+        final ArgumentCaptor<Warehouse> warehouseCaptor = ArgumentCaptor.forClass(Warehouse.class);
 
         verify(warehouseSavePort).Save(warehouseCaptor.capture());
 

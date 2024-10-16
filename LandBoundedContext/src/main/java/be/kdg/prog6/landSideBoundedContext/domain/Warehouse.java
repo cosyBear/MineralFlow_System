@@ -4,7 +4,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
 import domain.MaterialType;
 
-public class WareHouse {
+public class Warehouse {
 
     private static final double MAX_CAPACITY = 500.0;  // Maximum capacity in tons
     private static final double OVERFLOW_CAPACITY = MAX_CAPACITY * 1.1;  // Overflow capacity (110%)
@@ -18,18 +18,17 @@ public class WareHouse {
 
     private double amountOfMaterial;
 
-    public WareHouse() {
+    public Warehouse() {
 
     }
 
-    public WareHouse(WarehouseId warehouseId, SellerId sellerId, MaterialType materialType, double amountOfMaterial) {
+    public Warehouse(WarehouseId warehouseId, SellerId sellerId, MaterialType materialType) {
         this.warehouseId = warehouseId;
         this.sellerId = sellerId;
         this.materialType = materialType;
-        this.amountOfMaterial = amountOfMaterial;
     }
 
-    public void updateWarehouseMaterialAmount(double amount) {
+    public void addMaterial(double amount) {
         this.amountOfMaterial += amount;
     }
 

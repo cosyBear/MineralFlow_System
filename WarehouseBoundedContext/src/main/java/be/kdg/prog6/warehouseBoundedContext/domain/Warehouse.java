@@ -3,6 +3,7 @@ package be.kdg.prog6.warehouseBoundedContext.domain;
 import domain.MaterialType;
 
 import java.time.LocalDateTime;
+import java.util.Locale;
 import java.util.UUID;
 
 public class Warehouse {
@@ -23,31 +24,15 @@ public class Warehouse {
     }
 
 
-    public void updateMaterialWeight(WeighTruckOutCommand truckOutCommand) {
+    public WarehouseEvent deliveryMaterial(LocalDateTime weighOutTime , double amount  , UUID weighBridgeTicketId , MaterialType typeofMaterial) {
         if (this.eventsWindow == null) {
             this.eventsWindow = new WarehouseEventsWindow(this.warehouseNumber, UUID.randomUUID());
         }
-
-        eventsWindow.addMaterialWeightEvent( truckOutCommand);
+        return eventsWindow.addMaterialWeightEvent( weighOutTime , amount, weighBridgeTicketId ,typeofMaterial );
     }
 
-    public void beginDeliveryProcess(WeighTruckInCommand command) {
-        if (this.eventsWindow == null) {
-            this.eventsWindow = new WarehouseEventsWindow(this.warehouseNumber, UUID.randomUUID());
-        }
 
-        WarehouseEvent event = new WarehouseEvent(
-                new WarehouseEventId(),
-                command.weighInTime(),
-                EventType.DELIVER,
-                0,
-                command.weighBridgeTicketId(),
-                eventsWindow.getWarehouseEventsWindowId()
-        );
-        eventsWindow.addEvent(event);
-    }
 
-    // Getter and setter for warehouseNumber
     public WarehouseId getWarehouseNumber() {
         return warehouseNumber;
     }

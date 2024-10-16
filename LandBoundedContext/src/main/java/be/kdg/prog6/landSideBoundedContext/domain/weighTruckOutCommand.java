@@ -7,6 +7,6 @@ import domain.MaterialType;
 import java.time.LocalDateTime;
 
 public record weighTruckOutCommand (LicensePlate licensePlate, double endWeight, MaterialType materialType, SellerId sellerId,
-                                    LocalDateTime weighOutTime , String warehouseStatus , WeighBridgeTicketId WeighBridgeTicketId ) {
+                                    LocalDateTime weighOutTime  , WeighBridgeTicketId WeighBridgeTicketId ) {
 
 }

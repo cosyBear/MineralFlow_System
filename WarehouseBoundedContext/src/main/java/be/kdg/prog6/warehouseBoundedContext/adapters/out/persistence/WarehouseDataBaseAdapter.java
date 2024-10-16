@@ -57,19 +57,16 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     public Warehouse findBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
         UUID sellerUuid = sellerId.sellerID();
 
-        // Fetch the WarehouseEntity from the repository
         WarehouseEntity warehouseEntity = warehouseRepository.findBySellerIdAndMaterialType(sellerUuid, materialType);
 
         if (warehouseEntity == null) {
-            return null; // Handle the case when no entity is found
+            return null;
         }
 
-        // Map WarehouseEntity to Warehouse domain object
         WarehouseId warehouseId = new WarehouseId(warehouseEntity.getWarehouseId());
         SellerId domainSellerId = new SellerId(warehouseEntity.getSellerId());
         MaterialType domainMaterialType = MaterialType.valueOf(warehouseEntity.getMaterialType().toString());
 
-        // Instantiate the domain Warehouse object
         Warehouse warehouse = new Warehouse(warehouseId, domainSellerId, domainMaterialType);
 
         // Map WarehouseEventsWindowEntity to WarehouseEventsWindow
@@ -82,7 +79,9 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
                             EventType.valueOf(eventEntity.getEventType()),
                             eventEntity.getMaterialWeight(),
                             eventEntity.getWeighBridgeTicketId(),
-                            eventsWindowEntity.getWarehouseEventsWindowId()))
+                            eventsWindowEntity.getWarehouseEventsWindowId(),
+                            eventEntity.getMaterialType()
+                    ))
                     .collect(Collectors.toList());
 
             WarehouseEventsWindow eventsWindow = new WarehouseEventsWindow(
@@ -100,39 +99,34 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
 
     @Override
     @Transactional
-    public void save(Warehouse warehouse) {
-        // Create a new WarehouseEntity object
+    public void save(Warehouse warehouse , WarehouseEvent ignore) {
         WarehouseEntity warehouseEntity = new WarehouseEntity();
 
-        // Set the fields from the domain model to the entity
-        warehouseEntity.setWarehouseId(warehouse.getWarehouseNumber().getId());  // WarehouseId is mapped to a UUID
-        warehouseEntity.setMaterialType(warehouse.getMaterialType());  // Convert MaterialType enum to String
-        warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());  // Convert SellerId to UUID
+        warehouseEntity.setWarehouseId(warehouse.getWarehouseNumber().getId());
+        warehouseEntity.setMaterialType(warehouse.getMaterialType());
+        warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());
 
 
-        // Map the events window from the domain model
         WarehouseEventsWindowEntity eventsWindowEntity = new WarehouseEventsWindowEntity();
-        eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());  // Set the ID of the events window
-        eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());  // Set the warehouse ID for the events window
+        eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());
+        eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());
         // Map the list of WarehouseEventEntity
         List<WarehouseEventEntity> eventEntities = warehouse.getEventsWindow().getWarehouseEventList().stream()
                 .map(event -> new WarehouseEventEntity(
-                        event.id().getId(),  // Map the event ID
-                        event.time(),  // Map the timestamp
-                        event.type().toString(),  // Convert event type to string
-                        event.materialTrueWeight(),  // Map the material weighInTime
-                        event.weighBridgeTicketId(),  // Map the weighbridge ticket ID
-                        eventsWindowEntity
+                        event.id().getId(),
+                        event.time(),
+                        event.type().toString(),
+                        event.materialTrueWeight(),
+                        event.weighBridgeTicketId(),
+                        eventsWindowEntity,
+                        event.getMaterialType()
                 ))
                 .collect(Collectors.toList());
 
-        // Set the event list in the events window entity
         eventsWindowEntity.setWarehouseEventList(eventEntities);
 
-        // Set the events window in the warehouse entity
         warehouseEntity.setWarehouseEventsWindow(eventsWindowEntity);
 
-        // Save the warehouseEntity and its nested entities
         warehouseRepository.save(warehouseEntity);
     }
 

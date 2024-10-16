@@ -1,6 +1,6 @@
 package be.kdg.prog6.landSideBoundedContext.port.out;
 
-import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
+import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
 @FunctionalInterface
 
 public interface WarehouseSavePort {
@@ -8,5 +8,5 @@ public interface WarehouseSavePort {
 
 
 
-    void Save(WareHouse warehouse );
+    void Save(Warehouse warehouse );
 }

@@ -22,7 +22,7 @@ public class PurchaseOrderUseCaseImp implements PurchaseOrderUseCase {
 
 
     @Override
-    public void CreatePurchaseOrder(PurchaseOrderCommand purchaseOrderCommand) {
+    public void createPurchaseOrder(PurchaseOrderCommand purchaseOrderCommand) {
 
         purchaseOrderSavePort.createPurchaseOrder(mapToEntity(purchaseOrderCommand));
 

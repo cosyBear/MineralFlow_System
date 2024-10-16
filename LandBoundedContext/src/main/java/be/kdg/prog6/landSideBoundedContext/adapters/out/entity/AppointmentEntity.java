@@ -22,30 +22,29 @@ public class AppointmentEntity {
     private MaterialTypeEntity MaterialTypeEntity;
 
     private LocalDateTime time; // replace withTime
-    private double payload;
+
 
     @Enumerated(EnumType.STRING)
-    private AppointmentStatus AppointmentStatus;
+    private AppointmentStatus status;
 
     public AppointmentEntity() {}
 
 
-    public AppointmentEntity(UUID id, String licensePlate, UUID sellerId, be.kdg.prog6.landSideBoundedContext.adapters.out.entity.MaterialTypeEntity materialTypeEntity, LocalDateTime time, double payload, AppointmentStatus AppointmentStatus) {
+    public AppointmentEntity(UUID id, String licensePlate, UUID sellerId, MaterialTypeEntity materialTypeEntity, LocalDateTime time, AppointmentStatus status) {
         this.id= id;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
-        MaterialTypeEntity = materialTypeEntity;
+        this.MaterialTypeEntity = materialTypeEntity;
         this.time = time;
-        this.payload = payload;
-        this.AppointmentStatus = AppointmentStatus;
+        this.status = status;
     }
 
-    public be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus getAppointmentStatus() {
-        return AppointmentStatus;
+    public be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus getStatus() {
+        return status;
     }
 
-    public void setAppointmentStatus(be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus appointmentStatus) {
-        AppointmentStatus = appointmentStatus;
+    public void setStatus(be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus status) {
+        this.status = status;
     }
 
     public UUID getId() {
@@ -86,14 +85,6 @@ public class AppointmentEntity {
 
     public void setTime(LocalDateTime time) {
         this.time = time;
-    }
-
-    public double getPayload() {
-        return payload;
-    }
-
-    public void setPayload(double payload) {
-        this.payload = payload;
     }
 
 }

@@ -16,6 +16,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 
@@ -32,63 +33,39 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
     private final WarehouseEventsWindowSavePort warehouseEventsWindowSavePort;
 
     private final WarehouseLoadPort warehouseLoadPort;
-    private final WarehouseSavePort warehouseSavePort;
     private final ModelMapper modelMapper;
 
-    EventPublisherPort publisherPort;
+   private final  List<WarehouseSavePort> warehouseSavePorts;
 
-    public WarehouseUseCaseImp(WarehouseEventLoadPort warehouseEventLoadPort, WarehouseEventSavePort warehouseEventSavePort, WarehouseEventsWindowLoadPort warehouseEventsWindowLoadPort, WarehouseEventsWindowSavePort warehouseEventsWindowSavePort, WarehouseLoadPort warehouseLoadPort, WarehouseSavePort warehouseSavePort, ModelMapper modelMapper, EventPublisherPort publisherPort) {
+    public WarehouseUseCaseImp(WarehouseEventLoadPort warehouseEventLoadPort, WarehouseEventSavePort warehouseEventSavePort, WarehouseEventsWindowLoadPort warehouseEventsWindowLoadPort, WarehouseEventsWindowSavePort warehouseEventsWindowSavePort, WarehouseLoadPort warehouseLoadPort, ModelMapper modelMapper, List<WarehouseSavePort> warehouseSavePorts) {
         this.warehouseEventLoadPort = warehouseEventLoadPort;
         this.warehouseEventSavePort = warehouseEventSavePort;
         this.warehouseEventsWindowLoadPort = warehouseEventsWindowLoadPort;
         this.warehouseEventsWindowSavePort = warehouseEventsWindowSavePort;
         this.warehouseLoadPort = warehouseLoadPort;
-        this.warehouseSavePort = warehouseSavePort;
         this.modelMapper = modelMapper;
-        this.publisherPort = publisherPort;
+        this.warehouseSavePorts = warehouseSavePorts;
     }
-
-    public Warehouse assignWarehouseToSeller(SellerId sellerId, MaterialType materialType, String wareHouseStatus) {
-
-        switch (wareHouseStatus) {
-            case "ALREADY_EXISTS_NOT_FULL" -> {
-                return warehouseLoadPort.findBySellerIdAndMaterialType(sellerId, materialType);
-            }
-            case "WAREHOUSE_NOT_FOUND" -> {
-                return new Warehouse(new WarehouseId(UUID.randomUUID()), sellerId, materialType);
-            }
-            default ->
-                    throw new IllegalArgumentException("Invalid warehouse status."); // change this later ot something better.
-        }
-    }
-
 
     @Override
     @Transactional
     public void truckOut(WeighTruckOutCommand truckOutCommand) {
-
-        Warehouse warehouse = assignWarehouseToSeller(truckOutCommand.sellerId(), truckOutCommand.materialType(), truckOutCommand.wareHouseStatus());
-
-        warehouse.updateMaterialWeight(truckOutCommand);
-
-        warehouseSavePort.save(warehouse);
-
-        WarehouseMaterialEvent warehouseMaterialEvent = new WarehouseMaterialEvent(warehouse.getWarehouseNumber().getId(), warehouse.getCurrentLoadOfWarehouse(), warehouse.getMaterialType(), warehouse.getSellerId().getSellerID());
-
-
-        publisherPort.publishWarehouseMaterialEvent(warehouseMaterialEvent);
-
-
+        Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType(truckOutCommand.sellerId(), truckOutCommand.materialType());
+        final WarehouseEvent event  = warehouse.deliveryMaterial(truckOutCommand.getWeighOutTime() , truckOutCommand.getMaterialTrueWeight() , truckOutCommand.weighBridgeTicketId() , truckOutCommand.getMaterialType());
+        warehouseSavePorts.forEach(savePort -> savePort.save(warehouse, event));
     }
 
 
     @Override
     public void truckIn(WeighTruckInCommand command) {
-        Warehouse warehouse = assignWarehouseToSeller(command.sellerId(), command.materialType(), command.wareHouseStatus());
-        warehouse.beginDeliveryProcess(command);
+        Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType(command.sellerId(), command.materialType());
+        // this is doing nothing
+        // so maybe creat a PDT or something .......
+        //warehouse.beginDeliveryProcess(command);
+        //maybe create a pdt here
         logger.info("PDT: type of material {} , date of delivery {} , warehouse number {}",
                 command.getMaterialType(), command.getWeighInTime(), warehouse.getWarehouseNumber());
-        warehouseSavePort.save(warehouse);
+
 
 
     }

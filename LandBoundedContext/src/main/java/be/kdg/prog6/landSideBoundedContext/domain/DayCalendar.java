@@ -12,25 +12,18 @@ import java.util.*;
 
 
 public class DayCalendar {
-
-
     private LocalDate date;
     private List<Appointment> appointments;
     private static final Logger logger = LogManager.getLogger(DayCalendar.class);
-
 
     public DayCalendar(LocalDate date, List<Appointment> appointments) {
         this.date = date;
         this.appointments = appointments;
     }
 
-
-
     public DayCalendar() {
 
     }
-
-
 
     public Appointment getAppointmentByDate(LocalDateTime dateTime) {
         return appointments.stream()
@@ -38,25 +31,16 @@ public class DayCalendar {
                 .findFirst()
                 .orElseThrow(() -> new AppointmentDontExist("The appointment doesn't exist."));
     }
-
-
     public Appointment appointmentDone(SellerId sellerId, LicensePlate licensePlate) {
-        System.out.println(sellerId);
-        System.out.println(licensePlate);
         Optional<Appointment> matchingAppointment = appointments.stream()
                 .filter(appointment -> appointment.getLicensePlate().equals(licensePlate) && appointment.getSellerId().equals(sellerId))
                 .findFirst();
-
         return matchingAppointment.orElseThrow(() -> new AppointmentDontExist("the appointment dont exit "));
     }
     public Appointment scheduleAppointment(ScheduleAppointmentCommand requestDTO) {
-
-
         Appointment appointment = new Appointment(requestDTO.materialType(),
                 requestDTO.time(), requestDTO.sellerId(), requestDTO.licensePlate()
-                , requestDTO.payload(), AppointmentStatus.AWAITING_ARRIVAL);
-
-
+                , AppointmentStatus.AWAITING_ARRIVAL);
         if (addAppointment(appointment)) {
             return appointment;
         } else {
@@ -71,9 +55,7 @@ public class DayCalendar {
             return true;
         } else {
             long count = appointments.stream()
-                    .filter(existingAppointment ->
-                            existingAppointment.getTime().toLocalDate().equals(appointment.getTime().toLocalDate()) &&
-                                    existingAppointment.getTime().getHour() == appointment.getTime().getHour())
+                    .filter(existingAppointment -> existingAppointment.appointmentOnTime(appointment.getTime() , existingAppointment.getLicensePlate()))
                     .count();
             if (count < 40) {
                 appointments.add(appointment);
@@ -84,53 +66,22 @@ public class DayCalendar {
         }
     }
 
-
-    public Boolean allowTruckToEnter(LicensePlate licensePlate, LocalDateTime dateAndTime) {
-
-        Optional<Appointment> appointment = isTruckOnTime(dateAndTime);
-
-        if (appointment.isPresent() && passGate(licensePlate)) {
-            return true;
-        } else
-            return false;
-
+    public boolean truckEnters(LicensePlate licensePlate, LocalDateTime time){
+        return findAppointment(licensePlate,time)
+                .stream()
+                .peek(Appointment::truckEnters)
+                .findFirst()
+                .isPresent();
     }
 
-    public Optional<Appointment> isTruckOnTime(LocalDateTime time) {
+
+    private Optional<Appointment> findAppointment(LicensePlate licensePlate, LocalDateTime time) {
         for (Appointment appointment : appointments) {
-
-            LocalDateTime scheduledTime = appointment.getTime();
-
-            LocalDateTime windowEndTime = scheduledTime.plusHours(1);
-
-            if (!time.isBefore(scheduledTime) && time.isBefore(windowEndTime)) {
-                logger.info("Truck is on time.");
-                appointment.setAppointmentStatus(AppointmentStatus.ON_SITE);
+            if (appointment.appointmentOnTime(time, licensePlate)) {
                 return Optional.of(appointment);
-            } else
-                appointment.setAppointmentStatus(AppointmentStatus.LATE);
-        }
-        return Optional.empty();
-    }
-
-    public boolean passGate(LicensePlate licensePlate) {
-        for (Appointment appointment : appointments) {
-            if (appointment.getLicensePlate().equals(licensePlate)) {
-                logger.info("PassGate is on license plate ");
-                return true;
             }
         }
-        logger.info("PassGate is Not on license plate ");
-        return false;
-
-    }
-
-    public LocalDate getDate() {
-        return date;
-    }
-
-    public void setDate(LocalDate date) {
-        this.date = date;
+        return Optional.empty();
     }
 
     public List<Appointment> getAppointments() {

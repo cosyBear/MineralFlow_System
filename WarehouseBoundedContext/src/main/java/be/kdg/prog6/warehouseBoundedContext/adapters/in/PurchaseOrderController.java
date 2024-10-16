@@ -25,7 +25,7 @@ public class PurchaseOrderController {
     public ResponseEntity<String> createPurchaseOrder(@RequestBody PurchaseOrderDto dto) {
 
         PurchaseOrderCommand command = new PurchaseOrderCommand(dto.orderDate() , UUID.fromString(dto.sellerId()), dto.customerName(), MaterialType.valueOf(dto.materialType()), dto.amountOfMaterialInTons() );
-        purchaseOrderUseCase.CreatePurchaseOrder(command);
+        purchaseOrderUseCase.createPurchaseOrder(command);
         return ResponseEntity.ok("the order has be created");
 
     }

@@ -1,6 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.port.out;
 
-import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
+import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
+import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
 import domain.MaterialType;
 
 import java.util.List;
@@ -9,13 +10,13 @@ import java.util.UUID;
 
 public interface WarehouseLoadPort {
 
-    List<WareHouse> findAllBySellerId(UUID sellerId);
+    List<Warehouse> findAllBySellerId(UUID sellerId);
 
-    WareHouse findBySellerId(UUID sellerId);
+    Warehouse findBySellerId(UUID sellerId);
 
-    WareHouse findBySellerIdAAndMaterialType(UUID sellerId , MaterialType materialType);
+    Warehouse findBySellerIdAAndMaterialType(SellerId sellerId , MaterialType materialType);
 
-    Optional<WareHouse> findById(UUID id);
+    Optional<Warehouse> findById(UUID id);
 
-    List<WareHouse> warehouseOverview();
+    List<Warehouse> warehouseOverview();
 }

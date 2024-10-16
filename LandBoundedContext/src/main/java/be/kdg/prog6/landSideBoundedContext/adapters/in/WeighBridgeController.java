@@ -4,10 +4,10 @@ package be.kdg.prog6.landSideBoundedContext.adapters.in;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
 import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighInDto;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighOutDto;
+import be.kdg.prog6.landSideBoundedContext.adapters.in.dto.WeighInDto;
+import be.kdg.prog6.landSideBoundedContext.adapters.in.dto.WeighOutDto;
 import be.kdg.prog6.landSideBoundedContext.port.in.WeighBridgeUseCase;
-import be.kdg.prog6.landSideBoundedContext.domain.weighTruckInCommand;
+import be.kdg.prog6.landSideBoundedContext.domain.WeighTruckInCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.weighTruckOutCommand;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +32,8 @@ public class WeighBridgeController {
 
     @PostMapping("/trucks/weighIn")
     public ResponseEntity<Void> weighTruckIn(@RequestBody WeighInDto dto) {
-        weighTruckInCommand TruckInCommand = new weighTruckInCommand(new LicensePlate(dto.licensePlate()), dto.startWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
-        weighBridgeUseCase.weighTruckIn(TruckInCommand);
+        WeighTruckInCommand truckInCommand = new WeighTruckInCommand(new LicensePlate(dto.licensePlate()), dto.startWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
+        weighBridgeUseCase.weighTruckIn(truckInCommand);
         return ResponseEntity.ok().build();
     }
 
@@ -42,7 +42,7 @@ public class WeighBridgeController {
     public ResponseEntity<Void> weighTruckOut(@RequestBody WeighOutDto dto) {
 
         weighTruckOutCommand truckOutCommand = new weighTruckOutCommand(
-                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighInTime() , dto.warehouseStatus() , new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId()))
+                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighInTime() , new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId()))
         );
 
         weighBridgeUseCase.weighTruckOut(truckOutCommand);

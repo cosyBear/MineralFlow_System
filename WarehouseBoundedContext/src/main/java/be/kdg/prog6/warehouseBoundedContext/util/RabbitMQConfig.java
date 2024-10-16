@@ -1,6 +1,7 @@
 package be.kdg.prog6.warehouseBoundedContext.util;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
@@ -35,8 +36,6 @@ public class RabbitMQConfig {
                 .to(warehouseExchange)
                 .with(ROUTING_KEY);
     }
-
-
     @Bean
     RabbitTemplate rabbitTemplate(final ConnectionFactory connectionFactory) {
         final var rabbitTemplate = new RabbitTemplate(connectionFactory);
@@ -46,9 +45,11 @@ public class RabbitMQConfig {
 
     @Bean
     Jackson2JsonMessageConverter producerJackson2MessageConverter() {
-        return new Jackson2JsonMessageConverter();
+        ObjectMapper objectMapper = new ObjectMapper();
+        objectMapper.registerModule(new JavaTimeModule());  // Register the module to handle Java 8 Date/Time API
+        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);  // Optional: disable timestamps
+
+        return new Jackson2JsonMessageConverter(objectMapper);
     }
-
-
 
 }

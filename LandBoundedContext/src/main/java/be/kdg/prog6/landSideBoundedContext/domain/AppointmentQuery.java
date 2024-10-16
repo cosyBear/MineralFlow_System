@@ -12,18 +12,16 @@ public class AppointmentQuery {
     private  LocalDateTime time;
     private  SellerId sellerId;
     private LicensePlate licensePlate;
-    private  double payload;
     public AppointmentQuery(){
 
     }
 
-    public AppointmentQuery(AppointmentStatus AppointmentStatus, MaterialType materialType, LocalDateTime time, SellerId sellerId, LicensePlate licensePlate, double payload) {
+    public AppointmentQuery(AppointmentStatus AppointmentStatus, MaterialType materialType, LocalDateTime time, SellerId sellerId, LicensePlate licensePlate) {
         this.AppointmentStatus = AppointmentStatus;
         this.materialType = materialType;
         this.time = time;
         this.sellerId = sellerId;
         this.licensePlate = licensePlate;
-        this.payload = payload;
     }
 
     public AppointmentStatus getAppointmentStatus() {
@@ -66,13 +64,6 @@ public class AppointmentQuery {
         this.licensePlate = licensePlate;
     }
 
-    public double getPayload() {
-        return payload;
-    }
-
-    public void setPayload(double payload) {
-        this.payload = payload;
-    }
 
     @Override
     public String toString() {
@@ -81,7 +72,6 @@ public class AppointmentQuery {
                 "materialType=" + materialType + ", " +
                 "time=" + time + ", " +
                 "sellerId=" + sellerId + ", " +
-                "licensePlate=" + licensePlate + ", " +
-                "payload=" + payload + ']';
+                "licensePlate=" + licensePlate ;
     }
 }

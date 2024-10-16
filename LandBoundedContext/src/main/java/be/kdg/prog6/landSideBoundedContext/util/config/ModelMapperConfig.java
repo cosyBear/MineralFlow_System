@@ -143,8 +143,7 @@ public class ModelMapperConfig {
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
                 map(source.getTime(), destination.getTime());
-                map(source.getPayload() , destination.getPayload());
-                map(source.getAppointmentStatus() , destination.getAppointmentStatus());
+                map(source.getStatus() , destination.getStatus());
             }
         });
 
@@ -156,12 +155,11 @@ public class ModelMapperConfig {
                 map(source.getTime(), destination.getTime());
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
-                map(source.getPayload() , destination.getPayload());
-                map(source.getAppointmentStatus() , destination.getAppointmentStatus());
+                map(source.getStatus() , destination.getStatus());
             }
         });
 
-        modelMapper.addMappings(new PropertyMap<WareHouse, WareHouseEntity>() {
+        modelMapper.addMappings(new PropertyMap<Warehouse, WareHouseEntity>() {
             @Override
             protected void configure() {
                 map(source.getWarehouseId(), destination.getWarehouseId());
@@ -172,7 +170,7 @@ public class ModelMapperConfig {
         });
 
 
-        modelMapper.addMappings(new PropertyMap<WareHouseEntity, WareHouse>() {
+        modelMapper.addMappings(new PropertyMap<WareHouseEntity, Warehouse>() {
             @Override
             protected void configure() {
                 map(source.getWarehouseId(), destination.getWarehouseId());
@@ -186,12 +184,11 @@ public class ModelMapperConfig {
         modelMapper.addMappings(new PropertyMap<Appointment, AppointmentQuery>() {
             @Override
             protected void configure() {
-                map(source.getAppointmentStatus(), destination.getAppointmentStatus());
+                map(source.getStatus(), destination.getAppointmentStatus());
                 map(source.getMaterialType(), destination.getMaterialType());
                 map(source.getTime(), destination.getTime());
                 map(source.getSellerId(), destination.getSellerId());
                 map(source.getLicensePlate(), destination.getLicensePlate());
-                map(source.getPayload(), destination.getPayload());
             }
         });
 

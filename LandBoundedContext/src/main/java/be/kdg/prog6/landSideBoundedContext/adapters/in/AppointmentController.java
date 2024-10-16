@@ -3,7 +3,7 @@ package be.kdg.prog6.landSideBoundedContext.adapters.in;
 import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.MakeAppointmentDto;
+import be.kdg.prog6.landSideBoundedContext.adapters.in.dto.MakeAppointmentDto;
 import be.kdg.prog6.landSideBoundedContext.domain.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import org.modelmapper.ModelMapper;
@@ -28,7 +28,7 @@ public class AppointmentController  {
 
         try {
             ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(new LicensePlate(makeAppointmentDto.licensePlate()),
-                    makeAppointmentDto.materialType(),  makeAppointmentDto.time(), new SellerId(java.util.UUID.fromString(makeAppointmentDto.sellerId())) , makeAppointmentDto.payload());
+                    makeAppointmentDto.materialType(),  makeAppointmentDto.time(), new SellerId(makeAppointmentDto.sellerId()) );
            Appointment appointment =  scheduleAppointmentUseCase.scheduleAppointment(scheduleAppointmentCommand);
 
 

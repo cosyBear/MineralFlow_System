@@ -19,10 +19,10 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
     @Query("select a from AppointmentEntity  a  where a.sellerId = :sellerId  and a.MaterialTypeEntity = :materialType")
     AppointmentEntity findBySellerIdAndMaterialType(@Param("sellerId") UUID sellerId , @Param("materialType") MaterialTypeEntity materialType);
 
-    @Query("SELECT a FROM AppointmentEntity a WHERE a.AppointmentStatus = 'ON_SITE' and DATE(a.time) = :date")
+    @Query("SELECT a FROM AppointmentEntity a WHERE a.status = 'ON_SITE' and DATE(a.time) = :date")
     List<AppointmentEntity> fetchTrucksOnSite(@Param("date") LocalDate date);
 
-    @Query("SELECT a FROM AppointmentEntity a WHERE a.AppointmentStatus = 'ON_TIME' and DATE(a.time) = :date")
+    @Query("SELECT a FROM AppointmentEntity a WHERE a.status = 'ON_TIME' and DATE(a.time) = :date")
     List<AppointmentEntity> fetchTrucksOnTime(@Param("date") LocalDate date);
 
 }

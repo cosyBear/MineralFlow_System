@@ -11,24 +11,24 @@ VALUES
     (UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')), UNHEX(REPLACE('b03f68bb-6606-482d-8007-dc7f94acb1e5', '-', ''))); -- For SLAG
 
 -- Insert into WarehouseEventEntity for each warehouse
-INSERT INTO warehouse_event_entity (event_id, event_time, event_type, material_weight, weigh_bridge_ticket_id, warehouse_events_window_id)
+INSERT INTO warehouse_event_entity (event_id, event_time, event_type, material_weight, weigh_bridge_ticket_id, warehouse_events_window_id, material_type)
 VALUES
     -- Events for IRON warehouse
-    (UNHEX(REPLACE('f1a7b8c9-11d2-1112-a7b8-1234567890ff', '-', '')), '2024-10-01 12:00:00', 'DELIVER', 1000.50, UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', ''))),
-    (UNHEX(REPLACE('f2b9c8d7-22d3-2223-b9c8-1234567890aa', '-', '')), '2024-10-02 14:30:00', 'DELIVER', 500.00, UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', ''))),
+    (UNHEX(REPLACE('f1a7b8c9-11d2-1112-a7b8-1234567890ff', '-', '')), '2024-10-01 12:00:00', 'DELIVER', 1000.50, UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), 'IRON'),
+    (UNHEX(REPLACE('f2b9c8d7-22d3-2223-b9c8-1234567890aa', '-', '')), '2024-10-02 14:30:00', 'DELIVER', 500.00, UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', '')), 'IRON'),
 
     -- Events for GYPSUM warehouse
-    (UNHEX(REPLACE('f3c1d2e3-33d4-3334-c1d2-1234567890bb', '-', '')), '2024-10-01 12:30:00', 'DELIVER', 1200.00, UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', ''))),
-    (UNHEX(REPLACE('f4d5e4f4-44d5-4445-d5e4-1234567890cc', '-', '')), '2024-10-03 16:00:00', 'DELIVER', 600.00, UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', ''))),
+    (UNHEX(REPLACE('f3c1d2e3-33d4-3334-c1d2-1234567890bb', '-', '')), '2024-10-01 12:30:00', 'DELIVER', 1200.00, UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), 'GYPSUM'),
+    (UNHEX(REPLACE('f4d5e4f4-44d5-4445-d5e4-1234567890cc', '-', '')), '2024-10-03 16:00:00', 'DELIVER', 600.00, UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), UNHEX(REPLACE('b2b2d7e2-f3a2-22b3-b2c4-1234567890bb', '-', '')), 'GYPSUM'),
 
     -- Events for CEMENT warehouse
-    (UNHEX(REPLACE('f5e6f5a7-55d6-5556-e6f5-1234567890dd', '-', '')), '2024-10-04 09:30:00', 'DELIVER', 1500.00, UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', '')), UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', ''))),
+    (UNHEX(REPLACE('f5e6f5a7-55d6-5556-e6f5-1234567890dd', '-', '')), '2024-10-04 09:30:00', 'DELIVER', 1500.00, UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', '')), UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', '')), 'CEMENT'),
 
     -- Events for PETCOKE warehouse
-    (UNHEX(REPLACE('f6f5a7b6-66d7-6667-f5a7-1234567890ee', '-', '')), '2024-10-05 10:00:00', 'DELIVER', 900.00, UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', '')), UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', ''))),
+    (UNHEX(REPLACE('f6f5a7b6-66d7-6667-f5a7-1234567890ee', '-', '')), '2024-10-05 10:00:00', 'DELIVER', 900.00, UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', '')), UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', '')), 'PETCOKE'),
 
     -- Events for SLAG warehouse
-    (UNHEX(REPLACE('f7b9c8d7-77d8-7778-b9c8-1234567890ff', '-', '')), '2024-10-06 11:00:00', 'DELIVER', 800.00, UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')), UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')));
+    (UNHEX(REPLACE('f7b9c8d7-77d8-7778-b9c8-1234567890ff', '-', '')), '2024-10-06 11:00:00', 'DELIVER', 800.00, UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')), UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')), 'SLAG');
 
 -- Insert into WarehouseEntity
 INSERT INTO warehouse_entity (warehouse_id, seller_id, material_type, warehouse_events_window_id)

@@ -17,6 +17,5 @@ public record WeighInTruckDto(
         @JsonSerialize(using = LocalDateTimeSerializer.class)
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         LocalDateTime weighInTime,
-        double grossWeight,
-        String warehouseStatus
+        double grossWeight
 ) {}

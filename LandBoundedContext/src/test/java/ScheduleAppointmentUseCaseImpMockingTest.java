@@ -10,15 +10,11 @@ import domain.MaterialType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -55,8 +51,8 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
 
 
     }
-    public WareHouse createWarehouse() {
-        return  new WareHouse(WarehouseId  , sellerID , materialType , amountOfMaterialTypeInWarehouse);
+    public Warehouse createWarehouse() {
+        return  new Warehouse(WarehouseId  , sellerID , materialType , amountOfMaterialTypeInWarehouse);
     }
     public DayCalendar createCalendar() {
         List<Appointment> appointments = new ArrayList<>();

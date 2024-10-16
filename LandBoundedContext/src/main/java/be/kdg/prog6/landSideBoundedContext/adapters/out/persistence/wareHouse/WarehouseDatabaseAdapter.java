@@ -1,7 +1,8 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.persistence.wareHouse;
 
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.WareHouseEntity;
-import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
+import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
+import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseSavePort;
 import domain.MaterialType;
@@ -29,47 +30,47 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
 
 
     @Override
-    public List<WareHouse> findAllBySellerId(UUID sellerId) {
+    public List<Warehouse> findAllBySellerId(UUID sellerId) {
 
-        List<WareHouse> warehouseList = new ArrayList<>();
+        List<Warehouse> warehouseList = new ArrayList<>();
         for(WareHouseEntity warehouseEntity : warehouseRepo.findAllBySellerId(sellerId)) {
-            warehouseList.add(modelMapper.map(warehouseEntity, WareHouse.class));
+            warehouseList.add(modelMapper.map(warehouseEntity, Warehouse.class));
         }
         return warehouseList;
     }
 
     @Override
-    public WareHouse findBySellerId(UUID sellerId) {
-        return modelMapper.map(warehouseRepo.findBySellerId(sellerId), WareHouse.class);
+    public Warehouse findBySellerId(UUID sellerId) {
+        return modelMapper.map(warehouseRepo.findBySellerId(sellerId), Warehouse.class);
     }
 
     @Override
-    public WareHouse findBySellerIdAAndMaterialType(UUID sellerId, MaterialType materialType) {
-        return modelMapper.map(warehouseRepo.findBySellerIdAndMaterialType(sellerId, materialType), WareHouse.class);
+    public Warehouse findBySellerIdAAndMaterialType(SellerId sellerId, MaterialType materialType) {
+        return modelMapper.map(warehouseRepo.findBySellerIdAndMaterialType(sellerId.id(), materialType), Warehouse.class);
     }
 
     @Override
-    public Optional<WareHouse> findById(UUID id) {
+    public Optional<Warehouse> findById(UUID id) {
         return warehouseRepo.findById(id)
                 .map(warehouseEntity -> {
                     LOGGER.info(warehouseEntity.toString());
-                    return modelMapper.map(warehouseEntity, WareHouse.class);
+                    return modelMapper.map(warehouseEntity, Warehouse.class);
                 });
     }
 
     @Override
-    public List<WareHouse> warehouseOverview() {
-        List<WareHouse> wareHouseList = new ArrayList<>();
+    public List<Warehouse> warehouseOverview() {
+        List<Warehouse> warehouseList = new ArrayList<>();
 
         for(WareHouseEntity warehouseEntity : warehouseRepo.findAll()) {
-            wareHouseList.add(modelMapper.map(warehouseEntity, WareHouse.class));
+            warehouseList.add(modelMapper.map(warehouseEntity, Warehouse.class));
         }
-        return wareHouseList;
+        return warehouseList;
 
     }
 
     @Override
-    public void Save(WareHouse warehouse) {
+    public void Save(Warehouse warehouse) {
         WareHouseEntity wareHouseEntity = modelMapper.map(warehouse, WareHouseEntity.class);
         warehouseRepo.save(wareHouseEntity);
     }

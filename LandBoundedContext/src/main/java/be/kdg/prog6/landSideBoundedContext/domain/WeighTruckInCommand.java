@@ -6,7 +6,7 @@ import org.antlr.v4.runtime.misc.NotNull;
 
 import java.time.LocalDateTime;
 
-public record weighTruckInCommand(
+public record WeighTruckInCommand(
         @NotNull LicensePlate licensePlate,
          double startWeight,
         @NotNull MaterialType materialType,

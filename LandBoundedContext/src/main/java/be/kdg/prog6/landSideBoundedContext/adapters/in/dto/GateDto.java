@@ -1,5 +1,7 @@
-package be.kdg.prog6.landSideBoundedContext.domain;
+package be.kdg.prog6.landSideBoundedContext.adapters.in.dto;
 //import be.kdg.prog6.landSideBoundedContext.util.LicensePlateDeserializer;
+
+import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
 
 import java.time.LocalDateTime;
 

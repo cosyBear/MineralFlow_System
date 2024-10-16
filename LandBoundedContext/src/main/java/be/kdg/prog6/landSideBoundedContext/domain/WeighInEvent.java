@@ -29,17 +29,14 @@ public class WeighInEvent {
     @JsonProperty("weighInTime")
     private LocalDateTime weighInTime;
 
-    private WarehouseStatus warehouseStatus;
 
-
-    public WeighInEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double grossWeight, MaterialType materialType, LocalDateTime weighInTime, WarehouseStatus warehouseStatus) {
+    public WeighInEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double grossWeight, MaterialType materialType, LocalDateTime weighInTime) {
         this.weighBridgeTicketId = weighBridgeTicketId;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
         this.grossWeight = grossWeight;
         this.materialType = materialType;
         this.weighInTime = weighInTime;
-        this.warehouseStatus = warehouseStatus;
     }
 
 
@@ -51,13 +48,6 @@ public class WeighInEvent {
         this.weighBridgeTicketId = weighBridgeTicketId;
     }
 
-    public WarehouseStatus getWarehouseStatus() {
-        return warehouseStatus;
-    }
-
-    public void setWarehouseStatus(WarehouseStatus warehouseStatus) {
-        this.warehouseStatus = warehouseStatus;
-    }
 
     public String getLicensePlate() {
         return licensePlate;

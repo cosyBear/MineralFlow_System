@@ -1,4 +1,4 @@
-package be.kdg.prog6.landSideBoundedContext.domain;
+package be.kdg.prog6.landSideBoundedContext.adapters.in.dto;
 
 import domain.MaterialType;
 

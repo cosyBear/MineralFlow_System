@@ -13,17 +13,15 @@ public class WeighTruckOutCommand {
     private final double materialTrueWeight;
     private final MaterialType materialType;
     private final LocalDateTime weighOutTime;
-    private final String wareHouseStatus;
 
     public WeighTruckOutCommand(UUID weighBridgeTicketId, String licensePlate, SellerId sellerId, double materialTrueWeight, MaterialType materialType,
-                                LocalDateTime weighOutTime, String wareHouseStatus) {
+                                LocalDateTime weighOutTime) {
         this.weighBridgeTicketId = weighBridgeTicketId;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
         this.materialTrueWeight = materialTrueWeight;
         this.materialType = materialType;
         this.weighOutTime = weighOutTime;
-        this.wareHouseStatus = wareHouseStatus;
     }
 
     public UUID weighBridgeTicketId() {
@@ -54,9 +52,6 @@ public class WeighTruckOutCommand {
         return weighOutTime;
     }
 
-    public String getWareHouseStatus() {
-        return wareHouseStatus;
-    }
 
     public String licensePlate() {
         return licensePlate;
@@ -78,9 +73,6 @@ public class WeighTruckOutCommand {
         return weighOutTime;
     }
 
-    public String wareHouseStatus() {
-        return wareHouseStatus;
-    }
 
 
     @Override
@@ -91,8 +83,7 @@ public class WeighTruckOutCommand {
                 "sellerId=" + sellerId + ", " +
                 "weighInTime=" + materialTrueWeight + ", " +
                 "materialType=" + materialType + ", " +
-                "weighInTime=" + weighOutTime + ", " +
-                "wareHouseStatus=" + wareHouseStatus + ']';
+                "weighInTime=" + weighOutTime + ", ";
     }
 
 }

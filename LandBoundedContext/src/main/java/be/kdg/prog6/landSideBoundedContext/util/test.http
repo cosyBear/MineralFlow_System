@@ -14,8 +14,7 @@ Content-Type: application/json
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
   "licensePlate": "ABC1236",
   "materialType": "PETCOKE",
-  "time": "2024-10-23T11:00:00",
-  "payload": 100
+  "time": "2024-11-23T11:00:00"
 }
 
 ### Weigh-In Test Request
@@ -28,7 +27,7 @@ Content-Type: application/json
   "startWeight": 150.0,
   "materialType": "PETCOKE",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
-  "weighInTime": "2024-10-23T11:00:00"
+  "weighInTime": "2024-11-23T11:00:00"
 }
 
 ###
@@ -37,12 +36,11 @@ Content-Type: application/json
 
 {
   "licensePlate": "ABC1236",
-  "endWeight": 50.0,
+  "endWeight": 180.0,
   "materialType": "PETCOKE",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
-  "weighInTime": "2024-10-23T12:00:00",
-  "warehouseStatus": "ALREADY_EXISTS_NOT_FULL",
-  "WeighBridgeTicketId": "a26d17f6-cca2-4a5e-8084-7c217aca9817"
+  "weighInTime": "2024-11-23T12:00:00",
+  "WeighBridgeTicketId": "dc644d68-14de-4538-be0d-009e769770ad"
 }
 
 

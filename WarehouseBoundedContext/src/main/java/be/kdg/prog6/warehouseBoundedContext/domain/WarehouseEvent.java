@@ -1,6 +1,8 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
 
+import domain.MaterialType;
+
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
@@ -13,20 +15,24 @@ public final class WarehouseEvent {
     private  double materialWeight;
     private  UUID weighBridgeTicketId;
     private  UUID warehouseEventsWindowId;
+    private MaterialType materialType;
 
 
     public WarehouseEvent(){
 
     }
 
-    public WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialWeight, UUID weighBridgeTicketId, UUID warehouseEventsWindowId) {
+    public WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialWeight, UUID weighBridgeTicketId, UUID warehouseEventsWindowId , MaterialType materialType ) {
         this.id = id;
         this.time = time;
         this.type = type;
         this.materialWeight = materialWeight;
         this.weighBridgeTicketId = weighBridgeTicketId;
         this.warehouseEventsWindowId = warehouseEventsWindowId;
+        this.materialType = materialType;
     }
+
+
 
     public double getChangeToLoad() {
         return type == EventType.DELIVER ? materialWeight : -materialWeight;
@@ -103,6 +109,14 @@ public final class WarehouseEvent {
 
     public void setWarehouseEventsWindowId(UUID warehouseEventsWindowId) {
         this.warehouseEventsWindowId = warehouseEventsWindowId;
+    }
+
+    public MaterialType getMaterialType() {
+        return materialType;
+    }
+
+    public void setMaterialType(MaterialType materialType) {
+        this.materialType = materialType;
     }
 
     @Override

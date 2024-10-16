@@ -1,4 +1,4 @@
-import be.kdg.prog6.landSideBoundedContext.domain.WareHouse;
+import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import domain.MaterialType;
 
@@ -15,34 +15,34 @@ public class WarehouseLoadPortStub implements WarehouseLoadPort {
 
     }
     @Override
-    public Optional<WareHouse> findById(UUID id) {
+    public Optional<Warehouse> findById(UUID id) {
 
         if (testData.warehouseId().warehouseId().equals(id)) {
-            return Optional.of(new WareHouse(testData.warehouseId() , testData.sellerId(),  testData.materialType()  , testData.materialAmount()));
+            return Optional.of(new Warehouse(testData.warehouseId() , testData.sellerId(),  testData.materialType()  , testData.materialAmount()));
         }else
             return Optional.empty();
 
     }
 
     @Override
-    public List<WareHouse> findAllBySellerId(UUID sellerId) {
+    public List<Warehouse> findAllBySellerId(UUID sellerId) {
         return List.of();
     }
 
     @Override
-    public WareHouse findBySellerId(UUID sellerId) {
+    public Warehouse findBySellerId(UUID sellerId) {
         return null;
     }
 
     @Override
-    public WareHouse findBySellerIdAAndMaterialType(UUID sellerId, MaterialType materialType) {
+    public Warehouse findBySellerIdAAndMaterialType(UUID sellerId, MaterialType materialType) {
         return null;
     }
 
 
 
     @Override
-    public List<WareHouse> warehouseOverview() {
+    public List<Warehouse> warehouseOverview() {
         return List.of();
     }
 }

@@ -7,5 +7,5 @@ import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderCommand;
 
 public interface PurchaseOrderUseCase {
 
-    void CreatePurchaseOrder(PurchaseOrderCommand purchaseOrderCommand);
+    void createPurchaseOrder(PurchaseOrderCommand purchaseOrderCommand);
 }

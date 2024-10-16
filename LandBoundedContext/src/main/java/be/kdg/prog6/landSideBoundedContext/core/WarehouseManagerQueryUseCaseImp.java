@@ -30,7 +30,6 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
 
     @Override
     public List<AppointmentQuery> fetchTrucksOnSite(LocalDate time) {
-
             List<Appointment> appointmentList = calendarLoadPort.fetchTrucksOnSite(time).getAppointments();
             List<AppointmentQuery> appointmentQueryList = new ArrayList<>();
             for (Appointment appointment : appointmentList) {
@@ -58,9 +57,9 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
 
 
 
-    public List<WarehouseOverviewQuery> mapToOverviewQuery(List<WareHouse> wareHouseList) {
+    public List<WarehouseOverviewQuery> mapToOverviewQuery(List<Warehouse> warehouseList) {
             List<WarehouseOverviewQuery> warehouseOverviewQueryList = new ArrayList<>();
-        for(WareHouse wareHouse : wareHouseList){
+        for(Warehouse wareHouse : warehouseList){
             WarehouseOverviewQuery warehouseOverviewQuery = new WarehouseOverviewQuery(wareHouse.getWarehouseId().warehouseId()
             , wareHouse.getSellerId().id() , wareHouse.getAmountOfMaterial() , wareHouse.getMaterialType()
             ,wareHouse.isFull() , wareHouse.isAtOverflow());
