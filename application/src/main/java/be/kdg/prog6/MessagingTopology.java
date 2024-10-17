@@ -1,5 +1,6 @@
 package be.kdg.prog6;
 
+import org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
@@ -42,7 +43,7 @@ public class MessagingTopology {
     // Create the queue
     @Bean
     public Queue warehouseMaterialQueue() {
-        return new Queue(WAREHOUSE_MATERIAL_QUEUE, true); // 'true' means the queue will be durable
+        return new Queue(WAREHOUSE_MATERIAL_QUEUE); // 'true' means the queue will be durable
     }
 
     // Bind the queue to the exchange with a routing key
@@ -70,7 +71,13 @@ public class MessagingTopology {
         template.setMessageConverter(jsonMessageConverter());
         return template;
     }
-
+    @Bean
+    public SimpleRabbitListenerContainerFactory rabbitListenerContainerFactory(ConnectionFactory connectionFactory) {
+        SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
+        factory.setConnectionFactory(connectionFactory);
+        factory.setMessageConverter(jsonMessageConverter());
+        return factory;
+    }
 
 
     public static final String WEIGHBRIDGE_EXCHANGE = "weighbridgeExchange";
@@ -84,12 +91,12 @@ public class MessagingTopology {
 
     @Bean
     Queue truckWeightedInQueue() {
-        return new Queue(TRUCK_WEIGHTED_IN_QUEUE, true);
+        return new Queue(TRUCK_WEIGHTED_IN_QUEUE);
     }
 
     @Bean
     Queue truckWeightedOutQueue() {
-        return new Queue(TRUCK_WEIGHTED_Out_QUEUE, true);
+        return new Queue(TRUCK_WEIGHTED_Out_QUEUE);
     }
 
 
