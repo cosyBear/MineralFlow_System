@@ -53,6 +53,8 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
     public void truckOut(WeighTruckOutCommand truckOutCommand) {
         Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType(truckOutCommand.sellerId(), truckOutCommand.materialType());
         final WarehouseEvent event  = warehouse.deliveryMaterial(truckOutCommand.getWeighOutTime() , truckOutCommand.getMaterialTrueWeight() , truckOutCommand.weighBridgeTicketId() , truckOutCommand.getMaterialType());
+        logger.info("WTFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF");
+        logger.info("why is you not working plssssssssssssssssssssssss tellll meeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
         warehouseSavePorts.forEach(savePort -> savePort.save(warehouse, event));
     }
 

@@ -1,6 +1,7 @@
 package be.kdg.prog6;
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.context.annotation.Bean;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
@@ -51,29 +52,23 @@ public class MessagingTopology {
                 .to(warehouseExchange)
                 .with(ROUTING_KEY);
     }
-    @Bean
-    public Jackson2JsonMessageConverter jsonMessageConverter() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-        return new Jackson2JsonMessageConverter(objectMapper);
-    }
+//    @Bean
+//    public Jackson2JsonMessageConverter jsonMessageConverter() {
+//        ObjectMapper objectMapper = new ObjectMapper();
+//        objectMapper.registerModule(new JavaTimeModule());
+//        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+//        return new Jackson2JsonMessageConverter(objectMapper);
+//    }
+        @Bean
+        public MessageConverter jsonMessageConverter() {
+            return new Jackson2JsonMessageConverter();
+        }
 
     @Bean
     public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
         template.setMessageConverter(jsonMessageConverter());
         return template;
-    }
-
-
-    @Bean
-    Jackson2JsonMessageConverter producerJackson2MessageConverter() {
-        ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.registerModule(new JavaTimeModule());  // Register the module to handle Java 8 Date/Time API
-        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);  // Optional: disable timestamps
-
-        return new Jackson2JsonMessageConverter(objectMapper);
     }
 
 

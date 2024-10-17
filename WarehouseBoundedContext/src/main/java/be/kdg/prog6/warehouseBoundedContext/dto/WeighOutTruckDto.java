@@ -12,8 +12,8 @@ public record  WeighOutTruckDto        (UUID weighBridgeTicketId,
                                         String licensePlate,  // change to simple String
                                         UUID sellerId,      // change to simple String or UUID
                                         String materialType,
-                                        @JsonSerialize(using = LocalDateTimeSerializer.class)
-                                        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//                                        @JsonSerialize(using = LocalDateTimeSerializer.class)
+//                                        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
                                         LocalDateTime weighOutTime,
                                         double endWeight
 ) {}
