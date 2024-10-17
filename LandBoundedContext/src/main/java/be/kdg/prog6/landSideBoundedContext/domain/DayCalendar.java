@@ -85,7 +85,7 @@ public class DayCalendar {
     }
 
     public List<Appointment> getAppointments() {
-        return appointments;
+        return Collections.unmodifiableList(appointments);
     }
 
     public void setAppointments(List<Appointment> appointments) {

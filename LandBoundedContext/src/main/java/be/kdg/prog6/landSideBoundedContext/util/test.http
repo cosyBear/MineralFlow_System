@@ -1,5 +1,5 @@
 
-GET http://localhost:8091/api/warehousemanager/trucks/onSite?date=2024-09-23
+GET http://localhost:8090/api/warehousemanager/trucks/onSite?date=2024-09-23
 Content-Type: application/json
 ###
 
@@ -64,3 +64,10 @@ Content-Type: application/json
   "materialType": "IRON",
   "amountOfMaterialInTons": 100.0
 }
+
+
+###
+
+
+POST http://localhost:8094/api/ships
+Content-Type: application/json
