@@ -3,7 +3,7 @@ package be.kdg.prog6.landSideBoundedContext.adapters.in;
 import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.adapters.in.dto.MakeAppointmentDto;
+import be.kdg.prog6.landSideBoundedContext.domain.dto.MakeAppointmentDto;
 import be.kdg.prog6.landSideBoundedContext.domain.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import org.modelmapper.ModelMapper;

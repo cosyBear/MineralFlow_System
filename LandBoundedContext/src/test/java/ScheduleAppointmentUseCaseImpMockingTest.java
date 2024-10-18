@@ -42,7 +42,7 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
         appointmentSavePort =  mock(AppointmentSavePort.class);
         warehouseLoadPort =  mock(WarehouseLoadPort.class);
 
-        when(warehouseLoadPort.findBySellerIdAAndMaterialType(sellerID.id() , materialType)).thenReturn(
+        when(warehouseLoadPort.findBySellerIdAAndMaterialType(new SellerId(sellerID.id() ), materialType)).thenReturn(
                         createWarehouse());
         when(calendarLoadPort.loadAppointmentsByDate(dateTime.toLocalDate())).thenReturn(
                 createCalendar()
@@ -61,7 +61,6 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
                 dateTime,
                 sellerID,
                 licensePlate,
-                150,
                 AppointmentStatus.AWAITING_ARRIVAL
         );
         appointments.add(appointment1);
@@ -75,8 +74,7 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
                 licensePlate,
                 materialType,
                 dateTime,
-                sellerID,
-                150
+                sellerID
         );
         // Act
         sut.scheduleAppointment(command);
@@ -92,8 +90,6 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
         assertEquals(dateTime, capturedAppointment.getTime());
         assertEquals(sellerID, capturedAppointment.getSellerId());
         assertEquals(licensePlate.licensePlate(), capturedAppointment.getLicensePlate().licensePlate());
-        assertEquals(150, capturedAppointment.getPayload());
-
     }
 
 

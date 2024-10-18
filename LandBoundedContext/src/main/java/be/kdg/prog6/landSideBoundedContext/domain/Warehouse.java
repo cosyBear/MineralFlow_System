@@ -32,6 +32,12 @@ public class Warehouse {
         this.amountOfMaterial += amount;
     }
 
+    public Warehouse(WarehouseId warehouseId, SellerId sellerId, MaterialType materialType, double amountOfMaterial) {
+        this.warehouseId = warehouseId;
+        this.sellerId = sellerId;
+        this.materialType = materialType;
+        this.amountOfMaterial = amountOfMaterial;
+    }
 
     public WarehouseId getWarehouseId() {
         return warehouseId;

@@ -1,14 +1,16 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
 
 
+import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderLine;
 import domain.MaterialType;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(catalog = "app_db")
+@Table(catalog = "warehouse_db")
 public class PurchaseOrderEntity {
 
     @Id
@@ -22,21 +24,26 @@ public class PurchaseOrderEntity {
 
     private String customerName;
 
-    @Enumerated(EnumType.STRING)
-    private MaterialType materialType;
 
-    private double amountOfMaterialInTons;
+    @OneToMany(mappedBy = "purchaseOrder",cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PurchaseOrderLineEntity> purchaseOrderLines;
+
 
     public PurchaseOrderEntity() {
 
     }
-    public PurchaseOrderEntity(UUID purchaseOrderId, LocalDate orderDate, UUID sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
+    public PurchaseOrderEntity(UUID purchaseOrderId, LocalDate orderDate, UUID sellerId, String customerName, List<PurchaseOrderLineEntity> purchaseOrderLines) {
         this.purchaseOrderId = purchaseOrderId;
         this.orderDate = orderDate;
         this.sellerId = sellerId;
         this.customerName = customerName;
-        this.materialType = materialType;
-        this.amountOfMaterialInTons = amountOfMaterialInTons;
+        this.purchaseOrderLines = purchaseOrderLines;
+    }
+    public PurchaseOrderEntity(LocalDate orderDate, UUID sellerId, String customerName, List<PurchaseOrderLineEntity> purchaseOrderLines) {
+        this.orderDate = orderDate;
+        this.sellerId = sellerId;
+        this.customerName = customerName;
+        this.purchaseOrderLines = purchaseOrderLines;
     }
 
 
@@ -72,19 +79,11 @@ public class PurchaseOrderEntity {
         this.customerName = customerName;
     }
 
-    public MaterialType getMaterialType() {
-        return materialType;
+    public List<PurchaseOrderLineEntity> getPurchaseOrderLines() {
+        return purchaseOrderLines;
     }
 
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public double getAmountOfMaterialInTons() {
-        return amountOfMaterialInTons;
-    }
-
-    public void setAmountOfMaterialInTons(double amountOfMaterialInTons) {
-        this.amountOfMaterialInTons = amountOfMaterialInTons;
+    public void setPurchaseOrderLines(List<PurchaseOrderLineEntity> purchaseOrderLines) {
+        this.purchaseOrderLines = purchaseOrderLines;
     }
 }

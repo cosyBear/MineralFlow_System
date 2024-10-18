@@ -41,7 +41,6 @@ public class WarehouseProjectionUseCaseStubbingTest {
         assertEquals(testData.sellerId(), warehouseCaptor.getValue().getSellerId());
         assertEquals(testData.warehouseExpectedMaterialAmount(), warehouseCaptor.getValue().getAmountOfMaterial());
 
-
     }
 
 

@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 public class AppointmentQuery {
 
-    private be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus AppointmentStatus;
+    private AppointmentStatus AppointmentStatus;
     private MaterialType materialType;
     private  LocalDateTime time;
     private  SellerId sellerId;

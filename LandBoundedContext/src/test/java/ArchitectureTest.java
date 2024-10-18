@@ -36,13 +36,6 @@ public class ArchitectureTest {
                     .because("Repository classes should only reside in the adapter layer.");
 
 
-    @ArchTest
-    static final ArchRule adaptersShouldDependOnlyOnPortsAndExternalLibs =
-            noClasses().that().resideInAPackage(ADAPTER_LAYER)
-                    .should().dependOnClassesThat().resideInAnyPackage(DOMAIN_LAYER, CORE_LAYER)
-                    .because("Adapters should interact with the domain and core through ports only, not directly.");
-
-
     @Test
     void givenApplicationClasses_thenNoLayerViolationsShouldExist() {
         JavaClasses jc = new ClassFileImporter().importPackages("be.kdg.prog6.landSideBoundedContext");

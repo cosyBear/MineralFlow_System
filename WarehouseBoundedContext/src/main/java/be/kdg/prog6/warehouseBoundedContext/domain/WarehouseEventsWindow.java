@@ -20,7 +20,27 @@ public class WarehouseEventsWindow {
     public WarehouseEventsWindow() {
     }
 
-    public WarehouseEventsWindow(WarehouseId warehouseId, UUID warehouseEventsWindowId , List<WarehouseEvent> warehouseEventList) {
+
+    public void createSnapshot() {
+        MaterialType materialType = warehouseEventList.get(0).getMaterialType();
+
+        double totalAmount = warehouseEventList.stream().
+                mapToDouble(WarehouseEvent::getChangeToLoad).sum();
+
+        warehouseEventList.clear();
+
+        warehouseEventList.add(
+                new WarehouseEvent(
+                        new WarehouseEventId(),
+                        LocalDateTime.now(),
+                        EventType.SNAPSHOT,
+                        totalAmount,
+                        this.getWarehouseEventsWindowId(),
+                        materialType
+                ));
+    }
+
+    public WarehouseEventsWindow(WarehouseId warehouseId, UUID warehouseEventsWindowId, List<WarehouseEvent> warehouseEventList) {
         this.warehouseId = warehouseId;
         this.warehouseEventsWindowId = warehouseEventsWindowId;
         this.warehouseEventList = new ArrayList<>();
@@ -42,7 +62,7 @@ public class WarehouseEventsWindow {
                 .sum();
     }
 
-    public WarehouseEvent addMaterialWeightEvent(LocalDateTime weighOutTime , double amount  , UUID weighBridgeTicketId , MaterialType typeofMaterial) {
+    public WarehouseEvent addMaterialWeightEvent(LocalDateTime weighOutTime, double amount, UUID weighBridgeTicketId, MaterialType typeofMaterial) {
         WarehouseEvent newEvent = new WarehouseEvent(
                 new WarehouseEventId(),
                 weighOutTime,

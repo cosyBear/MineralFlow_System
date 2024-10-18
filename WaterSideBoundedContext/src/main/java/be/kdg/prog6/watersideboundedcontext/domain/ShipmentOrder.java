@@ -19,7 +19,6 @@ public class ShipmentOrder {
     }
 
 
-
     public UUID getPurchaseOrder() {
         return purchaseOrder;
     }

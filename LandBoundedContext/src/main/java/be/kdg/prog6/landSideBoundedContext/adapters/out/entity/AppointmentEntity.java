@@ -25,12 +25,12 @@ public class AppointmentEntity {
 
 
     @Enumerated(EnumType.STRING)
-    private AppointmentStatus status;
+    private AppointmentStatusEntity status;
 
     public AppointmentEntity() {}
 
 
-    public AppointmentEntity(UUID id, String licensePlate, UUID sellerId, MaterialTypeEntity materialTypeEntity, LocalDateTime time, AppointmentStatus status) {
+    public AppointmentEntity(UUID id, String licensePlate, UUID sellerId, MaterialTypeEntity materialTypeEntity, LocalDateTime time, AppointmentStatusEntity status) {
         this.id= id;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
@@ -39,11 +39,11 @@ public class AppointmentEntity {
         this.status = status;
     }
 
-    public be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus getStatus() {
+    public AppointmentStatusEntity getStatus() {
         return status;
     }
 
-    public void setStatus(be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus status) {
+    public void setStatus(AppointmentStatusEntity status) {
         this.status = status;
     }
 
@@ -71,11 +71,11 @@ public class AppointmentEntity {
         this.sellerId = sellerId;
     }
 
-    public be.kdg.prog6.landSideBoundedContext.adapters.out.entity.MaterialTypeEntity getMaterialTypeEntity() {
+    public MaterialTypeEntity getMaterialTypeEntity() {
         return MaterialTypeEntity;
     }
 
-    public void setMaterialTypeEntity(be.kdg.prog6.landSideBoundedContext.adapters.out.entity.MaterialTypeEntity materialTypeEntity) {
+    public void setMaterialTypeEntity(MaterialTypeEntity materialTypeEntity) {
         MaterialTypeEntity = materialTypeEntity;
     }
 

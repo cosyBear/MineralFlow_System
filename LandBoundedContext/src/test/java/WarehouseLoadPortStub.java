@@ -1,3 +1,4 @@
+import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import domain.MaterialType;
@@ -35,11 +36,9 @@ public class WarehouseLoadPortStub implements WarehouseLoadPort {
     }
 
     @Override
-    public Warehouse findBySellerIdAAndMaterialType(UUID sellerId, MaterialType materialType) {
+    public Warehouse findBySellerIdAAndMaterialType(SellerId sellerId, MaterialType materialType) {
         return null;
     }
-
-
 
     @Override
     public List<Warehouse> warehouseOverview() {

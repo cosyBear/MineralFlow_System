@@ -3,6 +3,8 @@ package be.kdg.prog6.warehouseBoundedContext.domain;
 import domain.MaterialType;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -16,27 +18,25 @@ public class PurchaseOrder {
 
     private String CustomerName;
 
-    private MaterialType materialType;
+    private List<PurchaseOrderLine> orderLines = new ArrayList<>();  // List of materials and quantities being purchased
 
-    private double amountOfMaterialInTons;
-
-    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderNumber, SellerId sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
+    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderNumber, SellerId sellerId, String customerName, List<PurchaseOrderLine> orderLines) {
         this.orderDate = orderDate;
         this.purchaseOrderNumber = purchaseOrderNumber;
         this.sellerId = sellerId;
         CustomerName = customerName;
-        this.materialType = materialType;
-        this.amountOfMaterialInTons = amountOfMaterialInTons;
+        this.orderLines = orderLines;
     }
 
-    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
+    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName) {
         this.orderDate = orderDate;
+        this.purchaseOrderNumber = purchaseOrderNumber;
         this.sellerId = sellerId;
         CustomerName = customerName;
-        this.materialType = materialType;
-        this.amountOfMaterialInTons = amountOfMaterialInTons;
     }
-    public PurchaseOrder(){}
+
+
+
 
     public LocalDate getOrderDate() {
         return orderDate;
@@ -70,19 +70,11 @@ public class PurchaseOrder {
         CustomerName = customerName;
     }
 
-    public MaterialType getMaterialType() {
-        return materialType;
+    public List<PurchaseOrderLine> getOrderLines() {
+        return orderLines;
     }
 
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public double getAmountOfMaterialInTons() {
-        return amountOfMaterialInTons;
-    }
-
-    public void setAmountOfMaterialInTons(double amountOfMaterialInTons) {
-        this.amountOfMaterialInTons = amountOfMaterialInTons;
+    public void setOrderLines(List<PurchaseOrderLine> orderLines) {
+        this.orderLines = orderLines;
     }
 }
