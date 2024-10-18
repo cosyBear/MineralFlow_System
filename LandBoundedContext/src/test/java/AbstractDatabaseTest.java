@@ -17,6 +17,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ExtendWith(SpringExtension.class)
 @Testcontainers
 @ContextConfiguration(initializers = AbstractDatabaseTest.DataSourceInitializer.class)
+@ActiveProfiles("test")
+
 public abstract class AbstractDatabaseTest {
     private static final MySQLContainer<?> DATABASE;
 
