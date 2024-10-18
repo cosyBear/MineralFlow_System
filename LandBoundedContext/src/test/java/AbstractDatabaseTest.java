@@ -12,6 +12,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @Testcontainers
@@ -20,7 +21,9 @@ public abstract class AbstractDatabaseTest {
     private static final MySQLContainer<?> DATABASE;
 
     static {
-        DATABASE = new MySQLContainer<>("mysql:8.0.30");
+        // Initialize the MySQL container with the init script for granting privileges
+        DATABASE = new MySQLContainer<>("mysql:8.0.30")
+                .withInitScript("test-init.sql");  // The SQL script that grants permissions
         DATABASE.start();
     }
 
@@ -34,10 +37,10 @@ public abstract class AbstractDatabaseTest {
         @Override
         public void initialize(ConfigurableApplicationContext applicationContext) {
             TestPropertySourceUtils.addInlinedPropertiesToEnvironment(
-                applicationContext,
-                "spring.datasource.url=" + DATABASE.getJdbcUrl(),
-                "spring.datasource.username=" + DATABASE.getUsername(),
-                "spring.datasource.password=" + DATABASE.getPassword()
+                    applicationContext,
+                    "spring.datasource.url=" + DATABASE.getJdbcUrl(),
+                    "spring.datasource.username=" + DATABASE.getUsername(),
+                    "spring.datasource.password=" + DATABASE.getPassword()
             );
         }
     }
