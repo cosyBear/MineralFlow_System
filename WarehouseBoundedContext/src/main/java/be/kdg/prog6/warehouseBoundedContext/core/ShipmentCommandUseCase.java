@@ -11,6 +11,8 @@ import domain.MaterialType;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
@@ -29,18 +31,43 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
         this.warehouseSavePort = warehouseSavePort;
     }
 
+//@Override
+//    public void shipmentIn(ShipmentCommand command) {
+//        PurchaseOrder purchaseOrder = purchaseOrderLoadPort.loadById(command.purchaseOrder());
+//        double totalRequiredAmount = purchaseOrder.getOrderLines().stream()
+//                .mapToDouble(PurchaseOrderLine::getQuantity)
+//                .sum();
+//
+//        MaterialType materialType = purchaseOrder.getOrderLines().get(0).getMaterialType();
+//
+//        Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType( purchaseOrder.getSellerId() ,materialType);
+//
+//        List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(totalRequiredAmount);
+//
+//        shippingEvents.forEach(event -> warehouse.getEventsWindow().addEvent(event));
+//
+//        purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
+//        purchaseOrderSavePort.save(purchaseOrder);
+//
+//        warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
+//
+//
+//    }
+
     @Override
     public void shipmentIn(ShipmentCommand command) {
         PurchaseOrder purchaseOrder = purchaseOrderLoadPort.loadById(command.purchaseOrder());
-        double totalRequiredAmount = purchaseOrder.getOrderLines().stream()
-                .mapToDouble(PurchaseOrderLine::getQuantity)
-                .sum();
 
-        MaterialType materialType = purchaseOrder.getOrderLines().get(0).getMaterialType();
+        // Group the required amounts by material type
+        Map<MaterialType, Double> requiredAmounts = purchaseOrder.getOrderLines().stream()
+                .collect(Collectors.groupingBy(
+                        PurchaseOrderLine::getMaterialType,
+                        Collectors.summingDouble(PurchaseOrderLine::getQuantity)
+                ));
 
-        Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType( purchaseOrder.getSellerId() ,materialType);
+        Warehouse warehouse = warehouseLoadPort.findBySellerId(purchaseOrder.getSellerId());
 
-        List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(totalRequiredAmount);
+        List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(requiredAmounts);
 
         shippingEvents.forEach(event -> warehouse.getEventsWindow().addEvent(event));
 
@@ -48,8 +75,7 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
         purchaseOrderSavePort.save(purchaseOrder);
 
         warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
-
-
     }
+
 
 }

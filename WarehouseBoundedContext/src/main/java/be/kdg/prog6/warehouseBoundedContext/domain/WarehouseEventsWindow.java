@@ -2,11 +2,7 @@ package be.kdg.prog6.warehouseBoundedContext.domain;
 
 import domain.MaterialType;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.time.LocalDateTime;
 
 
@@ -46,59 +42,63 @@ public class WarehouseEventsWindow {
                 )
         );
     }
-    //add extra attrubites like PO stataus to say if its done or not
-
-    public List<WarehouseEvent> fulfillShippingOrder(double requiredAmount) {
+    public List<WarehouseEvent> fulfillShippingOrder(Map<MaterialType, Double> requiredAmounts) {
         List<WarehouseEvent> shippingEvents = new ArrayList<>();
-        double remainingAmount = requiredAmount;
 
-        List<WarehouseEvent> sortedDeliverEvents = warehouseEventList.stream()
-                .filter(event -> event.getType() == EventType.DELIVER)
-                .sorted(Comparator.comparing(WarehouseEvent::getTime))
-                .toList();
+        for (Map.Entry<MaterialType, Double> entry : requiredAmounts.entrySet()) {
+            MaterialType materialType = entry.getKey();
+            double requiredAmount = entry.getValue();
+            double remainingAmount = requiredAmount;
 
-        double currentAvailableMaterial = getCurrentLoad();
+            List<WarehouseEvent> sortedDeliverEvents = warehouseEventList.stream()
+                    .filter(event -> event.getType() == EventType.DELIVER && event.getMaterialType() == materialType)
+                    .sorted(Comparator.comparing(WarehouseEvent::getTime))
+                    .toList();
 
-        if (currentAvailableMaterial < requiredAmount) {
-            throw new IllegalStateException("Not enough material available to fulfill the shipping order.");
-        }
+            double currentAvailableMaterial = sortedDeliverEvents.stream()
+                    .mapToDouble(WarehouseEvent::getMaterialWeight)
+                    .sum();
 
-        for (WarehouseEvent deliverEvent : sortedDeliverEvents) {
-            if (remainingAmount <= 0) {
-                break;
+            if (currentAvailableMaterial < requiredAmount) {
+                throw new IllegalStateException("Not enough material available to fulfill the shipping order for " + materialType);
             }
-            double availableAmount = deliverEvent.getMaterialWeight();
 
-            if (availableAmount <= remainingAmount) {
-                // Positive event for shipping material out
-                shippingEvents.add(new WarehouseEvent(
-                        new WarehouseEventId(),
-                        LocalDateTime.now(),
-                        EventType.SHIP,
-                        -availableAmount,  // Subtracting material (negative)
-                        deliverEvent.getWeighBridgeTicketId(),
-                        this.getWarehouseEventsWindowId(),
-                        deliverEvent.getMaterialType()
-                ));
-                remainingAmount -= availableAmount;
-            } else {
-                // Positive event for shipping material out
-                shippingEvents.add(new WarehouseEvent(
-                        new WarehouseEventId(),
-                        LocalDateTime.now(),
-                        EventType.SHIP,
-                        -remainingAmount,  // Subtracting material (negative)
-                        deliverEvent.getWeighBridgeTicketId(),
-                        this.getWarehouseEventsWindowId(),
-                        deliverEvent.getMaterialType()
-                ));
-                remainingAmount = 0;
+            for (WarehouseEvent deliverEvent : sortedDeliverEvents) {
+                if (remainingAmount <= 0) {
+                    break;
+                }
+                double availableAmount = deliverEvent.getMaterialWeight();
+
+                if (availableAmount <= remainingAmount) {
+                    shippingEvents.add(new WarehouseEvent(
+                            new WarehouseEventId(),
+                            LocalDateTime.now(),
+                            EventType.SHIP,
+                            -availableAmount,  // Subtracting material (negative)
+                            deliverEvent.getWeighBridgeTicketId(),
+                            this.getWarehouseEventsWindowId(),
+                            deliverEvent.getMaterialType()
+                    ));
+                    remainingAmount -= availableAmount;
+                } else {
+                    shippingEvents.add(new WarehouseEvent(
+                            new WarehouseEventId(),
+                            LocalDateTime.now(),
+                            EventType.SHIP,
+                            -remainingAmount,
+                            deliverEvent.getWeighBridgeTicketId(),
+                            this.getWarehouseEventsWindowId(),
+                            deliverEvent.getMaterialType()
+                    ));
+                    remainingAmount = 0;
+                }
             }
         }
 
         warehouseEventList.addAll(shippingEvents);
         return shippingEvents;
     }
+
 
 
 

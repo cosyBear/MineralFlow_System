@@ -8,10 +8,10 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-@Entity
-@Table
 @Getter
 @Setter
+@Table(name = "shipment_order", catalog = "water_db")
+@Entity
 public class ShipmentOrderEntity {
 
     @Id

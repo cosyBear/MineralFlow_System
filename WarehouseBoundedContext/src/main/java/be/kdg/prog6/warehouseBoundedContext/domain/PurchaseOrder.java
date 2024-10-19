@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import be.kdg.prog6.warehouseBoundedContext.util.Error.InspectionOperationException;
 import lombok.Getter;
 import lombok.Setter;
 @Getter

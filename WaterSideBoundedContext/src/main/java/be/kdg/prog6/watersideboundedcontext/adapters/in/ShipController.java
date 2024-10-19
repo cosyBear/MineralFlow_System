@@ -17,7 +17,7 @@ public class ShipController {
 
     @PostMapping
     public ResponseEntity<String> shipRequestDelivery(ShipOrderDto dto){
-        ShipmentOrderCommand shipIn = new ShipmentOrderCommand(dto.purchaseOrder(),new Vessel(dto.vesselNumber()), dto.arrivalTime());
+        ShipmentOrderCommand shipIn = new ShipmentOrderCommand(dto.purchaseOrder(),dto.vesselNumber(), dto.arrivalTime());
 
         return ResponseEntity.ok("everything is ok ");
 

@@ -7,6 +7,7 @@ dependencies {
     implementation project(":common")
     implementation project(':LandBoundedContext')
     implementation project(':WarehouseBoundedContext')
+    implementation project(':WaterSideBoundedContext')
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     runtimeOnly 'com.mysql:mysql-connector-j'
