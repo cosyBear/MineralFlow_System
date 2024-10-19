@@ -17,6 +17,11 @@ public class WarehouseEventsWindow {
     private List<WarehouseEvent> warehouseEventList;
 
 
+    // so when you ship enter the shipping order
+    // we do a IO checks the ship order compare the ship order to the purchase order
+
+
+
     // TODO make a snap shot and also make a method to get the oldest mat
     public WarehouseEventsWindow() {
     }
@@ -57,28 +62,32 @@ public class WarehouseEventsWindow {
         if (currentAvailableMaterial < requiredAmount) {
             throw new IllegalStateException("Not enough material available to fulfill the shipping order.");
         }
+
         for (WarehouseEvent deliverEvent : sortedDeliverEvents) {
             if (remainingAmount <= 0) {
                 break;
             }
             double availableAmount = deliverEvent.getMaterialWeight();
+
             if (availableAmount <= remainingAmount) {
+                // Positive event for shipping material out
                 shippingEvents.add(new WarehouseEvent(
                         new WarehouseEventId(),
                         LocalDateTime.now(),
                         EventType.SHIP,
-                        availableAmount,
+                        -availableAmount,  // Subtracting material (negative)
                         deliverEvent.getWeighBridgeTicketId(),
                         this.getWarehouseEventsWindowId(),
                         deliverEvent.getMaterialType()
                 ));
                 remainingAmount -= availableAmount;
             } else {
+                // Positive event for shipping material out
                 shippingEvents.add(new WarehouseEvent(
                         new WarehouseEventId(),
                         LocalDateTime.now(),
                         EventType.SHIP,
-                        remainingAmount,
+                        -remainingAmount,  // Subtracting material (negative)
                         deliverEvent.getWeighBridgeTicketId(),
                         this.getWarehouseEventsWindowId(),
                         deliverEvent.getMaterialType()
@@ -87,11 +96,10 @@ public class WarehouseEventsWindow {
             }
         }
 
-        // Step 3: Add new ship events to the event list (event sourcing)
         warehouseEventList.addAll(shippingEvents);
-
         return shippingEvents;
     }
+
 
 
     public WarehouseEventsWindow(WarehouseId warehouseId, UUID warehouseEventsWindowId, List<WarehouseEvent> warehouseEventList) {

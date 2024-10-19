@@ -4,7 +4,8 @@ package be.kdg.prog6.landSideBoundedContext.adapters.in;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
 import be.kdg.prog6.landSideBoundedContext.domain.UpdateWarehouseCommand;
-import be.kdg.prog6.landSideBoundedContext.domain.dto.WarehouseDto;
+import be.kdg.prog6.landSideBoundedContext.adapters.in.dto.WarehouseDto;
+import be.kdg.prog6.landSideBoundedContext.domain.WarehouseAction;
 import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseProjectionUseCase;
 import domain.MaterialType;
 import org.slf4j.Logger;
@@ -26,8 +27,12 @@ public class WarehouseProjectionListener {
 
     @RabbitListener(queues = "WarehouseMaterial_QUEUE")
     public void listenToWarehouse(WarehouseDto dto){
+        WarehouseAction action = dto.materialAmountInWarehouse() >= 0 ? WarehouseAction.ADD : WarehouseAction.SUBTRACT;
 
-        UpdateWarehouseCommand updateWarehouseCommand = new UpdateWarehouseCommand(new WarehouseId(dto.warehouseId()) , dto.materialAmountInWarehouse(), MaterialType.valueOf(dto.materialType()), new SellerId(dto.sellerId()));
+        UpdateWarehouseCommand updateWarehouseCommand = new UpdateWarehouseCommand(
+                new WarehouseId(dto.warehouseId()) , dto.materialAmountInWarehouse(),
+                MaterialType.valueOf(dto.materialType()), new SellerId(dto.sellerId()),
+         action);
 
         warehouseProjectionUseCase.updateWarehouse(updateWarehouseCommand);
     }

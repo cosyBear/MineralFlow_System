@@ -1,6 +1,7 @@
 package be.kdg.prog6.warehouseBoundedContext.core;
 
 import be.kdg.prog6.warehouseBoundedContext.domain.*;
+import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderCommand;
 import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderUseCase;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
@@ -8,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class PurchaseOrderUseCaseImp implements PurchaseOrderUseCase {

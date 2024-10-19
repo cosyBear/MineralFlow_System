@@ -1,4 +1,4 @@
-package be.kdg.prog6.warehouseBoundedContext.domain;
+package be.kdg.prog6.warehouseBoundedContext.port.in;
 
 import domain.MaterialType;
 

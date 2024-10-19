@@ -22,7 +22,7 @@ public interface AppointmentRepository extends JpaRepository<AppointmentEntity, 
     @Query("SELECT a FROM AppointmentEntity a WHERE a.status = 'ON_SITE' and DATE(a.time) = :date")
     List<AppointmentEntity> fetchTrucksOnSite(@Param("date") LocalDate date);
 
-    @Query("SELECT a FROM AppointmentEntity a WHERE a.status = 'ON_TIME' and DATE(a.time) = :date")
+    @Query("SELECT a FROM AppointmentEntity a WHERE DATE(a.time) = :date")
     List<AppointmentEntity> fetchTrucksOnTime(@Param("date") LocalDate date);
 
 }

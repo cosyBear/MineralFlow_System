@@ -1,9 +1,9 @@
-package be.kdg.prog6.warehouseBoundedContext.domain;
+package be.kdg.prog6.warehouseBoundedContext.port.in;
 
+import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
 import domain.MaterialType;
 
 import java.time.LocalDateTime;
-import java.util.Objects;
 import java.util.UUID;
 
 public final class WeighTruckInCommand {

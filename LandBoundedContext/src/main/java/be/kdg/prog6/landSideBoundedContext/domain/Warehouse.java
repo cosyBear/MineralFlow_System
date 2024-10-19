@@ -38,6 +38,14 @@ public class Warehouse {
         this.materialType = materialType;
         this.amountOfMaterial = amountOfMaterial;
     }
+    public void subtractMaterial(double amount) {
+        if (this.amountOfMaterial >= amount) {
+            this.amountOfMaterial -= amount;
+        } else {
+            throw new IllegalArgumentException("Not enough material in the warehouse to subtract the requested amount");
+        }
+    }
+
 
     public WarehouseId getWarehouseId() {
         return warehouseId;
@@ -73,27 +81,22 @@ public class Warehouse {
 
 
     public boolean canStoreMaterial(double amount) {
-        // Check if the current amount of material plus the new amount does not exceed the maximum capacity
         return this.amountOfMaterial + amount <= MAX_CAPACITY;
     }
 
 
-    // Method to check if the warehouse is full
     public boolean isFull() {
         return this.amountOfMaterial >= FULL_THRESHOLD;  // Warehouse is considered full at 80% capacity
     }
 
-    // Method to check if the warehouse is at overflow capacity
     public boolean isAtOverflow() {
         return this.amountOfMaterial >= MAX_CAPACITY && this.amountOfMaterial <= OVERFLOW_CAPACITY;
     }
 
-    // Method to check if the warehouse has exceeded its capacity (over 110%)
     public boolean isOverCapacity() {
         return this.amountOfMaterial > OVERFLOW_CAPACITY;
     }
 
-    // Method to calculate available capacity in the warehouse
     public double availableCapacity() {
         return MAX_CAPACITY - this.amountOfMaterial;
     }

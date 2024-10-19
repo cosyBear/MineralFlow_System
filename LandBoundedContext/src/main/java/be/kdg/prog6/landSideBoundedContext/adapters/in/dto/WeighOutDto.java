@@ -1,4 +1,4 @@
-package be.kdg.prog6.landSideBoundedContext.domain.dto;
+package be.kdg.prog6.landSideBoundedContext.adapters.in.dto;
 
 import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
 import domain.MaterialType;

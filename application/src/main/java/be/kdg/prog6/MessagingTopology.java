@@ -117,5 +117,32 @@ public class MessagingTopology {
     }
 
 
+    // water side config
+
+
+    private static String  WaterSideExchange = "waterSideExchange";
+    private static String waterQueue  = "shipmentQueue";
+
+    @Bean
+    TopicExchange shipmentExchange (){
+        return new TopicExchange(WaterSideExchange);
+    }
+
+    @Bean
+    Queue shipmentQueue () {
+        return new Queue(waterQueue);
+    }
+
+    @Bean
+    Binding shipmentQueueBinding(Queue shipmentQueue ,TopicExchange  shipmentExchange) {
+        return BindingBuilder.bind(shipmentQueue)
+        .to(shipmentExchange)
+        .with("ship.*");
+    }
+
+
+
+
+
 
 }

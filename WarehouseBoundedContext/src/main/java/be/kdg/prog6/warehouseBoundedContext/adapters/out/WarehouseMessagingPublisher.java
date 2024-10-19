@@ -9,6 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
 @Service
 public class WarehouseMessagingPublisher implements WarehouseSavePort {
     private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseMessagingPublisher.class);
@@ -22,6 +25,7 @@ public class WarehouseMessagingPublisher implements WarehouseSavePort {
         LOGGER.info("notifying  the landSide about the material amount in the warehouse");
         LOGGER.info("event object attrubties: amountOfMat{} , ");
 
+
         WarehouseMaterialEvent warehouseEvent = new WarehouseMaterialEvent(
                 warehouse.getWarehouseNumber().getId(),
                 event.materialTrueWeight(),
@@ -31,4 +35,5 @@ public class WarehouseMessagingPublisher implements WarehouseSavePort {
         rabbitTemplate.convertAndSend("WarehouseExchange", "WarehouseRoutingKey", warehouseEvent);
 
     }
+
 }

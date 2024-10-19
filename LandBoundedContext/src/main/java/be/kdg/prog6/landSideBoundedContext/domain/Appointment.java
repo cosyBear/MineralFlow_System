@@ -32,12 +32,11 @@ public class Appointment {
         this.appointmentId = appointmentId;  // Additional field initialization
     }
 
-
     public UUID getAppointmentId() {
         return appointmentId;
     }
 
-    public void setAppointmentId(UUID appointmentId) {
+     public void setAppointmentId(UUID appointmentId) {
         this.appointmentId = appointmentId;
     }
 
@@ -78,7 +77,7 @@ public class Appointment {
         return status;
     }
 
-    public  void setStatus(AppointmentStatus status) {
+    public void setStatus(AppointmentStatus status) {
         this.status = status;
     }
 
@@ -88,11 +87,21 @@ public class Appointment {
 
 
     public void truckEnters() {
-        status = AppointmentStatus.ON_TIME;
+        status = AppointmentStatus.ON_SITE;
     }
 
     public void truckLeaves() {
         this.status = AppointmentStatus.Completed;
 
+    }
+
+    public boolean isTruckOnTime(LocalDateTime currentTime) {
+        if (this.status == AppointmentStatus.ON_SITE) {
+            return true;
+        } else if (this.status == AppointmentStatus.LATE) {
+            return false;
+        } else if (this.status == AppointmentStatus.AWAITING_ARRIVAL) {
+            return !currentTime.isAfter(this.time.plusHours(1));  // It's late
+        } else return this.status == AppointmentStatus.Completed;
     }
 }

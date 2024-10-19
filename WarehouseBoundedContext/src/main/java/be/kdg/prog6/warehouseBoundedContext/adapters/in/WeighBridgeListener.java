@@ -4,8 +4,8 @@
 
 package be.kdg.prog6.warehouseBoundedContext.adapters.in;
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
-import be.kdg.prog6.warehouseBoundedContext.domain.WeighTruckInCommand;
-import be.kdg.prog6.warehouseBoundedContext.domain.WeighTruckOutCommand;
+import be.kdg.prog6.warehouseBoundedContext.port.in.WeighTruckInCommand;
+import be.kdg.prog6.warehouseBoundedContext.port.in.WeighTruckOutCommand;
 import be.kdg.prog6.warehouseBoundedContext.dto.WeighInTruckDto;
 import be.kdg.prog6.warehouseBoundedContext.dto.WeighOutTruckDto;
 import be.kdg.prog6.warehouseBoundedContext.port.in.WarehouseUseCase;

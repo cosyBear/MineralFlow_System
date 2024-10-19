@@ -1,7 +1,8 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.in;
 
 
-import be.kdg.prog6.landSideBoundedContext.domain.AppointmentQuery;
+import be.kdg.prog6.landSideBoundedContext.domain.TruckOnSiteQuery;
+import be.kdg.prog6.landSideBoundedContext.domain.TruckOnTimeQuery;
 import be.kdg.prog6.landSideBoundedContext.domain.WarehouseOverviewQuery;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseManagerQueryUseCase;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +23,13 @@ public class WarehouseManagerController {
 
 
     @GetMapping("/trucks/onSite")
-    public ResponseEntity<List<AppointmentQuery>> trucksOnSite(@RequestParam("date") LocalDate date) {
+    public ResponseEntity<List<TruckOnSiteQuery>> trucksOnSite(@RequestParam("date") LocalDate date) {
         return ResponseEntity.ok().body(warehouseManagerQueryUseCase.fetchTrucksOnSite(date));
     }
 
-
+    @CrossOrigin(origins = "http://localhost:5173")  // Allow frontend requests from localhost:5173
     @GetMapping("/trucks/onTime")
-    public ResponseEntity<List<AppointmentQuery>> trucksOnTime(@RequestParam("date") LocalDate date) {
+    public ResponseEntity<List<TruckOnTimeQuery>> trucksOnTime(@RequestParam("date") LocalDate date) {
         return ResponseEntity.ok().body(warehouseManagerQueryUseCase.fetchTrucksOnTime(date));
     }
 

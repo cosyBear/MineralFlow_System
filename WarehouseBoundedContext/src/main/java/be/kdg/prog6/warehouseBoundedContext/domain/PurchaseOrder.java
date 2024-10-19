@@ -5,7 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-
+import be.kdg.prog6.warehouseBoundedContext.util.Error.InspectionOperationException;
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class PurchaseOrder {
     // the date is when the order was placed.
     private LocalDate orderDate;
@@ -19,6 +23,7 @@ public class PurchaseOrder {
     private List<PurchaseOrderLine> orderLines = new ArrayList<>();  // List of materials and quantities being purchased
 
     private PurchaseOrderStatus status ;
+
     public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderId, SellerId sellerId, String customerName, List<PurchaseOrderLine> orderLines , PurchaseOrderStatus status) {
         this.orderDate = orderDate;
         this.purchaseOrderId = purchaseOrderId;
@@ -36,51 +41,6 @@ public class PurchaseOrder {
     }
 
 
-    public PurchaseOrderStatus getStatus() {
-        return status;
-    }
 
-    public void updateStatus(PurchaseOrderStatus status) {
-        this.status = status;
-    }
 
-    public LocalDate getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDate orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public UUID getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public void setPurchaseOrderId(UUID purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
-    public SellerId getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(SellerId sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public String getCustomerName() {
-        return CustomerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        CustomerName = customerName;
-    }
-
-    public List<PurchaseOrderLine> getOrderLines() {
-        return orderLines;
-    }
-
-    public void setOrderLines(List<PurchaseOrderLine> orderLines) {
-        this.orderLines = orderLines;
-    }
 }

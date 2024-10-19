@@ -4,32 +4,24 @@ import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import domain.MaterialType;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public class AppointmentQuery {
+public class TruckOnSiteQuery {
 
-    private AppointmentStatus AppointmentStatus;
     private MaterialType materialType;
-    private  LocalDateTime time;
-    private  SellerId sellerId;
-    private LicensePlate licensePlate;
-    public AppointmentQuery(){
+    private LocalDateTime time;
+    private UUID sellerId;
+    private String licensePlate;
+
+    public TruckOnSiteQuery() {
 
     }
 
-    public AppointmentQuery(AppointmentStatus AppointmentStatus, MaterialType materialType, LocalDateTime time, SellerId sellerId, LicensePlate licensePlate) {
-        this.AppointmentStatus = AppointmentStatus;
+    public TruckOnSiteQuery(MaterialType materialType, LocalDateTime time, UUID sellerId, String licensePlate) {
         this.materialType = materialType;
         this.time = time;
         this.sellerId = sellerId;
         this.licensePlate = licensePlate;
-    }
-
-    public AppointmentStatus getAppointmentStatus() {
-        return AppointmentStatus;
-    }
-
-    public void setAppointmentStatus(AppointmentStatus appointmentStatus) {
-        this.AppointmentStatus = appointmentStatus;
     }
 
     public MaterialType getMaterialType() {
@@ -48,30 +40,28 @@ public class AppointmentQuery {
         this.time = time;
     }
 
-    public SellerId getSellerId() {
+    public UUID getSellerId() {
         return sellerId;
     }
 
-    public void setSellerId(SellerId sellerId) {
+    public void setSellerId(UUID sellerId) {
         this.sellerId = sellerId;
     }
 
-    public LicensePlate getLicensePlate() {
+    public String getLicensePlate() {
         return licensePlate;
     }
 
-    public void setLicensePlate(LicensePlate licensePlate) {
+    public void setLicensePlate(String licensePlate) {
         this.licensePlate = licensePlate;
     }
-
 
     @Override
     public String toString() {
         return "AppointmentQuery[" +
-                "onTime=" + AppointmentStatus + ", " +
                 "materialType=" + materialType + ", " +
                 "time=" + time + ", " +
                 "sellerId=" + sellerId + ", " +
-                "licensePlate=" + licensePlate ;
+                "licensePlate=" + licensePlate;
     }
 }

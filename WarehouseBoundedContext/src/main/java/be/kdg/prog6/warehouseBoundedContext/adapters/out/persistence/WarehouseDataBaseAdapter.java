@@ -111,6 +111,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
         WarehouseEventsWindowEntity eventsWindowEntity = new WarehouseEventsWindowEntity();
         eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());
         eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());
+
         // Map the list of WarehouseEventEntity
         List<WarehouseEventEntity> eventEntities = warehouse.getEventsWindow().getWarehouseEventList().stream()
                 .map(event -> new WarehouseEventEntity(

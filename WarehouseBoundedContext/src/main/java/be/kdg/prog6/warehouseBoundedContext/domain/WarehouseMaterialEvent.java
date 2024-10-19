@@ -4,5 +4,5 @@ import domain.MaterialType;
 
 import java.util.UUID;
 
-public record WarehouseMaterialEvent(UUID warehouseId, double materialAmountInWarehouse , MaterialType materialType, UUID sellerId) {
+public record WarehouseMaterialEvent(UUID warehouseId, double materialAmountInWarehouse , MaterialType materialType, UUID sellerId ) {
 }
