@@ -1,7 +1,5 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
-import domain.MaterialType;
-
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +10,7 @@ public class PurchaseOrder {
     // the date is when the order was placed.
     private LocalDate orderDate;
 
-    private UUID purchaseOrderNumber;
+    private UUID purchaseOrderId;
 
     private SellerId sellerId;
 
@@ -20,23 +18,31 @@ public class PurchaseOrder {
 
     private List<PurchaseOrderLine> orderLines = new ArrayList<>();  // List of materials and quantities being purchased
 
-    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderNumber, SellerId sellerId, String customerName, List<PurchaseOrderLine> orderLines) {
+    private PurchaseOrderStatus status ;
+    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderId, SellerId sellerId, String customerName, List<PurchaseOrderLine> orderLines , PurchaseOrderStatus status) {
         this.orderDate = orderDate;
-        this.purchaseOrderNumber = purchaseOrderNumber;
+        this.purchaseOrderId = purchaseOrderId;
         this.sellerId = sellerId;
-        CustomerName = customerName;
+        this.CustomerName = customerName;
         this.orderLines = orderLines;
+        this.status = status;
     }
 
-    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName) {
+    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName , PurchaseOrderStatus status) {
         this.orderDate = orderDate;
-        this.purchaseOrderNumber = purchaseOrderNumber;
         this.sellerId = sellerId;
         CustomerName = customerName;
+        this.status = status;
     }
 
 
+    public PurchaseOrderStatus getStatus() {
+        return status;
+    }
 
+    public void updateStatus(PurchaseOrderStatus status) {
+        this.status = status;
+    }
 
     public LocalDate getOrderDate() {
         return orderDate;
@@ -46,12 +52,12 @@ public class PurchaseOrder {
         this.orderDate = orderDate;
     }
 
-    public UUID getPurchaseOrderNumber() {
-        return purchaseOrderNumber;
+    public UUID getPurchaseOrderId() {
+        return purchaseOrderId;
     }
 
-    public void setPurchaseOrderNumber(UUID purchaseOrderNumber) {
-        this.purchaseOrderNumber = purchaseOrderNumber;
+    public void setPurchaseOrderId(UUID purchaseOrderId) {
+        this.purchaseOrderId = purchaseOrderId;
     }
 
     public SellerId getSellerId() {

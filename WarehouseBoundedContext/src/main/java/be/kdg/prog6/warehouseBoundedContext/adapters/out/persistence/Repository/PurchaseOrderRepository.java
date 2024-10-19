@@ -16,9 +16,14 @@ public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderEnti
 
     List<PurchaseOrderEntity> findByCustomerName(String customerName);
 
-    @Query("select p from PurchaseOrderEntity as p  left join fetch PurchaseOrderLineEntity as line " +
+    @Query("select p from PurchaseOrderEntity p left join fetch p.purchaseOrderLines line " +
             "where p.sellerId = :sellerId and line.materialType = :materialType")
     List<PurchaseOrderEntity> findBySellerIdAndMaterialType(@Param("sellerId") UUID sellerId, @Param("materialType") MaterialType materialType);
 
-    PurchaseOrderEntity getPurchaseOrderByPurchaseOrderId(UUID id);
+
+    @Query("select p from PurchaseOrderEntity p left join fetch p.purchaseOrderLines line where p.purchaseOrderId = :purchaseOrderId")
+    PurchaseOrderEntity getPurchaseOrderByPurchaseOrderId(@Param("purchaseOrderId") UUID purchaseOrderId);
+
+    @Query("select p from PurchaseOrderEntity as p left join fetch p.purchaseOrderLines as line")
+    List<PurchaseOrderEntity> getAll();
 }

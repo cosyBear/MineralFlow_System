@@ -1,4 +1,4 @@
-POST http://localhost:8090/api/PurchaseOrder
+POST http://localhost:8090/api/PurchaseOrders
 Content-Type: application/json
 
 {
@@ -19,3 +19,6 @@ Content-Type: application/json
     ]
 }
 
+###
+GET http://localhost:8090/api/PurchaseOrders
+Content-Type: application/json

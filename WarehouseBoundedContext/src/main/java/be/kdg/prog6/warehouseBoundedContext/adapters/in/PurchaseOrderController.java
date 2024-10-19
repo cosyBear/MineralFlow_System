@@ -4,6 +4,7 @@ package be.kdg.prog6.warehouseBoundedContext.adapters.in;
 import be.kdg.prog6.warehouseBoundedContext.adapters.dto.OrderLineDto;
 import be.kdg.prog6.warehouseBoundedContext.adapters.dto.PurchaseOrderDto;
 import be.kdg.prog6.warehouseBoundedContext.domain.OrderLineCommand;
+import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrder;
 import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderCommand;
 import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderUseCase;
 import domain.MaterialType;
@@ -17,7 +18,7 @@ import java.util.UUID;
 import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping("PurchaseOrder")
+@RequestMapping("PurchaseOrders")
 public class PurchaseOrderController {
 
 
@@ -42,7 +43,11 @@ public class PurchaseOrderController {
         return ResponseEntity.ok("the order has be created");
 
     }
-
+    @GetMapping()
+    public ResponseEntity<List<PurchaseOrder>> getPurchaseOrdersStatus(){
+       List<PurchaseOrder> purchaseOrderList  = purchaseOrderUseCase.getPurchaseOrderStatus();
+        return ResponseEntity.ok(purchaseOrderList);
+    }
 
 }
 

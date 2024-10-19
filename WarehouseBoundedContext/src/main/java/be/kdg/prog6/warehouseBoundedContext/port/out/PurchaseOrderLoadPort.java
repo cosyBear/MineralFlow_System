@@ -17,5 +17,6 @@ public interface PurchaseOrderLoadPort {
 
     List<PurchaseOrder> loadBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType);
 
+    List<PurchaseOrder> getAllPurchaseOrdersStatus();
 
 }

@@ -24,6 +24,8 @@ public class PurchaseOrderEntity {
 
     private String customerName;
 
+    @Enumerated(EnumType.STRING)
+    private PurchaseOrderStatusEntity status;
 
     @OneToMany(mappedBy = "purchaseOrder",cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PurchaseOrderLineEntity> purchaseOrderLines;
@@ -32,20 +34,30 @@ public class PurchaseOrderEntity {
     public PurchaseOrderEntity() {
 
     }
-    public PurchaseOrderEntity(UUID purchaseOrderId, LocalDate orderDate, UUID sellerId, String customerName, List<PurchaseOrderLineEntity> purchaseOrderLines) {
+    public PurchaseOrderEntity(UUID purchaseOrderId, LocalDate orderDate, UUID sellerId, String customerName, List<PurchaseOrderLineEntity> purchaseOrderLines , PurchaseOrderStatusEntity status) {
         this.purchaseOrderId = purchaseOrderId;
         this.orderDate = orderDate;
         this.sellerId = sellerId;
         this.customerName = customerName;
         this.purchaseOrderLines = purchaseOrderLines;
+        this.status = status;
     }
-    public PurchaseOrderEntity(LocalDate orderDate, UUID sellerId, String customerName, List<PurchaseOrderLineEntity> purchaseOrderLines) {
+    public PurchaseOrderEntity(LocalDate orderDate, UUID sellerId, String customerName, List<PurchaseOrderLineEntity> purchaseOrderLines , PurchaseOrderStatusEntity status) {
         this.orderDate = orderDate;
         this.sellerId = sellerId;
         this.customerName = customerName;
         this.purchaseOrderLines = purchaseOrderLines;
+        this.status = status;
+
     }
 
+    public PurchaseOrderStatusEntity getStatus() {
+        return status;
+    }
+
+    public void setStatus(PurchaseOrderStatusEntity status) {
+        this.status = status;
+    }
 
     public UUID getPurchaseOrderId() {
         return purchaseOrderId;
