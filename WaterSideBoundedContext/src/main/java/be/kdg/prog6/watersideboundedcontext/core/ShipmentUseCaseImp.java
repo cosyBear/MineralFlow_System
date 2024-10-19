@@ -6,7 +6,9 @@ import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderUseCase;
 import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderLoadPort;
 import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderSavePort;
 import jakarta.transaction.Transactional;
+import org.springframework.stereotype.Service;
 
+@Service
 public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
 
     private final ShipmentOrderLoadPort shipmentOrderLoadPort;
