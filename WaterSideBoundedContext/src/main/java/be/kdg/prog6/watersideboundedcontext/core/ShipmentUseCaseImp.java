@@ -1,33 +1,59 @@
 package be.kdg.prog6.watersideboundedcontext.core;
 
+import be.kdg.prog6.watersideboundedcontext.adapters.out.ShipmentOrderPublisher;
+import be.kdg.prog6.watersideboundedcontext.domain.RequestMaterialEvent;
+import be.kdg.prog6.watersideboundedcontext.domain.ShipmentCompletedCommand;
 import be.kdg.prog6.watersideboundedcontext.domain.ShipmentOrder;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderCommand;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderUseCase;
+import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderEventPublisher;
 import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderLoadPort;
 import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderSavePort;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.UUID;
 
 @Service
 public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
 
     private final ShipmentOrderLoadPort shipmentOrderLoadPort;
     private final ShipmentOrderSavePort shipmentOrderSavePort;
+    private final ShipmentOrderPublisher shipmentOrderPublisher;
+    private final ShipmentOrderEventPublisher shipmentOrderEventPublisher;
 
-    public ShipmentUseCaseImp(ShipmentOrderLoadPort shipmentOrderLoadPort, ShipmentOrderSavePort shipmentOrderSavePort) {
+    public ShipmentUseCaseImp(ShipmentOrderLoadPort shipmentOrderLoadPort, ShipmentOrderSavePort shipmentOrderSavePort, ShipmentOrderPublisher shipmentOrderPublisher, ShipmentOrderEventPublisher shipmentOrderEventPublisher) {
         this.shipmentOrderLoadPort = shipmentOrderLoadPort;
         this.shipmentOrderSavePort = shipmentOrderSavePort;
+        this.shipmentOrderPublisher = shipmentOrderPublisher;
+        this.shipmentOrderEventPublisher = shipmentOrderEventPublisher;
     }
 
 
     @Override
     @Transactional
     public void requestMaterial(ShipmentOrderCommand order) {
-        ShipmentOrder shipmentOrder  = shipmentOrderLoadPort.loadShipmentOrderById(order.purchaseOrder());
+        ShipmentOrder shipmentOrder = shipmentOrderLoadPort.loadShipmentOrderById(order.purchaseOrder());
         shipmentOrder.performInspectionOperation(order.purchaseOrder());
 
+        RequestMaterialEvent event = new RequestMaterialEvent(shipmentOrder.getPurchaseOrder(), shipmentOrder.getVesselNumber(), shipmentOrder.getArrivalTime());
+        shipmentOrderSavePort.Save(shipmentOrder);
+        shipmentOrderEventPublisher.requestMaterialEvent(event);
 
+    }
 
+    @Override
+    public boolean shipDeparture(ShipmentCompletedCommand shipmentOrder) {
+
+        ShipmentOrder order = shipmentOrderLoadPort.loadShipmentOrderById(shipmentOrder.purchaseOrderId());
+        order.completeBunkeringOperation(shipmentOrder.departureTime());
+        if(order.canShipLeave()){
+            shipmentOrderSavePort.Save(order);
+            return true;
+        }else
+            return false;
 
     }
 }

@@ -16,6 +16,7 @@ public class PurchaseOrderLineEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID orderLineId;
 
+    @Enumerated(EnumType.STRING)
     private MaterialType materialType;
 
     private double quantity;

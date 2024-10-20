@@ -30,7 +30,6 @@ VALUES
     -- Events for SLAG warehouse
     (UNHEX(REPLACE('f7b9c8d7-77d8-7778-b9c8-1234567890ff', '-', '')), '2024-10-06 11:00:00', 'DELIVER', 800.00, UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')), UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', '')), 'SLAG');
 
--- Insert into WarehouseEntity
 INSERT INTO warehouse_entity (warehouse_id, seller_id, material_type, warehouse_events_window_id)
 VALUES
     (UNHEX(REPLACE('f8a9f9c0-45e2-4f32-809f-2d4a73c4083b', '-', '')), @seller_id, 'IRON',  UNHEX(REPLACE('a1b1c9d1-e2f3-11d3-a1f3-1234567890aa', '-', ''))), -- IRON
@@ -38,3 +37,13 @@ VALUES
     (UNHEX(REPLACE('aedcb3a5-f2a6-4ed8-8090-0d92c3d6955c', '-', '')), @seller_id, 'CEMENT',  UNHEX(REPLACE('c3c3e3f3-a4b4-33c4-c3d5-1234567890cc', '-', ''))), -- CEMENT
     (UNHEX(REPLACE('acdd75b0-0712-4ef1-870f-67a8d0d7bc18', '-', '')), @seller_id, 'PETCOKE',  UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', ''))), -- PETCOKE
     (UNHEX(REPLACE('b03f68bb-6606-482d-8007-dc7f94acb1e5', '-', '')), @seller_id, 'SLAG',  UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', ''))); -- SLAG
+
+INSERT INTO purchase_order_entity (purchase_order_id, order_date, seller_id, customer_name, status)
+VALUES (UNHEX(REPLACE('6aa1209e-573f-4508-a66a-c801b47cfa01', '-', '')), '2024-10-20', UNHEX(REPLACE('5d7f292e-8f2e-431d-a92f-df2e90b32d59', '-', '')), 'Customer XYZ', 'FULFILLED');
+
+
+INSERT INTO purchase_order_line_entity (order_line_id, material_type, quantity, price_per_ton, purchase_order_purchase_order_id)
+VALUES
+    (UNHEX(REPLACE('55a5d91c-433f-44b6-8510-bf389e693812', '-', '')), 'IRON', 100, 50.5, UNHEX(REPLACE('6aa1209e-573f-4508-a66a-c801b47cfa01', '-', ''))),
+    (UNHEX(REPLACE('7fff25e6-9f5e-4f1d-8b2c-616e39e55ce3', '-', '')), 'PETCOKE', 150, 70.0, UNHEX(REPLACE('6aa1209e-573f-4508-a66a-c801b47cfa01', '-', ''))),
+    (UNHEX(REPLACE('fad0c3e7-bf55-45bc-a086-ad6e14fda8d2', '-', '')), 'CEMENT', 200, 40.75, UNHEX(REPLACE('6aa1209e-573f-4508-a66a-c801b47cfa01', '-', '')));

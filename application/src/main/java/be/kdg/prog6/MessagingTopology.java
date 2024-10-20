@@ -53,13 +53,7 @@ public class MessagingTopology {
                 .to(warehouseExchange)
                 .with(ROUTING_KEY);
     }
-//    @Bean
-//    public Jackson2JsonMessageConverter jsonMessageConverter() {
-//        ObjectMapper objectMapper = new ObjectMapper();
-//        objectMapper.registerModule(new JavaTimeModule());
-//        objectMapper.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
-//        return new Jackson2JsonMessageConverter(objectMapper);
-//    }
+
         @Bean
         public MessageConverter jsonMessageConverter() {
             return new Jackson2JsonMessageConverter();
@@ -122,10 +116,17 @@ public class MessagingTopology {
 
     private static String  WaterSideExchange = "waterSideExchange";
     private static String waterQueue  = "shipmentQueue";
-
+    private static String ShipmentCompletedQueue = "shipmentCompletedQueue";
     @Bean
     TopicExchange shipmentExchange (){
         return new TopicExchange(WaterSideExchange);
+    }
+
+
+
+    @Bean
+    Queue ShipmentCompleted(){
+        return new Queue(ShipmentCompletedQueue);
     }
 
     @Bean
@@ -137,7 +138,16 @@ public class MessagingTopology {
     Binding shipmentQueueBinding(Queue shipmentQueue ,TopicExchange  shipmentExchange) {
         return BindingBuilder.bind(shipmentQueue)
         .to(shipmentExchange)
-        .with("ship.*");
+        .with("ship.*.in");
+    }
+
+
+
+    @Bean
+    Binding ShipmentCompletedQueueBinding(Queue ShipmentCompleted ,TopicExchange  shipmentExchange) {
+        return BindingBuilder.bind(ShipmentCompleted)
+                .to(shipmentExchange)
+                .with("ship.*.out");
     }
 
 

@@ -36,7 +36,7 @@ public class ShipmentOrder {
 
     public void performInspectionOperation(UUID purchaseOrderId) {
         if (this.purchaseOrder.equals(purchaseOrderId)) {
-            this.inspectionOperation =  new InspectionOperation(LocalDateTime.now(), "Signed");
+            this.inspectionOperation =  new InspectionOperation(LocalDateTime.now(), "Signed by pookie");
         } else {
             throw new InspectionOperationException("The purchaseOrderId does not match the purchaseOrderId in the shipmentOrder");
         }

@@ -4,5 +4,5 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 
-public record ShipOrderDto(UUID purchaseOrder, UUID vesselNumber,LocalDateTime arrivalTime) {
+public record ShipOrderDto(String purchaseOrder, String vesselNumber,String arrivalTime) {
 }

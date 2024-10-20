@@ -5,6 +5,5 @@ import java.util.UUID;
 
 public record ShipmentCommand( UUID purchaseOrder,
                                UUID vesselNumber,
-                               LocalDateTime arrivalTime,
-                               LocalDateTime departureTime) {
+                               LocalDateTime arrivalTime) {
 }

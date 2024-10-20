@@ -13,9 +13,11 @@ import be.kdg.prog6.watersideboundedcontext.util.NoShipmentOrderException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.modelmapper.ModelMapper;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
+@Component
 public class ShipmentOrderDatabaseAdapter implements ShipmentOrderSavePort, ShipmentOrderLoadPort {
 
 
@@ -23,11 +25,9 @@ public class ShipmentOrderDatabaseAdapter implements ShipmentOrderSavePort, Ship
     private EntityManager entityManager;
 
 
-    private final ModelMapper modelMapper;
     private final ShipmentOrderRepository shipmentOrderRepository;
 
-    public ShipmentOrderDatabaseAdapter(ModelMapper modelMapper, ShipmentOrderRepository shipmentOrderRepository) {
-        this.modelMapper = modelMapper;
+    public ShipmentOrderDatabaseAdapter(ShipmentOrderRepository shipmentOrderRepository) {
         this.shipmentOrderRepository = shipmentOrderRepository;
     }
 

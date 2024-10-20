@@ -7,9 +7,11 @@ import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
+import be.kdg.prog6.warehouseBoundedContext.port.out.WaterSideEventPublisher;
 import domain.MaterialType;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -19,46 +21,25 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
 
     //move all the commands to the port in folder.
 
-   private PurchaseOrderSavePort purchaseOrderSavePort;
-   private PurchaseOrderLoadPort purchaseOrderLoadPort;
-   private WarehouseLoadPort warehouseLoadPort;
-   private List<WarehouseSavePort> warehouseSavePort;
-    public ShipmentCommandUseCase(PurchaseOrderSavePort purchaseOrderSavePort, PurchaseOrderLoadPort purchaseOrderLoadPort , WarehouseLoadPort warehouseLoadPort,
-                                  List<WarehouseSavePort> warehouseSavePort) {
+    private PurchaseOrderSavePort purchaseOrderSavePort;
+    private PurchaseOrderLoadPort purchaseOrderLoadPort;
+    private WarehouseLoadPort warehouseLoadPort;
+    private List<WarehouseSavePort> warehouseSavePort;
+    private WaterSideEventPublisher waterSideEventPublisher;
+
+    public ShipmentCommandUseCase(PurchaseOrderSavePort purchaseOrderSavePort, PurchaseOrderLoadPort purchaseOrderLoadPort, WarehouseLoadPort warehouseLoadPort,
+                                  List<WarehouseSavePort> warehouseSavePort, WaterSideEventPublisher waterSideEventPublisher) {
         this.purchaseOrderSavePort = purchaseOrderSavePort;
         this.purchaseOrderLoadPort = purchaseOrderLoadPort;
         this.warehouseLoadPort = warehouseLoadPort;
         this.warehouseSavePort = warehouseSavePort;
+        this.waterSideEventPublisher = waterSideEventPublisher;
     }
-
-//@Override
-//    public void shipmentIn(ShipmentCommand command) {
-//        PurchaseOrder purchaseOrder = purchaseOrderLoadPort.loadById(command.purchaseOrder());
-//        double totalRequiredAmount = purchaseOrder.getOrderLines().stream()
-//                .mapToDouble(PurchaseOrderLine::getQuantity)
-//                .sum();
-//
-//        MaterialType materialType = purchaseOrder.getOrderLines().get(0).getMaterialType();
-//
-//        Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType( purchaseOrder.getSellerId() ,materialType);
-//
-//        List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(totalRequiredAmount);
-//
-//        shippingEvents.forEach(event -> warehouse.getEventsWindow().addEvent(event));
-//
-//        purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
-//        purchaseOrderSavePort.save(purchaseOrder);
-//
-//        warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
-//
-//
-//    }
 
     @Override
     public void shipmentIn(ShipmentCommand command) {
         PurchaseOrder purchaseOrder = purchaseOrderLoadPort.loadById(command.purchaseOrder());
 
-        // Group the required amounts by material type
         Map<MaterialType, Double> requiredAmounts = purchaseOrder.getOrderLines().stream()
                 .collect(Collectors.groupingBy(
                         PurchaseOrderLine::getMaterialType,
@@ -75,6 +56,12 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
         purchaseOrderSavePort.save(purchaseOrder);
 
         warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
+
+        ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(purchaseOrder.getPurchaseOrderId(),
+                command.vesselNumber(), LocalDateTime.now());
+
+        waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
+
     }
 
 

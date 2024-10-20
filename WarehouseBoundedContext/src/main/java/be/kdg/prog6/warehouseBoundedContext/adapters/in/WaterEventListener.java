@@ -22,11 +22,10 @@ public class WaterEventListener {
 
 
 
-
     @RabbitListener(queues = shipmentQueue)
     public void shipmentIn(ShipmentDto dto){
         System.out.println("this is the dto {}" + dto);
-        ShipmentCommand ShipmentCommand = new ShipmentCommand(dto.purchaseOrder() ,dto.vesselNumber(), dto.arrivalTime(),dto.departureTime());
+        ShipmentCommand ShipmentCommand = new ShipmentCommand(dto.purchaseOrder() ,dto.vesselNumber(), dto.arrivalTime());
         shipmentOrderUseCase.shipmentIn(ShipmentCommand);
 
     }

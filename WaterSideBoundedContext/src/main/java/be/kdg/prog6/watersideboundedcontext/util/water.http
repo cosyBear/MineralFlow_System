@@ -1,0 +1,8 @@
+POST http://localhost:8090/api/ships
+Content-Type: application/json
+
+{
+    "purchaseOrder": "6aa1209e-573f-4508-a66a-c801b47cfa01",
+    "vesselNumber": "fad0c3e7-bf55-45bc-a086-ad6e14fda8d2",
+    "arrivalTime": "2024-10-20T10:00:00"
+}
