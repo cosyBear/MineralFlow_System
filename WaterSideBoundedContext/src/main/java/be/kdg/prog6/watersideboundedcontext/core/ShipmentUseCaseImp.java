@@ -35,7 +35,7 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
     @Override
     @Transactional
     public void requestMaterial(ShipmentOrderCommand order) {
-        ShipmentOrder shipmentOrder = shipmentOrderLoadPort.loadShipmentOrderById(order.purchaseOrder());
+        ShipmentOrder shipmentOrder = shipmentOrderLoadPort.loadShipmentOrderById(order.shipmentOrder());
         shipmentOrder.performInspectionOperation(order.purchaseOrder());
 
         RequestMaterialEvent event = new RequestMaterialEvent(shipmentOrder.getPurchaseOrder(), shipmentOrder.getVesselNumber(), shipmentOrder.getArrivalTime());
@@ -43,12 +43,16 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
         shipmentOrderEventPublisher.requestMaterialEvent(event);
 
     }
+    // so make like a usecase with a fake api call to say do the BO.
+    //so make a api for a fake request for the BO AND IO THE so like when the waerhouse send the repsone back to the water side just call ithe api to make the BO AND THE IO.
+
 
     @Override
     public boolean shipDeparture(ShipmentCompletedCommand shipmentOrder) {
 
         ShipmentOrder order = shipmentOrderLoadPort.loadShipmentOrderById(shipmentOrder.purchaseOrderId());
         order.completeBunkeringOperation(shipmentOrder.departureTime());
+
         if(order.canShipLeave()){
             shipmentOrderSavePort.Save(order);
             return true;

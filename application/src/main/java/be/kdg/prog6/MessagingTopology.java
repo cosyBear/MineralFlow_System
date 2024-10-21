@@ -56,7 +56,9 @@ public class MessagingTopology {
 
         @Bean
         public MessageConverter jsonMessageConverter() {
-            return new Jackson2JsonMessageConverter();
+            ObjectMapper objectMapper = new ObjectMapper();
+            objectMapper.registerModule(new JavaTimeModule());
+            return new Jackson2JsonMessageConverter(objectMapper);
         }
 
     @Bean
@@ -135,6 +137,11 @@ public class MessagingTopology {
     }
 
     @Bean
+    Queue shipmentOutQueue () {
+        return new Queue(ShipmentCompletedQueue);
+    }
+
+    @Bean
     Binding shipmentQueueBinding(Queue shipmentQueue ,TopicExchange  shipmentExchange) {
         return BindingBuilder.bind(shipmentQueue)
         .to(shipmentExchange)
@@ -144,8 +151,8 @@ public class MessagingTopology {
 
 
     @Bean
-    Binding ShipmentCompletedQueueBinding(Queue ShipmentCompleted ,TopicExchange  shipmentExchange) {
-        return BindingBuilder.bind(ShipmentCompleted)
+    Binding ShipmentCompletedQueueBinding(Queue shipmentOutQueue ,TopicExchange  shipmentExchange) {
+        return BindingBuilder.bind(shipmentOutQueue)
                 .to(shipmentExchange)
                 .with("ship.*.out");
     }

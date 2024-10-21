@@ -19,26 +19,30 @@ public class PurchaseOrder {
 
     private String CustomerName;
 
+    private UUID buyerId;
+
+    // so you would  need  a buyer here because this is between a seller and a buyer
     private List<PurchaseOrderLine> orderLines = new ArrayList<>();  // List of materials and quantities being purchased
 
     private PurchaseOrderStatus status ;
 
-    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderId, SellerId sellerId, String customerName, List<PurchaseOrderLine> orderLines , PurchaseOrderStatus status) {
+    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderId, SellerId sellerId, String customerName, List<PurchaseOrderLine> orderLines , PurchaseOrderStatus status , UUID buyerId) {
         this.orderDate = orderDate;
         this.purchaseOrderId = purchaseOrderId;
         this.sellerId = sellerId;
         this.CustomerName = customerName;
         this.orderLines = orderLines;
         this.status = status;
+        this.buyerId = buyerId;
     }
 
-    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName , PurchaseOrderStatus status) {
+    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName ,UUID buyerId , PurchaseOrderStatus status) {
         this.orderDate = orderDate;
         this.sellerId = sellerId;
         CustomerName = customerName;
         this.status = status;
+        this.buyerId = buyerId;
     }
-
 
 
 

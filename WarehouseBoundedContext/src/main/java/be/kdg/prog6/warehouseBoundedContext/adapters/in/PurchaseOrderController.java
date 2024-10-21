@@ -34,7 +34,7 @@ public class PurchaseOrderController {
         ).toList();
 
         PurchaseOrderCommand command = new PurchaseOrderCommand(dto.orderDate(), UUID.fromString(dto.sellerId()),
-                dto.customerName(), orderLineDtos);
+                dto.customerName(),dto.buyerId(),orderLineDtos );
         purchaseOrderUseCase.createPurchaseOrder(command);
         return ResponseEntity.ok("the order has be created");
 

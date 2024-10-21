@@ -48,11 +48,12 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
 
         Warehouse warehouse = warehouseLoadPort.findBySellerId(purchaseOrder.getSellerId());
 
-        List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(requiredAmounts);
+        List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(requiredAmounts);// move to warehouse
 
         shippingEvents.forEach(event -> warehouse.getEventsWindow().addEvent(event));
 
         purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
+        // changet he name of the setstatus to set ful
         purchaseOrderSavePort.save(purchaseOrder);
 
         warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));

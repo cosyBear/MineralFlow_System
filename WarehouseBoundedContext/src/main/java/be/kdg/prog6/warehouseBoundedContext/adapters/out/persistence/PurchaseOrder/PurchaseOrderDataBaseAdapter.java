@@ -85,7 +85,8 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
                 purchaseOrder.getSellerId().getSellerID(),
                 purchaseOrder.getCustomerName(),
                 null,
-                PurchaseOrderStatusEntity.valueOf(purchaseOrder.getStatus().toString())
+                PurchaseOrderStatusEntity.valueOf(purchaseOrder.getStatus().toString()),
+                purchaseOrder.getBuyerId()
         );
 
         List<PurchaseOrderLineEntity> orderLineEntitiesList = purchaseOrder.getOrderLines().stream().map(item -> {
@@ -111,85 +112,6 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
 
         return new PurchaseOrder(entity.getOrderDate(), entity.getPurchaseOrderId(),
                 new SellerId(entity.getSellerId()), entity.getCustomerName(),
-                orderLineList, PurchaseOrderStatus.valueOf(entity.getStatus().toString()));
+                orderLineList, PurchaseOrderStatus.valueOf(entity.getStatus().toString()) , entity.getBuyerId());
     }
 }
-
-//@Service
-//public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, PurchaseOrderSavePort {
-//
-//
-//    private final PurchaseOrderRepository purchaseOrderRepository;
-//
-//
-//    @PersistenceContext
-//    private EntityManager entityManager;
-//
-//
-//    public PurchaseOrderDataBaseAdapter(PurchaseOrderRepository purchaseOrderRepository) {
-//        this.purchaseOrderRepository = purchaseOrderRepository;
-//    }
-//
-//
-//    @Override
-//    public PurchaseOrder loadById(UUID purchaseOrderId) {
-//        return purchaseOrderRepository.findById(purchaseOrderId)
-//                .map(this::mapToDomain)
-//                .orElseThrow(() -> new PurchaseOrderDontExistException("the purchase order you looking for dont exists Pookie"));
-//    }
-//
-//    @Override
-//    @Transactional
-//    public PurchaseOrder save(PurchaseOrder purchaseOrder) {
-//        PurchaseOrderEntity entity = mapToEntity(purchaseOrder);
-//        PurchaseOrderEntity savedEntity = purchaseOrderRepository.save(entity);
-//        return mapToDomain(savedEntity);
-//    }
-//
-//    @Override
-//    public List<PurchaseOrder> loadBySellerId(SellerId sellerId) {
-//        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerId(sellerId.getSellerID()); // Convert SellerId to UUID
-//        return entities.stream().map(this::mapToDomain).toList(); // Map entities to domain objects
-//    }
-//
-//
-//    @Override
-//    public List<PurchaseOrder> loadByCustomerName(String customerName) {
-//        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findByCustomerName(customerName);
-//        return entities.stream().map(this::mapToDomain).toList();
-//    }
-//
-//    @Override
-//    public List<PurchaseOrder> loadBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
-//        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerIdAndMaterialType(sellerId.getSellerID(), materialType);
-//        return entities.stream().map(this::mapToDomain).toList();
-//    }
-//
-//    private PurchaseOrder mapToDomain(PurchaseOrderEntity entity) {
-//        List<PurchaseOrderLine> orderLineList = entity.getPurchaseOrderLines().stream().map(item -> {
-//            return new PurchaseOrderLine(item.getMaterialType(),
-//                    item.getQuantity(), item.getPricePerTon());
-//        }).toList();
-//
-//        return new PurchaseOrder(entity.getOrderDate(), entity.getPurchaseOrderId(),
-//                new SellerId(entity.getSellerId()), entity.getCustomerName(),
-//                orderLineList , PurchaseOrderStatus.valueOf(entity.getStatus().toString()));
-//    }
-//
-//    private PurchaseOrderEntity mapToEntity(PurchaseOrder purchaseOrder) {
-//
-//        PurchaseOrderEntity entity = new PurchaseOrderEntity(purchaseOrder.getOrderDate(),
-//                purchaseOrder.getSellerId().getSellerID(), purchaseOrder.getCustomerName(), null , PurchaseOrderStatusEntity.valueOf(purchaseOrder.getStatus().toString()));
-//
-//        List<PurchaseOrderLineEntity> orderLineEntitiesList = purchaseOrder.getOrderLines().stream().map(item -> {
-//            PurchaseOrderLineEntity orderLine = new PurchaseOrderLineEntity(item.getMaterialType(), item.getQuantity(), item.getQuantity());
-//            orderLine.setPurchaseOrder(entity);
-//            return orderLine;
-//        }).toList();
-//
-//        entity.setPurchaseOrderLines(orderLineEntitiesList);
-//        return entity;
-//    }
-//
-//
-//}

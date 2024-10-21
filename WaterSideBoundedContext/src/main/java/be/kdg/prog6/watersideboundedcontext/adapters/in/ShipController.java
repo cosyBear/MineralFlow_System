@@ -4,6 +4,7 @@ package be.kdg.prog6.watersideboundedcontext.adapters.in;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderUseCase;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,8 +28,8 @@ public class ShipController {
 
 
     @PostMapping
-    public ResponseEntity<String> shipRequestDelivery(ShipOrderDto dto){
-        ShipmentOrderCommand shipIn = new ShipmentOrderCommand(UUID.fromString(dto.purchaseOrder()), UUID.fromString(dto.vesselNumber()) , LocalDateTime.parse(dto.arrivalTime()));
+    public ResponseEntity<String> shipRequestDelivery(@RequestBody  ShipOrderDto dto){
+        ShipmentOrderCommand shipIn = new ShipmentOrderCommand(UUID.fromString(dto.purchaseOrder()), UUID.fromString(dto.shipmentOrder()) , UUID.fromString(dto.vesselNumber()) , LocalDateTime.parse(dto.arrivalTime()));
 
         useCase.requestMaterial(shipIn);
         return ResponseEntity.ok("everything is ok ");

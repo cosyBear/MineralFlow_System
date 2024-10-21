@@ -10,6 +10,7 @@ import lombok.Setter;
 @Setter
 public class ShipmentOrder {
 
+    private UUID shipmentOrderId;
     private UUID purchaseOrder;
     private UUID vesselNumber;
     private LocalDateTime arrivalTime;
@@ -18,13 +19,14 @@ public class ShipmentOrder {
     private InspectionOperation inspectionOperation;
 
 
-    public ShipmentOrder(InspectionOperation inspectionOperation, BunkeringOperation bunkeringOperation, LocalDateTime departureTime, LocalDateTime arrivalTime, UUID vesselNumber, UUID purchaseOrder) {
+    public ShipmentOrder(InspectionOperation inspectionOperation, BunkeringOperation bunkeringOperation, LocalDateTime departureTime, LocalDateTime arrivalTime, UUID vesselNumber, UUID purchaseOrder , UUID shipmentOrderId) {
         this.inspectionOperation = inspectionOperation;
         this.bunkeringOperation = bunkeringOperation;
         this.departureTime = departureTime;
         this.arrivalTime = arrivalTime;
         this.vesselNumber = vesselNumber;
         this.purchaseOrder = purchaseOrder;
+        this.shipmentOrderId = shipmentOrderId;
     }
 
     public ShipmentOrder(UUID purchaseOrder, UUID vesselNumber, LocalDateTime arrivalTime, LocalDateTime departureTime) {

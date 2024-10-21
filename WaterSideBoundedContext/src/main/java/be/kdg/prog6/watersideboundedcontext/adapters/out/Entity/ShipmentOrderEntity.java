@@ -16,9 +16,14 @@ public class ShipmentOrderEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private UUID shipmentOrderId;
+
     private UUID purchaseOrder;
+
     private LocalDateTime arrivalTime;
+
     private LocalDateTime departureTime;
+
     private UUID vesselId;
 
     @Embedded
@@ -33,13 +38,14 @@ public class ShipmentOrderEntity {
 
     }
 
-    public ShipmentOrderEntity(UUID purchaseOrder, LocalDateTime arrivalTime, LocalDateTime departureTime, UUID vesselId, InspectionOperationEntity inspectionOperation, BunkeringOperationEntity bunkeringOperation) {
+    public ShipmentOrderEntity(UUID purchaseOrder, LocalDateTime arrivalTime, LocalDateTime departureTime, UUID vesselId, InspectionOperationEntity inspectionOperation, BunkeringOperationEntity bunkeringOperation , UUID shipmentOrderId) {
         this.purchaseOrder = purchaseOrder;
         this.arrivalTime = arrivalTime;
         this.departureTime = departureTime;
         this.vesselId = vesselId;
         this.inspectionOperation = inspectionOperation;
         this.bunkeringOperation = bunkeringOperation;
+        this.shipmentOrderId = shipmentOrderId;
     }
 
     public ShipmentOrderEntity(UUID purchaseOrder, LocalDateTime arrivalTime, LocalDateTime departureTime, UUID vesselId) {

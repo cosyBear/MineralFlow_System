@@ -1,3 +1,3 @@
-INSERT INTO shipment_order (purchase_order, arrival_time, departure_time, vessel_id)
+INSERT INTO shipment_order (purchase_order, arrival_time, departure_time, vessel_id, shipment_order.shipment_order_id)
 VALUES
-    (UNHEX(REPLACE('6aa1209e-573f-4508-a66a-c801b47cfa01', '-', '')), '2024-10-20 10:00:00', '2024-10-20 16:00:00', UNHEX(REPLACE('fad0c3e7-bf55-45bc-a086-ad6e14fda8d2', '-', '')));
+    (UNHEX(REPLACE('8d50dbe3-68a4-4afc-a242-13818629ac9f', '-', '')), '2024-10-20 10:00:00', '2024-10-20 16:00:00', UNHEX(REPLACE('fad0c3e7-bf55-45bc-a086-ad6e14fda8d2', '-', '')),UNHEX(REPLACE('b73a7a63-07f6-4a50-9bd8-718d51e7c415', '-', ''))) ;

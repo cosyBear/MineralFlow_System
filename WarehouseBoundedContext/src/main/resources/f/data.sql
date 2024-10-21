@@ -38,9 +38,9 @@ VALUES
     (UNHEX(REPLACE('acdd75b0-0712-4ef1-870f-67a8d0d7bc18', '-', '')), @seller_id, 'PETCOKE',  UNHEX(REPLACE('d4d4f4a6-b4c7-44d5-d4e6-1234567890dd', '-', ''))), -- PETCOKE
     (UNHEX(REPLACE('b03f68bb-6606-482d-8007-dc7f94acb1e5', '-', '')), @seller_id, 'SLAG',  UNHEX(REPLACE('e5e5a7b6-c5d6-55e6-e5f7-1234567890ee', '-', ''))); -- SLAG
 
-INSERT INTO purchase_order_entity (purchase_order_id, order_date, seller_id, customer_name, status)
-VALUES (UNHEX(REPLACE('6aa1209e-573f-4508-a66a-c801b47cfa01', '-', '')), '2024-10-20', UNHEX(REPLACE('5d7f292e-8f2e-431d-a92f-df2e90b32d59', '-', '')), 'Customer XYZ', 'FULFILLED');
 
+INSERT into warehouse_db.purchase_order_entity(purchase_order_id, order_date, seller_id, customer_name,buyer_id,status)
+VALUES (UNHEX(REPLACE('6aa1209e-573f-4508-a66a-c801b47cfa01', '-', '')), '2024-10-20', UNHEX(REPLACE('5d7f292e-8f2e-431d-a92f-df2e90b32d59', '-', '')), 'Customer XYZ', UNHEX(REPLACE('6aa1209e-573f-4508-a66a-c801b47cfa03', '-', '')),'FULFILLED');
 
 INSERT INTO purchase_order_line_entity (order_line_id, material_type, quantity, price_per_ton, purchase_order_purchase_order_id)
 VALUES

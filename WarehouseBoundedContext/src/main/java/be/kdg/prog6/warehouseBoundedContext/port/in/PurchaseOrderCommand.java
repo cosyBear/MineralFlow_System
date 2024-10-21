@@ -5,6 +5,6 @@ import java.util.List;
 import java.util.UUID;
 
 
-public record PurchaseOrderCommand(LocalDate orderDate, UUID sellerId , String customerName,
+public record PurchaseOrderCommand(LocalDate orderDate, UUID sellerId , String customerName,UUID buyerId,
     List<OrderLineCommand> orderlineList) {
 }

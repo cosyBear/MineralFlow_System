@@ -55,19 +55,29 @@ public class ShipmentOrderDatabaseAdapter implements ShipmentOrderSavePort, Ship
                 order.getArrivalTime(),
                 order.getVesselNumber(),
                 new InspectionOperationEntity(order.getInspectionOperation().timeOfSigning(), order.getInspectionOperation().signature()),
-                new BunkeringOperationEntity(order.getBunkeringOperation().bunkeringTime())
+                new BunkeringOperationEntity(order.getBunkeringOperation().bunkeringTime()),order.getShipmentOrderId()
         );
     }
 
     private ShipmentOrder mapToDomain(ShipmentOrderEntity shipmentOrder) {
+        InspectionOperation inspectionOperation = (shipmentOrder.getInspectionOperation() == null)
+                ? new InspectionOperation()
+                : new InspectionOperation(shipmentOrder.getInspectionOperation().getInspectionDate(), shipmentOrder.getInspectionOperation().getInspectorSignature());
+
+        BunkeringOperation bunkeringOperation = (shipmentOrder.getBunkeringOperation() == null)
+                ? new BunkeringOperation()
+                : new BunkeringOperation(shipmentOrder.getBunkeringOperation().getBunkeringTime());
+
         return new ShipmentOrder(
-                new InspectionOperation(shipmentOrder.getInspectionOperation().getInspectionDate(), shipmentOrder.getInspectionOperation().getInspectorSignature()),
-                new BunkeringOperation(shipmentOrder.getBunkeringOperation().getBunkeringTime()),
+                inspectionOperation,
+                bunkeringOperation,
                 shipmentOrder.getDepartureTime(),
                 shipmentOrder.getArrivalTime(),
                 shipmentOrder.getVesselId(),
-                shipmentOrder.getPurchaseOrder());
+                shipmentOrder.getPurchaseOrder(),
+                shipmentOrder.getShipmentOrderId());
     }
+
 
 
 }
