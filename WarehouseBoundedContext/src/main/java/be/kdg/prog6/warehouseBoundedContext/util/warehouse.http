@@ -2,19 +2,19 @@ POST http://localhost:8090/api/PurchaseOrders
 Content-Type: application/json
 
 {
-  "orderDate": "2024-10-23",
+  "orderDate": "2024-10-24",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
   "customerName": "coco",
   "buyerId" : "8d50dbe3-68a4-4afc-a242-13818629ac9f",
   "orderLines" : [
     {
     "materialType": "IRON",
-    "quantity": 100.0 ,
+    "quantity": 40.0 ,
     "pricePerTon":10
   },
     {
       "materialType": "CEMENT",
-      "quantity": 200.0 ,
+      "quantity": 40.0 ,
       "pricePerTon":20
     }
     ]

@@ -29,11 +29,7 @@ public class WarehouseProjectionUseCaseImp implements WarehouseProjectionUseCase
                         updateWarehouseCommand.materialType()
                 ));
 
-        if (updateWarehouseCommand.action() == WarehouseAction.ADD) {
-            warehouse.addMaterial(updateWarehouseCommand.amount());
-        } else if (updateWarehouseCommand.action() == WarehouseAction.SUBTRACT) {
-            warehouse.subtractMaterial(updateWarehouseCommand.amount());
-        }
+        warehouse.updateWarehouse(updateWarehouseCommand.amount());
         warehouseSavePort.Save(warehouse);
     }
 }

@@ -25,7 +25,7 @@ public abstract class AbstractDatabaseTest {
     static {
         // Initialize the MySQL container with the init script for granting privileges
         DATABASE = new MySQLContainer<>("mysql:8.0.30")
-                .withInitScript("l/data.sql");  // The SQL script that grants permissions
+                .withDatabaseName("app_db");
         DATABASE.start();
     }
 

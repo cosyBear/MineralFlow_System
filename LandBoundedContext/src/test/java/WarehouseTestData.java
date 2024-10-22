@@ -14,8 +14,8 @@ public record WarehouseTestData(
 
     public static WarehouseTestData defaultData() {
         return new WarehouseTestData(
-                new WarehouseId(UUID.fromString("8d50dbe3-68a4-4afc-a242-13818629ac9d")),
-                new SellerId(UUID.fromString("8d50dbe3-68a4-4afc-a242-13818629ac9e")),
+                new WarehouseId(UUID.fromString("c0e9a5a3-bbfd-4e73-bef7-9a2a8bce394b")),
+                new SellerId(UUID.fromString("8d50dbe3-68a4-4afc-a242-13818629ac9d")),
                 MaterialType.IRON,
                 100.0,
                 300.0

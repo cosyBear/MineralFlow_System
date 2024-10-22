@@ -12,10 +12,6 @@ import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderSavePort;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.UUID;
-
 @Service
 public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
 
@@ -50,7 +46,7 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
     @Override
     public boolean shipDeparture(ShipmentCompletedCommand shipmentOrder) {
 
-        ShipmentOrder order = shipmentOrderLoadPort.loadShipmentOrderById(shipmentOrder.purchaseOrderId());
+        ShipmentOrder order = shipmentOrderLoadPort.loadByPurchaseOrderId(shipmentOrder.purchaseOrderId());
         order.completeBunkeringOperation(shipmentOrder.departureTime());
 
         if(order.canShipLeave()){

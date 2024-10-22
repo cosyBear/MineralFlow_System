@@ -24,7 +24,7 @@ public class ShipmentOrderPublisher implements ShipmentOrderEventPublisher {
 
     @Override
     public void requestMaterialEvent(RequestMaterialEvent event ) {
-        String routingKey = "ship." + event.purchaseOrder() + "out";
+        String routingKey = "ship." + event.purchaseOrder() + ".in";
         RequestMaterialEvent requestEvent  = new RequestMaterialEvent(event.purchaseOrder() ,
                 event.vesselNumber(),
                 event.arrivalTime());

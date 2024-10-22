@@ -47,6 +47,11 @@ public class Warehouse {
     }
 
 
+
+    public void updateWarehouse(double amount){
+        this.amountOfMaterial = amount;
+    }
+
     public WarehouseId getWarehouseId() {
         return warehouseId;
     }

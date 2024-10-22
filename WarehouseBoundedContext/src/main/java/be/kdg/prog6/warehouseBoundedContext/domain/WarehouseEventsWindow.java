@@ -10,7 +10,7 @@ public class WarehouseEventsWindow {
 
     private UUID warehouseEventsWindowId;
     private WarehouseId warehouseId;
-    private List<WarehouseEvent> warehouseEventList;
+    private List<WarehouseEvent> warehouseEventList = new ArrayList<>();
 
 
     // so when you ship enter the shipping order
@@ -105,7 +105,7 @@ public class WarehouseEventsWindow {
     public WarehouseEventsWindow(WarehouseId warehouseId, UUID warehouseEventsWindowId, List<WarehouseEvent> warehouseEventList) {
         this.warehouseId = warehouseId;
         this.warehouseEventsWindowId = warehouseEventsWindowId;
-        this.warehouseEventList = new ArrayList<>();
+        this.warehouseEventList = warehouseEventList;
     }
 
     public WarehouseEventsWindow(WarehouseId warehouseId, UUID warehouseEventsWindowId) {

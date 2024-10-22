@@ -26,7 +26,6 @@ public class ShipController {
         this.useCase = useCase;
     }
 
-
     @PostMapping
     public ResponseEntity<String> shipRequestDelivery(@RequestBody  ShipOrderDto dto){
         ShipmentOrderCommand shipIn = new ShipmentOrderCommand(UUID.fromString(dto.purchaseOrder()), UUID.fromString(dto.shipmentOrder()) , UUID.fromString(dto.vesselNumber()) , LocalDateTime.parse(dto.arrivalTime()));

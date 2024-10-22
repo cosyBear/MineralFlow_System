@@ -10,10 +10,13 @@ import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort
 import be.kdg.prog6.warehouseBoundedContext.port.out.WaterSideEventPublisher;
 import domain.MaterialType;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,6 +40,7 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
     }
 
     @Override
+    @Transactional
     public void shipmentIn(ShipmentCommand command) {
         PurchaseOrder purchaseOrder = purchaseOrderLoadPort.loadById(command.purchaseOrder());
 
@@ -46,22 +50,28 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
                         Collectors.summingDouble(PurchaseOrderLine::getQuantity)
                 ));
 
-        Warehouse warehouse = warehouseLoadPort.findBySellerId(purchaseOrder.getSellerId());
+        List<Warehouse> warehouseList = new ArrayList<>();
+        for(Map.Entry<MaterialType,Double> item: requiredAmounts.entrySet()) {
+            warehouseList.add(warehouseLoadPort.findBySellerIdAndMaterialType(purchaseOrder.getSellerId(), item.getKey()));
+        }
 
-        List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(requiredAmounts);// move to warehouse
 
-        shippingEvents.forEach(event -> warehouse.getEventsWindow().addEvent(event));
+        for(Map.Entry<MaterialType,Double> item: requiredAmounts.entrySet()) {
+            for(Warehouse warehouse : warehouseList){
+                if (item.getKey().equals(warehouse.getMaterialType())) {
+                    List<WarehouseEvent> shippingEvents =  warehouse.getEventsWindow().fulfillShippingOrder(Map.of(item.getKey(), item.getValue()));
+                    shippingEvents.forEach(event -> warehouse.getEventsWindow().addEvent(event));
+                    purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
+                    warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
+                    ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(purchaseOrder.getPurchaseOrderId(),
+                            command.vesselNumber(), LocalDateTime.now());
 
-        purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
-        // changet he name of the setstatus to set ful
-        purchaseOrderSavePort.save(purchaseOrder);
+                    waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
+                    purchaseOrderSavePort.save(purchaseOrder);
+                }
+            }
+        }
 
-        warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
-
-        ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(purchaseOrder.getPurchaseOrderId(),
-                command.vesselNumber(), LocalDateTime.now());
-
-        waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
 
     }
 

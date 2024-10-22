@@ -47,10 +47,9 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
     }
 
     @Override
+    @Transactional
     public PurchaseOrder loadById(UUID purchaseOrderId) {
-        return purchaseOrderRepository.findById(purchaseOrderId)
-                .map(this::mapToDomain)
-                .orElseThrow(() -> new PurchaseOrderDontExistException("The purchase order you are looking for does not exist."));
+        return mapToDomain(purchaseOrderRepository.findByPurchaseOrderId(purchaseOrderId));
     }
 
         @Override

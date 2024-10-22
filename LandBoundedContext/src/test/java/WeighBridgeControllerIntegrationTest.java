@@ -1,4 +1,5 @@
 import be.kdg.prog6.landSideBoundedContext.LandSideBoundedContextApplication;
+import be.kdg.prog6.landSideBoundedContext.adapters.out.WeighBridgeEventPublisherImp;
 import be.kdg.prog6.landSideBoundedContext.domain.WeighTruckInCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
@@ -9,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -25,13 +27,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class WeighBridgeControllerIntegrationTest extends AbstractDatabaseTest {
 
     @Autowired
-    private MockMvc mockMvc; // MockMvc for testing controller
+    private MockMvc mockMvc;
 
     @Autowired
     private WeighBridgeUseCase sut; // Actual service
 
     @Autowired
     WeighbridgeTicketLoadPort weighbridgeTicketLoadPort; // Actual repository
+
+    @MockBean
+    private WeighBridgeEventPublisherImp weighBridgeEventPublisherImp;
 
     @Test
     void weighTruckInControllerMethod() throws Exception {
@@ -50,7 +55,7 @@ public class WeighBridgeControllerIntegrationTest extends AbstractDatabaseTest {
         mockMvc.perform(post("/weighbridge/trucks/weighIn")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(requestBody))
-                .andExpect(status().isOk()); // Assert that the status is OK
+                .andExpect(status().isOk()); 
     }
 
     @Test
@@ -72,6 +77,6 @@ public class WeighBridgeControllerIntegrationTest extends AbstractDatabaseTest {
         assertEquals(savedTicket.getLicensePlate(), command.licensePlate());
         assertEquals(savedTicket.getStartTime(), command.weighInTime());
         assertEquals(savedTicket.getStartWeight(), command.startWeight());
-        assertEquals(savedTicket.getEndWeight(), 0); // Make sure end weight is still 0
+        assertEquals(savedTicket.getEndWeight(), 0);
     }
 }

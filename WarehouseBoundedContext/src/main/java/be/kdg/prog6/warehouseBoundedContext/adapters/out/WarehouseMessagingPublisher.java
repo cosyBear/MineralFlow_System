@@ -30,7 +30,7 @@ public class WarehouseMessagingPublisher implements WarehouseSavePort {
 
         WarehouseMaterialEvent warehouseEvent = new WarehouseMaterialEvent(
                 warehouse.getWarehouseNumber().getId(),
-                event.materialTrueWeight(),
+                warehouse.getCurrentLoadOfWarehouse(),
                 event.getMaterialType(),
                 warehouse.getSellerId().getSellerID()
         );

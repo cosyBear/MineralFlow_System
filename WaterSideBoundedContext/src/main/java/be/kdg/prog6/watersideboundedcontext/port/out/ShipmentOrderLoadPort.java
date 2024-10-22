@@ -7,4 +7,6 @@ import java.util.UUID;
 public interface ShipmentOrderLoadPort {
 
     ShipmentOrder loadShipmentOrderById(UUID shipmentOrderId);
+
+    ShipmentOrder loadByPurchaseOrderId(UUID purchaseOrderId);
 }

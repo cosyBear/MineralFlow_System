@@ -8,4 +8,5 @@ import java.util.UUID;
 
 public interface ShipmentOrderRepository extends JpaRepository<ShipmentOrderEntity , UUID> {
 
+    ShipmentOrderEntity findByPurchaseOrder(UUID purchaseOrder);
 }

@@ -27,12 +27,9 @@ public class WarehouseProjectionListener {
 
     @RabbitListener(queues = "WarehouseMaterial_QUEUE")
     public void listenToWarehouse(WarehouseDto dto){
-        WarehouseAction action = dto.materialAmountInWarehouse() >= 0 ? WarehouseAction.ADD : WarehouseAction.SUBTRACT;
-
         UpdateWarehouseCommand updateWarehouseCommand = new UpdateWarehouseCommand(
                 new WarehouseId(dto.warehouseId()) , dto.materialAmountInWarehouse(),
-                MaterialType.valueOf(dto.materialType()), new SellerId(dto.sellerId()),
-         action);
+                MaterialType.valueOf(dto.materialType()), new SellerId(dto.sellerId()));
 
         warehouseProjectionUseCase.updateWarehouse(updateWarehouseCommand);
     }

@@ -101,21 +101,23 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     @Override
     @Transactional
     public void save(Warehouse warehouse , WarehouseEvent ignore) {
-        WarehouseEntity warehouseEntity = new WarehouseEntity();
+        WarehouseEntity warehouseEntity = warehouseRepository.findById(warehouse.getWarehouseNumber().getId()).orElse(
+                 new WarehouseEntity()
+        );
 
         warehouseEntity.setWarehouseId(warehouse.getWarehouseNumber().getId());
         warehouseEntity.setMaterialType(warehouse.getMaterialType());
         warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());
 
 
-        WarehouseEventsWindowEntity eventsWindowEntity = new WarehouseEventsWindowEntity();
+        WarehouseEventsWindowEntity eventsWindowEntity = warehouseEventsWindowEntityRepository.findById(warehouse.getEventsWindow().getWarehouseEventsWindowId()).orElse( new WarehouseEventsWindowEntity());
         eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());
         eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());
 
         // Map the list of WarehouseEventEntity
         List<WarehouseEventEntity> eventEntities = warehouse.getEventsWindow().getWarehouseEventList().stream()
                 .map(event -> new WarehouseEventEntity(
-                        event.id().getId(),
+                        UUID.randomUUID(),
                         event.time(),
                         event.type().toString(),
                         event.materialTrueWeight(),

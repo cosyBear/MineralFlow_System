@@ -12,37 +12,34 @@ import java.util.UUID;
 
 public interface WarehouseRepository extends JpaRepository<WarehouseEntity, UUID> {
 
-        // Custom query to fetch warehouse along with its events window and all events
-        @Query("SELECT w FROM WarehouseEntity w " +
-                "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
-                "LEFT JOIN FETCH wew.warehouseEventList " +
-                "WHERE w.warehouseId = :warehouseId")
-        WarehouseEntity fetchWarehouseWithEvents(@Param("warehouseId") UUID warehouseId);
+    // Custom query to fetch warehouse along with its events window and all events
+    @Query("SELECT w FROM WarehouseEntity w " +
+            "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
+            "LEFT JOIN FETCH wew.warehouseEventList " +
+            "WHERE w.warehouseId = :warehouseId")
+    WarehouseEntity fetchWarehouseWithEvents(@Param("warehouseId") UUID warehouseId);
 
-        // Find by sellerId only
-        @Query("SELECT w FROM WarehouseEntity w " +
-                "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
-                "LEFT JOIN FETCH wew.warehouseEventList " +
-                "WHERE w.sellerId = :sellerId")
-        WarehouseEntity findBySellerId(@Param("sellerId") SellerId sellerId);
+    // Find by sellerId only
+    @Query("SELECT w FROM WarehouseEntity w " +
+            "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
+            "LEFT JOIN FETCH wew.warehouseEventList " +
+            "WHERE w.sellerId = :sellerId")
+    WarehouseEntity findBySellerId(@Param("sellerId") SellerId sellerId);
 
-        // Find by sellerId and warehouseId
-        @Query("SELECT w FROM WarehouseEntity w " +
-                "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
-                "LEFT JOIN FETCH wew.warehouseEventList " +
-                "WHERE w.sellerId = :sellerId AND w.warehouseId = :warehouseId")
-        WarehouseEntity findBySellerIdAndWarehouseId(
-                @Param("sellerId") SellerId sellerId,
-                @Param("warehouseId") UUID warehouseId);
+    // Find by sellerId and warehouseId
+    @Query("SELECT w FROM WarehouseEntity w " +
+            "LEFT JOIN FETCH w.warehouseEventsWindow wew " +
+            "LEFT JOIN FETCH wew.warehouseEventList " +
+            "WHERE w.sellerId = :sellerId AND w.warehouseId = :warehouseId")
+    WarehouseEntity findBySellerIdAndWarehouseId(
+            @Param("sellerId") SellerId sellerId,
+            @Param("warehouseId") UUID warehouseId);
 
-        // Find by sellerId and materialType
-
-
-        @Query("SELECT w FROM WarehouseEntity w LEFT JOIN FETCH w.warehouseEventsWindow e LEFT JOIN FETCH e.warehouseEventList WHERE w.sellerId = :sellerId AND w.materialType = :materialType")
-        WarehouseEntity findBySellerIdAndMaterialType(@Param("sellerId") UUID sellerId, @Param("materialType") MaterialType materialType);
+    // Find by sellerId and materialType
 
 
-
+    @Query("SELECT w FROM WarehouseEntity w LEFT JOIN FETCH w.warehouseEventsWindow e LEFT JOIN FETCH e.warehouseEventList WHERE w.sellerId = :sellerId AND w.materialType = :materialType")
+    WarehouseEntity findBySellerIdAndMaterialType(@Param("sellerId") UUID sellerId, @Param("materialType") MaterialType materialType);
 
 
 }

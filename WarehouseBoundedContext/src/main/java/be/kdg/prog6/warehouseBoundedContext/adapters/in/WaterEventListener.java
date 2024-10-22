@@ -11,16 +11,16 @@ import be.kdg.prog6.warehouseBoundedContext.port.in.*;
 public class WaterEventListener {
 
 
-    private static final String shipmentQueue  = "shipmentQueue";
+    private static final String shipInQueue  = "shipInQueue";
 
-    private ShipmentOrderUseCase shipmentOrderUseCase;
+    private final ShipmentOrderUseCase shipmentOrderUseCase;
 
-    public void waterSideListener(ShipmentOrderUseCase shipUseCase ){
-        this.shipmentOrderUseCase = shipUseCase;
+    public WaterEventListener(ShipmentOrderUseCase shipmentOrderUseCase) {
+        this.shipmentOrderUseCase = shipmentOrderUseCase;
     }
 
 
-    @RabbitListener(queues = shipmentQueue)
+    @RabbitListener(queues = shipInQueue)
     public void shipmentIn(ShipmentDto dto){
         System.out.println("this is the dto {}" + dto);
         ShipmentCommand ShipmentCommand = new ShipmentCommand(dto.purchaseOrder() ,dto.vesselNumber(), dto.arrivalTime());

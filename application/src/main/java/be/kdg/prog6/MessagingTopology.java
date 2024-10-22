@@ -116,47 +116,39 @@ public class MessagingTopology {
     // water side config
 
 
-    private static String  WaterSideExchange = "waterSideExchange";
-    private static String waterQueue  = "shipmentQueue";
-    private static String ShipmentCompletedQueue = "shipmentCompletedQueue";
-    @Bean
-    TopicExchange shipmentExchange (){
-        return new TopicExchange(WaterSideExchange);
-    }
-
-
+    // Water side exchange and queue names
+    private static final String WATER_SIDE_EXCHANGE = "waterSideExchange";
+    private static final String SHIP_IN_QUEUE = "shipInQueue";
+    private static final String SHIP_OUT_QUEUE = "shipOutQueue";
 
     @Bean
-    Queue ShipmentCompleted(){
-        return new Queue(ShipmentCompletedQueue);
+    public TopicExchange waterSideExchange() {
+        return new TopicExchange(WATER_SIDE_EXCHANGE);
     }
 
     @Bean
-    Queue shipmentQueue () {
-        return new Queue(waterQueue);
+    public Queue shipInQueue() {
+        return new Queue(SHIP_IN_QUEUE, true);
     }
 
     @Bean
-    Queue shipmentOutQueue () {
-        return new Queue(ShipmentCompletedQueue);
+    public Queue shipOutQueue() {
+        return new Queue(SHIP_OUT_QUEUE, true);
     }
 
     @Bean
-    Binding shipmentQueueBinding(Queue shipmentQueue ,TopicExchange  shipmentExchange) {
-        return BindingBuilder.bind(shipmentQueue)
-        .to(shipmentExchange)
-        .with("ship.*.in");
+    public Binding shipInBinding(Queue shipInQueue, TopicExchange waterSideExchange) {
+        return BindingBuilder.bind(shipInQueue)
+                .to(waterSideExchange)
+                .with("ship.#.in");
     }
-
-
 
     @Bean
-    Binding ShipmentCompletedQueueBinding(Queue shipmentOutQueue ,TopicExchange  shipmentExchange) {
-        return BindingBuilder.bind(shipmentOutQueue)
-                .to(shipmentExchange)
-                .with("ship.*.out");
+    public Binding shipOutBinding(Queue shipOutQueue, TopicExchange waterSideExchange) {
+        return BindingBuilder.bind(shipOutQueue)
+                .to(waterSideExchange)
+                .with("ship.#.out");
     }
-
 
 
 

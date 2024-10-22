@@ -12,6 +12,11 @@ import java.util.UUID;
 
 public interface PurchaseOrderRepository extends JpaRepository<PurchaseOrderEntity, UUID> {
 
+
+
+    @Query("select p from PurchaseOrderEntity as p left join fetch p.purchaseOrderLines where p.purchaseOrderId = :purchaseOrderId")
+    PurchaseOrderEntity findByPurchaseOrderId(@Param("purchaseOrderId") UUID purchaseOrderId);
+
     List<PurchaseOrderEntity> findBySellerId(UUID sellerId);
 
     List<PurchaseOrderEntity> findByCustomerName(String customerName);

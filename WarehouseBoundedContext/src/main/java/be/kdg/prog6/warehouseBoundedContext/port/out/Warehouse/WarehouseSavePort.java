@@ -14,9 +14,6 @@ public interface WarehouseSavePort {
         }
     }
 
-    default void shipmentComplete(Warehouse warehouse) {
-
-    }
 
 
 

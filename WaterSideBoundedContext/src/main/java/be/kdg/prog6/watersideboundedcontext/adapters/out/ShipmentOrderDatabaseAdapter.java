@@ -34,9 +34,8 @@ public class ShipmentOrderDatabaseAdapter implements ShipmentOrderSavePort, Ship
 
     @Override
     public void Save(ShipmentOrder order) {
-
         ShipmentOrderEntity shipmentOrder = mapToEntity(order);
-        entityManager.merge(shipmentOrder);
+        shipmentOrderRepository.save(shipmentOrder);
 
     }
 
@@ -45,6 +44,11 @@ public class ShipmentOrderDatabaseAdapter implements ShipmentOrderSavePort, Ship
         return mapToDomain(shipmentOrderRepository.findById(shipmentOrderId).orElseThrow(() -> {
             throw new NoShipmentOrderException("no shipment order found with id " + shipmentOrderId);
         }));
+    }
+
+    @Override
+    public ShipmentOrder loadByPurchaseOrderId(UUID purchaseOrderId) {
+        return mapToDomain(shipmentOrderRepository.findByPurchaseOrder(purchaseOrderId));
     }
 
 
