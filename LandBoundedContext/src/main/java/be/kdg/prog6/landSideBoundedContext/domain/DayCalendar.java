@@ -17,8 +17,10 @@ public class DayCalendar {
     private static final Logger logger = LogManager.getLogger(DayCalendar.class);
 
     public DayCalendar(LocalDate date, List<Appointment> appointments) {
+
         this.date = date;
         this.appointments = appointments;
+
     }
 
     public DayCalendar() {
@@ -44,7 +46,9 @@ public class DayCalendar {
         if (addAppointment(appointment)) {
             return appointment;
         } else {
+
             throw new TimeSlotFullException("Failed to add appointment. Time slot may be full.");
+
         }
 
     }
@@ -85,7 +89,7 @@ public class DayCalendar {
     }
 
     public List<Appointment> getAppointments() {
-        return appointments;
+        return Collections.unmodifiableList(appointments);
     }
 
     public void setAppointments(List<Appointment> appointments) {

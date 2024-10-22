@@ -1,17 +1,20 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.in;
 
 
-import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderCommand;
-import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderDto;
+import be.kdg.prog6.warehouseBoundedContext.adapters.dto.PurchaseOrderDto;
+import be.kdg.prog6.warehouseBoundedContext.port.in.OrderLineCommand;
+import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrder;
+import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderCommand;
 import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderUseCase;
 import domain.MaterialType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("PurchaseOrder")
+@RequestMapping("PurchaseOrders")
 public class PurchaseOrderController {
 
 
@@ -24,11 +27,23 @@ public class PurchaseOrderController {
     @PostMapping
     public ResponseEntity<String> createPurchaseOrder(@RequestBody PurchaseOrderDto dto) {
 
-        PurchaseOrderCommand command = new PurchaseOrderCommand(dto.orderDate() , UUID.fromString(dto.sellerId()), dto.customerName(), MaterialType.valueOf(dto.materialType()), dto.amountOfMaterialInTons() );
+        List<OrderLineCommand> orderLineDtos = dto.orderLines().stream().map(
+                item -> {
+                    return new OrderLineCommand(MaterialType.valueOf(item.materialType()), item.quantity(), item.pricePerTon());
+                }
+        ).toList();
+
+        PurchaseOrderCommand command = new PurchaseOrderCommand(dto.orderDate(), UUID.fromString(dto.sellerId()),
+                dto.customerName(),dto.buyerId(),orderLineDtos );
         purchaseOrderUseCase.createPurchaseOrder(command);
         return ResponseEntity.ok("the order has be created");
 
     }
-
+    @GetMapping()
+    public ResponseEntity<List<PurchaseOrder>> getPurchaseOrdersStatus(){
+       List<PurchaseOrder> purchaseOrderList  = purchaseOrderUseCase.getPurchaseOrderStatus();
+        return ResponseEntity.ok(purchaseOrderList);
+    }
 
 }
+

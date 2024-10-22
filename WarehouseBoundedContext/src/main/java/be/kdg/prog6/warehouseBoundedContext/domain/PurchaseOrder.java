@@ -1,88 +1,49 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
-import domain.MaterialType;
-
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
-
+import lombok.Getter;
+import lombok.Setter;
+@Getter
+@Setter
 public class PurchaseOrder {
     // the date is when the order was placed.
     private LocalDate orderDate;
 
-    private UUID purchaseOrderNumber;
+    private UUID purchaseOrderId;
 
     private SellerId sellerId;
 
     private String CustomerName;
 
-    private MaterialType materialType;
+    private UUID buyerId;
 
-    private double amountOfMaterialInTons;
+    // so you would  need  a buyer here because this is between a seller and a buyer
+    private List<PurchaseOrderLine> orderLines = new ArrayList<>();  // List of materials and quantities being purchased
 
-    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderNumber, SellerId sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
+    private PurchaseOrderStatus status ;
+
+    public PurchaseOrder(LocalDate orderDate, UUID purchaseOrderId, SellerId sellerId, String customerName, List<PurchaseOrderLine> orderLines , PurchaseOrderStatus status , UUID buyerId) {
         this.orderDate = orderDate;
-        this.purchaseOrderNumber = purchaseOrderNumber;
+        this.purchaseOrderId = purchaseOrderId;
+        this.sellerId = sellerId;
+        this.CustomerName = customerName;
+        this.orderLines = orderLines;
+        this.status = status;
+        this.buyerId = buyerId;
+    }
+
+    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName ,UUID buyerId , PurchaseOrderStatus status) {
+        this.orderDate = orderDate;
         this.sellerId = sellerId;
         CustomerName = customerName;
-        this.materialType = materialType;
-        this.amountOfMaterialInTons = amountOfMaterialInTons;
+        this.status = status;
+        this.buyerId = buyerId;
     }
 
-    public PurchaseOrder(LocalDate orderDate, SellerId sellerId, String customerName, MaterialType materialType, double amountOfMaterialInTons) {
-        this.orderDate = orderDate;
-        this.sellerId = sellerId;
-        CustomerName = customerName;
-        this.materialType = materialType;
-        this.amountOfMaterialInTons = amountOfMaterialInTons;
-    }
-    public PurchaseOrder(){}
 
-    public LocalDate getOrderDate() {
-        return orderDate;
-    }
 
-    public void setOrderDate(LocalDate orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public UUID getPurchaseOrderNumber() {
-        return purchaseOrderNumber;
-    }
-
-    public void setPurchaseOrderNumber(UUID purchaseOrderNumber) {
-        this.purchaseOrderNumber = purchaseOrderNumber;
-    }
-
-    public SellerId getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(SellerId sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public String getCustomerName() {
-        return CustomerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        CustomerName = customerName;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public double getAmountOfMaterialInTons() {
-        return amountOfMaterialInTons;
-    }
-
-    public void setAmountOfMaterialInTons(double amountOfMaterialInTons) {
-        this.amountOfMaterialInTons = amountOfMaterialInTons;
-    }
 }

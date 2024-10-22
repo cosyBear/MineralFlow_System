@@ -10,6 +10,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEvent;
 import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseId;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEventsWindow.WarehouseEventsWindowLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEventsWindow.WarehouseEventsWindowSavePort;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 import java.util.UUID;
@@ -25,7 +26,7 @@ public class WarehouseEventsWindowDataBaseAdapter implements WarehouseEventsWind
 
     public WarehouseEventsWindowDataBaseAdapter(WarehouseEventsWindowEntityRepository windowRepository,
                                                 WarehouseEventEntityRepository eventRepository,
-                                                ModelMapper modelMapper) {
+                                                @Qualifier("warehouse") ModelMapper modelMapper) {
         this.windowRepository = windowRepository;
         this.eventRepository = eventRepository;
         this.modelMapper = modelMapper;

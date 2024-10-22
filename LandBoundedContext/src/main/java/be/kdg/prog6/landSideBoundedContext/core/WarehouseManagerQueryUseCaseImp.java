@@ -1,15 +1,17 @@
 package be.kdg.prog6.landSideBoundedContext.core;
 
 import be.kdg.prog6.landSideBoundedContext.domain.*;
-import be.kdg.prog6.landSideBoundedContext.domain.AppointmentQuery;
+import be.kdg.prog6.landSideBoundedContext.domain.TruckOnSiteQuery;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseManagerQueryUseCase;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,7 +23,7 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
     private final ModelMapper modelMapper;
     private final WarehouseLoadPort warehouseLoadPort;
 
-    public WarehouseManagerQueryUseCaseImp(CalendarLoadPort calendarLoadPort, ModelMapper modelMapper , WarehouseLoadPort warehouseLoadPort) {
+    public WarehouseManagerQueryUseCaseImp(CalendarLoadPort calendarLoadPort, @Qualifier("landModelMapper") ModelMapper modelMapper, WarehouseLoadPort warehouseLoadPort) {
         this.calendarLoadPort = calendarLoadPort;
         this.modelMapper = modelMapper;
         this.warehouseLoadPort = warehouseLoadPort;
@@ -29,23 +31,27 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
 
 
     @Override
-    public List<AppointmentQuery> fetchTrucksOnSite(LocalDate time) {
-            List<Appointment> appointmentList = calendarLoadPort.fetchTrucksOnSite(time).getAppointments();
-            List<AppointmentQuery> appointmentQueryList = new ArrayList<>();
-            for (Appointment appointment : appointmentList) {
-                appointmentQueryList.add(modelMapper.map(appointment, AppointmentQuery.class));
-            }
-        return appointmentQueryList;
+    public List<TruckOnSiteQuery> fetchTrucksOnSite(LocalDate time) {
+        List<Appointment> appointmentList = calendarLoadPort.fetchTrucksOnSite(time).getAppointments();
+        List<TruckOnSiteQuery> truckOnSiteQueryList = new ArrayList<>();
+        for (Appointment appointment : appointmentList) {
+            truckOnSiteQueryList.add(
+                    new TruckOnSiteQuery(appointment.getMaterialType(), appointment.getTime(), appointment.getSellerId().id(), appointment.getLicensePlate().licensePlate())
+            );
+        }
+        return truckOnSiteQueryList;
     }
 
     @Override
-    public List<AppointmentQuery> fetchTrucksOnTime(LocalDate time) {
+    public List<TruckOnTimeQuery> fetchTrucksOnTime(LocalDate time) {
         List<Appointment> appointmentList = calendarLoadPort.fetchTrucksOnTime(time).getAppointments();
-        List<AppointmentQuery> appointmentQueryList = new ArrayList<>();
+        List<TruckOnTimeQuery> truckOnTimeQueryList = new ArrayList<>();
         for (Appointment appointment : appointmentList) {
-            appointmentQueryList.add(modelMapper.map(appointment, AppointmentQuery.class));
+            System.out.println("Current Time: " + LocalDateTime.now());
+            System.out.println("Appointment Time: " + appointment.getTime());
+            truckOnTimeQueryList.add(new TruckOnTimeQuery(appointment.getLicensePlate().licensePlate(), appointment.getSellerId().id(),appointment.getMaterialType().toString() ,  appointment.getTime(), appointment.isTruckOnTime(LocalDateTime.now())));
         }
-        return appointmentQueryList;
+        return truckOnTimeQueryList;
     }
 
 
@@ -56,13 +62,12 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
     }
 
 
-
     public List<WarehouseOverviewQuery> mapToOverviewQuery(List<Warehouse> warehouseList) {
-            List<WarehouseOverviewQuery> warehouseOverviewQueryList = new ArrayList<>();
-        for(Warehouse wareHouse : warehouseList){
+        List<WarehouseOverviewQuery> warehouseOverviewQueryList = new ArrayList<>();
+        for (Warehouse wareHouse : warehouseList) {
             WarehouseOverviewQuery warehouseOverviewQuery = new WarehouseOverviewQuery(wareHouse.getWarehouseId().warehouseId()
-            , wareHouse.getSellerId().id() , wareHouse.getAmountOfMaterial() , wareHouse.getMaterialType()
-            ,wareHouse.isFull() , wareHouse.isAtOverflow());
+                    , wareHouse.getSellerId().id(), wareHouse.getAmountOfMaterial(), wareHouse.getMaterialType()
+                    , wareHouse.isFull(), wareHouse.isAtOverflow());
             warehouseOverviewQueryList.add(warehouseOverviewQuery);
         }
         return warehouseOverviewQueryList;

@@ -2,6 +2,7 @@ package be.kdg.prog6.landSideBoundedContext.core;
 
 import be.kdg.prog6.landSideBoundedContext.domain.UpdateWarehouseCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
+import be.kdg.prog6.landSideBoundedContext.domain.WarehouseAction;
 import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseProjectionUseCase;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseSavePort;
@@ -27,7 +28,8 @@ public class WarehouseProjectionUseCaseImp implements WarehouseProjectionUseCase
                         updateWarehouseCommand.sellerId(),
                         updateWarehouseCommand.materialType()
                 ));
-        warehouse.addMaterial(updateWarehouseCommand.amount());
+
+        warehouse.updateWarehouse(updateWarehouseCommand.amount());
         warehouseSavePort.Save(warehouse);
     }
 }

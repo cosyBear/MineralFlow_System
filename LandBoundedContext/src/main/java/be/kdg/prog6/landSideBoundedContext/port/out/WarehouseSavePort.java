@@ -5,8 +5,5 @@ import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
 
 public interface WarehouseSavePort {
 
-
-
-
     void Save(Warehouse warehouse );
 }

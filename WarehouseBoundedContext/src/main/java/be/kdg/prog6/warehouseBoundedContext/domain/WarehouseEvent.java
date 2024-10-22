@@ -22,6 +22,17 @@ public final class WarehouseEvent {
 
     }
 
+
+    public WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialWeight, UUID warehouseEventsWindowId , MaterialType materialType ) {
+        this.id = id;
+        this.time = time;
+        this.type = type;
+        this.materialWeight = materialWeight;
+        this.warehouseEventsWindowId = warehouseEventsWindowId;
+        this.materialType = materialType;
+    }
+
+
     public WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialWeight, UUID weighBridgeTicketId, UUID warehouseEventsWindowId , MaterialType materialType ) {
         this.id = id;
         this.time = time;

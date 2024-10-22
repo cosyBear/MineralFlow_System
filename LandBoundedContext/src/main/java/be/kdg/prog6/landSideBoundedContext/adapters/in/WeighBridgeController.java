@@ -42,7 +42,7 @@ public class WeighBridgeController {
     public ResponseEntity<Void> weighTruckOut(@RequestBody WeighOutDto dto) {
 
         weighTruckOutCommand truckOutCommand = new weighTruckOutCommand(
-                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighInTime() , new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId()))
+                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighOutTime() , new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId()))
         );
 
         weighBridgeUseCase.weighTruckOut(truckOutCommand);

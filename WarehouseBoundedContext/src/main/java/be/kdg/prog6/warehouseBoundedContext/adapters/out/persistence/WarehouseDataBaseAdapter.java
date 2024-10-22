@@ -12,6 +12,7 @@ import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort
 import domain.MaterialType;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     private WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository;
     private final ModelMapper modelMapper;
 
-    public WarehouseDataBaseAdapter(ModelMapper modelMapper, WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository, WarehouseEventEntityRepository warehouseEventEntityRepository, WarehouseRepository warehouseRepository) {
+    public WarehouseDataBaseAdapter(@Qualifier("warehouse")ModelMapper modelMapper, WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository, WarehouseEventEntityRepository warehouseEventEntityRepository, WarehouseRepository warehouseRepository) {
         this.modelMapper = modelMapper;
         this.warehouseEventsWindowEntityRepository = warehouseEventsWindowEntityRepository;
         this.warehouseEventEntityRepository = warehouseEventEntityRepository;
@@ -100,20 +101,23 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     @Override
     @Transactional
     public void save(Warehouse warehouse , WarehouseEvent ignore) {
-        WarehouseEntity warehouseEntity = new WarehouseEntity();
+        WarehouseEntity warehouseEntity = warehouseRepository.findById(warehouse.getWarehouseNumber().getId()).orElse(
+                 new WarehouseEntity()
+        );
 
         warehouseEntity.setWarehouseId(warehouse.getWarehouseNumber().getId());
         warehouseEntity.setMaterialType(warehouse.getMaterialType());
         warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());
 
 
-        WarehouseEventsWindowEntity eventsWindowEntity = new WarehouseEventsWindowEntity();
+        WarehouseEventsWindowEntity eventsWindowEntity = warehouseEventsWindowEntityRepository.findById(warehouse.getEventsWindow().getWarehouseEventsWindowId()).orElse( new WarehouseEventsWindowEntity());
         eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());
         eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());
+
         // Map the list of WarehouseEventEntity
         List<WarehouseEventEntity> eventEntities = warehouse.getEventsWindow().getWarehouseEventList().stream()
                 .map(event -> new WarehouseEventEntity(
-                        event.id().getId(),
+                        UUID.randomUUID(),
                         event.time(),
                         event.type().toString(),
                         event.materialTrueWeight(),

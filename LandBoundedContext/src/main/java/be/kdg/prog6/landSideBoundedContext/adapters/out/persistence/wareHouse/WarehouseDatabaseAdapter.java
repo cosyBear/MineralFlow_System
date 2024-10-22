@@ -9,6 +9,7 @@ import domain.MaterialType;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
     private final ModelMapper modelMapper;
     private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseDatabaseAdapter.class);
 
-    public WarehouseDatabaseAdapter(WareHouseRepository warehouseRepo, ModelMapper modelMapper) {
+    public WarehouseDatabaseAdapter(WareHouseRepository warehouseRepo, @Qualifier("landModelMapper")ModelMapper modelMapper) {
         this.warehouseRepo = warehouseRepo;
         this.modelMapper = modelMapper;
     }

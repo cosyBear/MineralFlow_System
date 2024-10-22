@@ -14,8 +14,8 @@ public record WeighInTruckDto(
         String licensePlate,
         UUID sellerId,
         String materialType,
-        @JsonSerialize(using = LocalDateTimeSerializer.class)
-        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
+//        @JsonSerialize(using = LocalDateTimeSerializer.class)
+//        @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         LocalDateTime weighInTime,
         double grossWeight
 ) {}

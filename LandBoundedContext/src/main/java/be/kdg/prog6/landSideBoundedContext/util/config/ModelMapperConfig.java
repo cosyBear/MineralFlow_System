@@ -8,7 +8,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.*;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.domain.AppointmentQuery;
+import be.kdg.prog6.landSideBoundedContext.domain.TruckOnSiteQuery;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -22,7 +22,7 @@ import java.util.UUID;
 @Configuration
 public class ModelMapperConfig {
 
-    @Bean
+    @Bean(name = "landModelMapper")
     public ModelMapper modelMapper() {
         ModelMapper modelMapper = new ModelMapper();
         modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
@@ -181,10 +181,9 @@ public class ModelMapperConfig {
         });
 
 
-        modelMapper.addMappings(new PropertyMap<Appointment, AppointmentQuery>() {
+        modelMapper.addMappings(new PropertyMap<Appointment, TruckOnSiteQuery>() {
             @Override
             protected void configure() {
-                map(source.getStatus(), destination.getAppointmentStatus());
                 map(source.getMaterialType(), destination.getMaterialType());
                 map(source.getTime(), destination.getTime());
                 map(source.getSellerId(), destination.getSellerId());

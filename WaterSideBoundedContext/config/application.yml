@@ -1,0 +1,38 @@
+server:
+  port: 8092  # Changed this since ${PORT:8094} may not resolve correctly if the environment variable isn't set
+  servlet:
+    context-path: /api
+
+spring:
+  config:
+    additional-location: ${SPRING_CONFIG_ADDITIONAL_LOCATION}
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/water_db
+    username: user
+    password: password
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create  # Automatically create tables on startup
+    database-platform: org.hibernate.dialect.MySQLDialect
+
+  sql:
+    init:
+      mode: always  # Ensure initialization scripts run
+      username: user  # This option isn't necessary unless you use scripts that require credentials
+
+  rabbitmq:
+    host: localhost  # If running via Docker Compose, ensure 'localhost' refers to RabbitMQ container properly
+    port: 5672
+    username: myuser
+    password: mypassword
+    restart: always
+
+  logging:
+    level:
+      org.hibernate.SQL: info  # Logs SQL queries
+      org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # Detailed SQL binding logs
+
