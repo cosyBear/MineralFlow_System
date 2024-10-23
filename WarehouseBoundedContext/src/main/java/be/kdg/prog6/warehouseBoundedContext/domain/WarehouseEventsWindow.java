@@ -4,6 +4,7 @@ import domain.MaterialType;
 
 import java.util.*;
 import java.time.LocalDateTime;
+import java.util.stream.Collectors;
 
 
 public class WarehouseEventsWindow {
@@ -12,16 +13,8 @@ public class WarehouseEventsWindow {
     private WarehouseId warehouseId;
     private List<WarehouseEvent> warehouseEventList = new ArrayList<>();
 
-
-    // so when you ship enter the shipping order
-    // we do a IO checks the ship order compare the ship order to the purchase order
-
-
-
-    // TODO make a snap shot and also make a method to get the oldest mat
     public WarehouseEventsWindow() {
     }
-
 
     public void createSnapshot() {
         MaterialType materialType = warehouseEventList.get(0).getMaterialType();
@@ -42,66 +35,48 @@ public class WarehouseEventsWindow {
                 )
         );
     }
-    public List<WarehouseEvent> fulfillShippingOrder(Map<MaterialType, Double> requiredAmounts) {
+
+    public List<WarehouseEvent> fulfillShippingOrder(MaterialType materialType, double requiredAmount) {
         List<WarehouseEvent> shippingEvents = new ArrayList<>();
+        double remainingAmount = requiredAmount;
 
-        for (Map.Entry<MaterialType, Double> entry : requiredAmounts.entrySet()) {
-            MaterialType materialType = entry.getKey();
-            double requiredAmount = entry.getValue();
-            double remainingAmount = requiredAmount;
+        List<WarehouseEvent> sortedDeliverEvents = warehouseEventList.stream()
+                .filter(event -> event.getType() == EventType.DELIVER && event.getMaterialType() == materialType)
+                .sorted(Comparator.comparing(WarehouseEvent::getTime))
+                .toList();
 
-            List<WarehouseEvent> sortedDeliverEvents = warehouseEventList.stream()
-                    .filter(event -> event.getType() == EventType.DELIVER && event.getMaterialType() == materialType)
-                    .sorted(Comparator.comparing(WarehouseEvent::getTime))
-                    .toList();
+        double currentAvailableMaterial = sortedDeliverEvents.stream()
+                .mapToDouble(WarehouseEvent::getMaterialWeight)
+                .sum();
 
-            double currentAvailableMaterial = sortedDeliverEvents.stream()
-                    .mapToDouble(WarehouseEvent::getMaterialWeight)
-                    .sum();
+        if (currentAvailableMaterial < requiredAmount) {
+            throw new IllegalStateException("Not enough material available to fulfill the shipping order for " + materialType);
+        }
 
-            if (currentAvailableMaterial < requiredAmount) {
-                throw new IllegalStateException("Not enough material available to fulfill the shipping order for " + materialType);
+        for (WarehouseEvent deliverEvent : sortedDeliverEvents) {
+            if (remainingAmount <= 0) {
+                break;
             }
+            double availableAmount = deliverEvent.getMaterialWeight();
 
-            for (WarehouseEvent deliverEvent : sortedDeliverEvents) {
-                if (remainingAmount <= 0) {
-                    break;
-                }
-                double availableAmount = deliverEvent.getMaterialWeight();
+            double amountToShip = Math.min(availableAmount, remainingAmount);
 
-                if (availableAmount <= remainingAmount) {
-                    WarehouseEvent shipEvent = new WarehouseEvent(
-                            new WarehouseEventId(),
-                            LocalDateTime.now(),
-                            EventType.SHIP,
-                            availableAmount,  // Positive value
-                            deliverEvent.getWeighBridgeTicketId(),
-                            this.getWarehouseEventsWindowId(),
-                            deliverEvent.getMaterialType()
-                    );
-                    shippingEvents.add(shipEvent);
-                    warehouseEventList.add(shipEvent); // Add event internally
-                    remainingAmount -= availableAmount;
-                } else {
-                    WarehouseEvent shipEvent = new WarehouseEvent(
-                            new WarehouseEventId(),
-                            LocalDateTime.now(),
-                            EventType.SHIP,
-                            remainingAmount,  // Positive value
-                            deliverEvent.getWeighBridgeTicketId(),
-                            this.getWarehouseEventsWindowId(),
-                            deliverEvent.getMaterialType()
-                    );
-                    shippingEvents.add(shipEvent);
-                    warehouseEventList.add(shipEvent); // Add event internally
-                    remainingAmount = 0;
-                }
-            }
+            WarehouseEvent shipEvent = new WarehouseEvent(
+                    new WarehouseEventId(),
+                    LocalDateTime.now(),
+                    EventType.SHIP,
+                    amountToShip,  // Positive value
+                    deliverEvent.getWeighBridgeTicketId(),
+                    this.getWarehouseEventsWindowId(),
+                    deliverEvent.getMaterialType()
+            );
+            shippingEvents.add(shipEvent);
+            warehouseEventList.add(shipEvent); // Add  internaly
+            remainingAmount -= amountToShip;
         }
 
         return shippingEvents;
     }
-
 
 
 

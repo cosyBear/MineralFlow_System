@@ -8,6 +8,7 @@ import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WaterSideEventPublisher;
+import be.kdg.prog6.warehouseBoundedContext.util.Error.NoMaterialInWarehouseException;
 import domain.MaterialType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -51,37 +52,42 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
                         Collectors.summingDouble(PurchaseOrderLine::getQuantity)
                 ));
 
-        List<Warehouse> warehouseList = new ArrayList<>();
-        for (Map.Entry<MaterialType, Double> item : requiredAmounts.entrySet()) {
-            Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType(
-                    purchaseOrder.getSellerId(), item.getKey());
-            warehouseList.add(warehouse);
-        }
+        Map<MaterialType, Warehouse> warehouseMap = requiredAmounts.keySet().stream()
+                .collect(Collectors.toMap(
+                        materialType -> materialType,
+                        materialType -> warehouseLoadPort.findBySellerIdAndMaterialType(
+                                purchaseOrder.getSellerId(), materialType)
+                ));
 
-        for (Map.Entry<MaterialType, Double> item : requiredAmounts.entrySet()) {
-            for (Warehouse warehouse : warehouseList) {
-                if (item.getKey().equals(warehouse.getMaterialType())) {
-                    List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(
-                            Map.of(item.getKey(), item.getValue())
-                    );
+        List<WarehouseEvent> allShippingEvents = new ArrayList<>();
 
-                    purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
-                    purchaseOrderSavePort.save(purchaseOrder);
-                    warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
+        for (Map.Entry<MaterialType, Double> entry : requiredAmounts.entrySet()) {
+            MaterialType materialType = entry.getKey();
+            double requiredAmount = entry.getValue();
 
-                }
+            Warehouse warehouse = warehouseMap.get(materialType);
+            if (warehouse != null) {
+                List<WarehouseEvent> shippingEvents = warehouse.fulfillShippingOrder(materialType, requiredAmount);
+
+                allShippingEvents.addAll(shippingEvents);
+
+                warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
+            } else {
+                throw new NoMaterialInWarehouseException("No warehouse found for material type: " + materialType);
             }
         }
+
+        purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
+        purchaseOrderSavePort.save(purchaseOrder);
 
         ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(
                 purchaseOrder.getPurchaseOrderId(),
                 command.vesselNumber(),
                 LocalDateTime.now()
         );
-
         waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
-
     }
+
 
 
 }
