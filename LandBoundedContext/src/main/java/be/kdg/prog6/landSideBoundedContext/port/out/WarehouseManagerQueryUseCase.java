@@ -10,7 +10,7 @@ import java.util.List;
 public interface WarehouseManagerQueryUseCase {
 
 
-    List<TruckOnSiteQuery> fetchTrucksOnSite(LocalDate time);
+    Integer fetchTrucksOnSite(LocalDate time);
 
     List<WarehouseOverviewQuery> WarehouseOverview();
 

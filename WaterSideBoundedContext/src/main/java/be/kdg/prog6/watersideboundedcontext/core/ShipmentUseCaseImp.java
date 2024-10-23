@@ -1,5 +1,4 @@
 package be.kdg.prog6.watersideboundedcontext.core;
-
 import be.kdg.prog6.watersideboundedcontext.adapters.out.ShipmentOrderPublisher;
 import be.kdg.prog6.watersideboundedcontext.domain.RequestMaterialEvent;
 import be.kdg.prog6.watersideboundedcontext.domain.ShipmentCompletedCommand;
@@ -17,16 +16,14 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
 
     private final ShipmentOrderLoadPort shipmentOrderLoadPort;
     private final ShipmentOrderSavePort shipmentOrderSavePort;
-    private final ShipmentOrderPublisher shipmentOrderPublisher;
+
     private final ShipmentOrderEventPublisher shipmentOrderEventPublisher;
 
-    public ShipmentUseCaseImp(ShipmentOrderLoadPort shipmentOrderLoadPort, ShipmentOrderSavePort shipmentOrderSavePort, ShipmentOrderPublisher shipmentOrderPublisher, ShipmentOrderEventPublisher shipmentOrderEventPublisher) {
+    public ShipmentUseCaseImp(ShipmentOrderLoadPort shipmentOrderLoadPort, ShipmentOrderSavePort shipmentOrderSavePort, ShipmentOrderEventPublisher shipmentOrderEventPublisher) {
         this.shipmentOrderLoadPort = shipmentOrderLoadPort;
         this.shipmentOrderSavePort = shipmentOrderSavePort;
-        this.shipmentOrderPublisher = shipmentOrderPublisher;
         this.shipmentOrderEventPublisher = shipmentOrderEventPublisher;
     }
-
 
     @Override
     @Transactional
@@ -42,17 +39,16 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
     // so make like a usecase with a fake api call to say do the BO.
     //so make a api for a fake request for the BO AND IO THE so like when the waerhouse send the repsone back to the water side just call ithe api to make the BO AND THE IO.
 
-
     @Override
     public boolean shipDeparture(ShipmentCompletedCommand shipmentOrder) {
 
         ShipmentOrder order = shipmentOrderLoadPort.loadByPurchaseOrderId(shipmentOrder.purchaseOrderId());
         order.completeBunkeringOperation(shipmentOrder.departureTime());
 
-        if(order.canShipLeave()){
+        if (order.canShipLeave()) {
             shipmentOrderSavePort.Save(order);
             return true;
-        }else
+        } else
             return false;
 
     }

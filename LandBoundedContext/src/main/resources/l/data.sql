@@ -28,5 +28,5 @@ VALUES (UNHEX(REPLACE('f8a9f9c0-45e2-4f32-809f-2d4a73c4083b', '-', '')), @seller
         0), -- CEMENT (MaterialType index 2)
        (UNHEX(REPLACE('acdd75b0-0712-4ef1-870f-67a8d0d7bc18', '-', '')), @seller_id, 'PETCOKE',
         0), -- PETCOKE (MaterialType index 3)
-       (UNHEX(REPLACE('b03f68bb-6606-482d-8007-dc7f94acb1e5', '-', '')), @seller_id, 'SLAG', 500); -- SLAG (MaterialType index 4)
+       (UNHEX(REPLACE('b03f68bb-6606-482d-8007-dc7f94acb1e5', '-', '')), @seller_id, 'SLAG', 0); -- SLAG (MaterialType index 4)
 

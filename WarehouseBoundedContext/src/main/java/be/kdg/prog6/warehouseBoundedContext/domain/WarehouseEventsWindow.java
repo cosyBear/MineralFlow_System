@@ -70,34 +70,38 @@ public class WarehouseEventsWindow {
                 double availableAmount = deliverEvent.getMaterialWeight();
 
                 if (availableAmount <= remainingAmount) {
-                    shippingEvents.add(new WarehouseEvent(
+                    WarehouseEvent shipEvent = new WarehouseEvent(
                             new WarehouseEventId(),
                             LocalDateTime.now(),
                             EventType.SHIP,
-                            -availableAmount,  // Subtracting material (negative)
+                            availableAmount,  // Positive value
                             deliverEvent.getWeighBridgeTicketId(),
                             this.getWarehouseEventsWindowId(),
                             deliverEvent.getMaterialType()
-                    ));
+                    );
+                    shippingEvents.add(shipEvent);
+                    warehouseEventList.add(shipEvent); // Add event internally
                     remainingAmount -= availableAmount;
                 } else {
-                    shippingEvents.add(new WarehouseEvent(
+                    WarehouseEvent shipEvent = new WarehouseEvent(
                             new WarehouseEventId(),
                             LocalDateTime.now(),
                             EventType.SHIP,
-                            -remainingAmount,
+                            remainingAmount,  // Positive value
                             deliverEvent.getWeighBridgeTicketId(),
                             this.getWarehouseEventsWindowId(),
                             deliverEvent.getMaterialType()
-                    ));
+                    );
+                    shippingEvents.add(shipEvent);
+                    warehouseEventList.add(shipEvent); // Add event internally
                     remainingAmount = 0;
                 }
             }
         }
 
-        warehouseEventList.addAll(shippingEvents);
         return shippingEvents;
     }
+
 
 
 

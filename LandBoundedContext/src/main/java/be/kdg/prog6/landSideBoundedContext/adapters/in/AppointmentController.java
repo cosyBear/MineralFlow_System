@@ -9,29 +9,30 @@ import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/appointments")
-public class AppointmentController  {
+public class AppointmentController {
 
 
     private final ModelMapper modelMapper;
     private ScheduleAppointmentUseCase scheduleAppointmentUseCase;
 
-    public AppointmentController(ScheduleAppointmentUseCase scheduleAppointmentUseCase, @Qualifier("landModelMapper")ModelMapper modelMapper) {
+    public AppointmentController(ScheduleAppointmentUseCase scheduleAppointmentUseCase, @Qualifier("landModelMapper") ModelMapper modelMapper) {
         this.scheduleAppointmentUseCase = scheduleAppointmentUseCase;
         this.modelMapper = modelMapper;
     }
 
     @PostMapping
+//    @PreAuthorize("hasAuthority('Seller')")
     public ResponseEntity<String> makeAppointmentForSeller(@RequestBody MakeAppointmentDto makeAppointmentDto) {
 
         try {
             ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(new LicensePlate(makeAppointmentDto.licensePlate()),
-                    makeAppointmentDto.materialType(),  makeAppointmentDto.time(), new SellerId(makeAppointmentDto.sellerId()) );
-           Appointment appointment =  scheduleAppointmentUseCase.scheduleAppointment(scheduleAppointmentCommand);
-
+                    makeAppointmentDto.materialType(), makeAppointmentDto.time(), new SellerId(makeAppointmentDto.sellerId()));
+            Appointment appointment = scheduleAppointmentUseCase.scheduleAppointment(scheduleAppointmentCommand);
 
             return ResponseEntity.ok(String.valueOf(appointment) + " \n the appointment has been made. \n");
         } catch (Exception e) {

@@ -39,11 +39,18 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
     }
 
     @Override
-    @Transactional
-    public PurchaseOrder save(PurchaseOrder purchaseOrder) {
-        PurchaseOrderEntity entity = mapToEntity(purchaseOrder);
-        PurchaseOrderEntity savedEntity = entityManager.merge(entity);
-        return mapToDomain(savedEntity);
+    public void save(PurchaseOrder purchaseOrder) {
+        PurchaseOrderEntity existingEntity = purchaseOrderRepository.getPurchaseOrderByPurchaseOrderId(purchaseOrder.getPurchaseOrderId());
+
+        if (existingEntity != null) {
+            // Update the existing entity
+            PurchaseOrderEntity updatedEntity = mapToEntity(purchaseOrder);
+            updatedEntity.setPurchaseOrderId(existingEntity.getPurchaseOrderId());
+            entityManager.merge(updatedEntity);
+        } else {
+            PurchaseOrderEntity newEntity = mapToEntity(purchaseOrder);
+            entityManager.persist(newEntity);
+        }
     }
 
     @Override

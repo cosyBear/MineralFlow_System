@@ -39,6 +39,7 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
         this.waterSideEventPublisher = waterSideEventPublisher;
     }
 
+
     @Override
     @Transactional
     public void shipmentIn(ShipmentCommand command) {
@@ -51,27 +52,34 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
                 ));
 
         List<Warehouse> warehouseList = new ArrayList<>();
-        for(Map.Entry<MaterialType,Double> item: requiredAmounts.entrySet()) {
-            warehouseList.add(warehouseLoadPort.findBySellerIdAndMaterialType(purchaseOrder.getSellerId(), item.getKey()));
+        for (Map.Entry<MaterialType, Double> item : requiredAmounts.entrySet()) {
+            Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType(
+                    purchaseOrder.getSellerId(), item.getKey());
+            warehouseList.add(warehouse);
         }
 
-
-        for(Map.Entry<MaterialType,Double> item: requiredAmounts.entrySet()) {
-            for(Warehouse warehouse : warehouseList){
+        for (Map.Entry<MaterialType, Double> item : requiredAmounts.entrySet()) {
+            for (Warehouse warehouse : warehouseList) {
                 if (item.getKey().equals(warehouse.getMaterialType())) {
-                    List<WarehouseEvent> shippingEvents =  warehouse.getEventsWindow().fulfillShippingOrder(Map.of(item.getKey(), item.getValue()));
-                    shippingEvents.forEach(event -> warehouse.getEventsWindow().addEvent(event));
-                    purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
-                    warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
-                    ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(purchaseOrder.getPurchaseOrderId(),
-                            command.vesselNumber(), LocalDateTime.now());
+                    List<WarehouseEvent> shippingEvents = warehouse.getEventsWindow().fulfillShippingOrder(
+                            Map.of(item.getKey(), item.getValue())
+                    );
 
-                    waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
+                    purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
                     purchaseOrderSavePort.save(purchaseOrder);
+                    warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
+
                 }
             }
         }
 
+        ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(
+                purchaseOrder.getPurchaseOrderId(),
+                command.vesselNumber(),
+                LocalDateTime.now()
+        );
+
+        waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
 
     }
 

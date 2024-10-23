@@ -1,0 +1,37 @@
+#### Get access token for 'seller'
+#POST http://localhost:8180/realms/mineral/protocol/openid-connect/token
+#Content-Type: application/x-www-form-urlencoded
+#
+#client_id=landside&username=ali&password=ali&grant_type=password&scope=openid
+#
+#> {%
+#    client.global.set("access_token", response.body.access_token);
+#%}
+
+###
+POST http://localhost:8090/api/weighbridge/trucks/weighIn
+Content-Type: application/json
+#Authorization: Bearer {{access_token}}
+
+{
+  "licensePlate": "ALICOCOC",
+  "startWeight": 100.0,
+  "materialType": "IRON",
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "weighInTime": "2024-10-22T11:00:00"
+}
+
+###
+POST http://localhost:8090/api/weighbridge/trucks/weighOut
+Content-Type: application/json
+#Authorization: Bearer {{access_token}}
+
+{
+  "licensePlate": "ALICOCOC",
+  "endWeight": 1.0,
+  "materialType": "IRON",
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "weighOutTime": "2024-10-22T12:00:00",
+  "WeighBridgeTicketId": "1f43a5d2-6bc6-4291-ac26-aa4f1c411232"
+}
+

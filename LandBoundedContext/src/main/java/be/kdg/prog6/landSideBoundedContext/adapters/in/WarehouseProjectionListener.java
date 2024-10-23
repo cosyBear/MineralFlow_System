@@ -26,16 +26,13 @@ public class WarehouseProjectionListener {
 
 
     @RabbitListener(queues = "WarehouseMaterial_QUEUE")
-    public void listenToWarehouse(WarehouseDto dto){
+    public void listenToWarehouse(WarehouseDto dto) {
         UpdateWarehouseCommand updateWarehouseCommand = new UpdateWarehouseCommand(
-                new WarehouseId(dto.warehouseId()) , dto.materialAmountInWarehouse(),
+                new WarehouseId(dto.warehouseId()), dto.materialAmountInWarehouse(),
                 MaterialType.valueOf(dto.materialType()), new SellerId(dto.sellerId()));
 
         warehouseProjectionUseCase.updateWarehouse(updateWarehouseCommand);
     }
-
-
-
 
 
 }

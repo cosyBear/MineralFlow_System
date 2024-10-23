@@ -10,6 +10,7 @@ import be.kdg.prog6.landSideBoundedContext.port.in.WeighBridgeUseCase;
 import be.kdg.prog6.landSideBoundedContext.domain.WeighTruckInCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.weighTruckOutCommand;
 import org.springframework.http.ResponseEntity;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,22 +32,19 @@ public class WeighBridgeController {
 
 
     @PostMapping("/trucks/weighIn")
+//    @PreAuthorize("hasAuthority('basicUser')")
     public ResponseEntity<Void> weighTruckIn(@RequestBody WeighInDto dto) {
         WeighTruckInCommand truckInCommand = new WeighTruckInCommand(new LicensePlate(dto.licensePlate()), dto.startWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
         weighBridgeUseCase.weighTruckIn(truckInCommand);
         return ResponseEntity.ok().build();
     }
 
-
+    // @PreAuthorize("hasAuthority('basicUser')")
     @PostMapping("/trucks/weighOut")
     public ResponseEntity<Void> weighTruckOut(@RequestBody WeighOutDto dto) {
-
         weighTruckOutCommand truckOutCommand = new weighTruckOutCommand(
-                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighOutTime() , new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId()))
-        );
-
+                dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighOutTime(), new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId())));
         weighBridgeUseCase.weighTruckOut(truckOutCommand);
-
         return ResponseEntity.ok().build();
     }
 

@@ -22,13 +22,7 @@ public class WarehouseProjectionUseCaseImp implements WarehouseProjectionUseCase
     @Override
     @Transactional
     public void updateWarehouse(UpdateWarehouseCommand updateWarehouseCommand) {
-        Warehouse warehouse = warehouseLoadPort.findById(updateWarehouseCommand.warehouseId().warehouseId())
-                .orElseGet(() -> new Warehouse(
-                        updateWarehouseCommand.warehouseId(),
-                        updateWarehouseCommand.sellerId(),
-                        updateWarehouseCommand.materialType()
-                ));
-
+        Warehouse warehouse = warehouseLoadPort.findBySellerIdAAndMaterialType(updateWarehouseCommand.sellerId(), updateWarehouseCommand.materialType());
         warehouse.updateWarehouse(updateWarehouseCommand.amount());
         warehouseSavePort.Save(warehouse);
     }

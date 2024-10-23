@@ -100,34 +100,35 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
 
     @Override
     @Transactional
-    public void save(Warehouse warehouse , WarehouseEvent ignore) {
+    public void save(Warehouse warehouse, WarehouseEvent ignore) {
         WarehouseEntity warehouseEntity = warehouseRepository.findById(warehouse.getWarehouseNumber().getId()).orElse(
-                 new WarehouseEntity()
+                new WarehouseEntity()
         );
 
         warehouseEntity.setWarehouseId(warehouse.getWarehouseNumber().getId());
         warehouseEntity.setMaterialType(warehouse.getMaterialType());
         warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());
 
-
-        WarehouseEventsWindowEntity eventsWindowEntity = warehouseEventsWindowEntityRepository.findById(warehouse.getEventsWindow().getWarehouseEventsWindowId()).orElse( new WarehouseEventsWindowEntity());
+        WarehouseEventsWindowEntity eventsWindowEntity = warehouseEventsWindowEntityRepository.findById(warehouse.getEventsWindow().getWarehouseEventsWindowId()).orElse(new WarehouseEventsWindowEntity());
         eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());
         eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());
 
-        // Map the list of WarehouseEventEntity
+        // Map the list of WarehouseEventEntity with minimal changes
         List<WarehouseEventEntity> eventEntities = warehouse.getEventsWindow().getWarehouseEventList().stream()
                 .map(event -> new WarehouseEventEntity(
-                        UUID.randomUUID(),
-                        event.time(),
-                        event.type().toString(),
-                        event.materialTrueWeight(),
-                        event.weighBridgeTicketId(),
+                        event.getId() != null ? event.getId().getId() : UUID.randomUUID(),
+                        event.getTime(),
+                        event.getType().toString(),
+                        event.getMaterialWeight(),
+                        event.getWeighBridgeTicketId(),
                         eventsWindowEntity,
                         event.getMaterialType()
                 ))
-                .collect(Collectors.toList());
+                .toList();
 
-        eventsWindowEntity.setWarehouseEventList(eventEntities);
+        // Update the event list properly
+        eventsWindowEntity.getWarehouseEventList().clear();
+        eventsWindowEntity.getWarehouseEventList().addAll(eventEntities);
 
         warehouseEntity.setWarehouseEventsWindow(eventsWindowEntity);
 

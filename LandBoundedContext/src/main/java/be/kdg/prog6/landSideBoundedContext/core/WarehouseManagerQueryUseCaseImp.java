@@ -31,15 +31,8 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
 
 
     @Override
-    public List<TruckOnSiteQuery> fetchTrucksOnSite(LocalDate time) {
-        List<Appointment> appointmentList = calendarLoadPort.fetchTrucksOnSite(time).getAppointments();
-        List<TruckOnSiteQuery> truckOnSiteQueryList = new ArrayList<>();
-        for (Appointment appointment : appointmentList) {
-            truckOnSiteQueryList.add(
-                    new TruckOnSiteQuery(appointment.getMaterialType(), appointment.getTime(), appointment.getSellerId().id(), appointment.getLicensePlate().licensePlate())
-            );
-        }
-        return truckOnSiteQueryList;
+    public Integer fetchTrucksOnSite(LocalDate time) {
+        return (int)calendarLoadPort.fetchTrucksOnSite(time);
     }
 
     @Override
