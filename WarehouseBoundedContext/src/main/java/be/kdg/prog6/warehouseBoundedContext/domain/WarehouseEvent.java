@@ -33,8 +33,8 @@ public final class WarehouseEvent {
     }
 
 
-    public WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialWeight, UUID weighBridgeTicketId, UUID warehouseEventsWindowId , MaterialType materialType ) {
-        this.id = id;
+    public WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialWeight, UUID weighBridgeTicketId, UUID warehouseEventsWindowId, MaterialType materialType) {
+        this.id = id != null ? id : new WarehouseEventId(UUID.randomUUID());
         this.time = time;
         this.type = type;
         this.materialWeight = materialWeight;

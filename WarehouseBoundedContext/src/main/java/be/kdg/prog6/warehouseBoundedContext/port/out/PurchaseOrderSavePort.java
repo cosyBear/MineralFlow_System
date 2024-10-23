@@ -5,6 +5,6 @@ import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrder;
 @FunctionalInterface
 
 public interface PurchaseOrderSavePort {
-    PurchaseOrder save(PurchaseOrder purchaseOrder);
+    void save(PurchaseOrder purchaseOrder);
 
 }

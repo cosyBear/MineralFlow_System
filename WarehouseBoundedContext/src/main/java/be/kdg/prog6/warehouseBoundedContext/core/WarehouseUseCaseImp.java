@@ -61,6 +61,8 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
         // this is doing nothing
         // so maybe creat a PDT or something .......
         //warehouse.beginDeliveryProcess(command);
+
+        //change the landside to return a number of truck return a number only no data
         //maybe create a pdt here
         logger.info("PDT: type of material {} , date of delivery {} , warehouse number {}",
                 command.getMaterialType(), command.getWeighInTime(), warehouse.getWarehouseNumber());

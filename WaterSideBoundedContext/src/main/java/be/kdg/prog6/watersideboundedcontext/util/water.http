@@ -2,7 +2,7 @@ POST http://localhost:8090/api/ships
 Content-Type: application/json
 
 {
-    "purchaseOrder": "d19c0e15-f3f2-44b6-9623-c7e46da20387",
+    "purchaseOrder": "8d50dbe3-68a4-4afc-a242-13818629ac9f",
     "shipmentOrder": "b73a7a63-07f6-4a50-9bd8-718d51e7c415",
     "vesselNumber": "fad0c3e7-bf55-45bc-a086-ad6e14fda8d2",
     "arrivalTime": "2024-10-20T10:00:00"

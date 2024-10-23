@@ -1,0 +1,42 @@
+#### Get access token for 'seller'
+#POST http://localhost:8180/realms/mineral/protocol/openid-connect/token
+#Content-Type: application/x-www-form-urlencoded
+#
+#client_id=landside&username=managerali&password=ali&grant_type=password&scope=openid
+#
+#> {%
+#    client.global.set("access_token", response.body.access_token);
+#%}
+
+###
+### Get access token for 'seller'
+POST http://localhost:8180/realms/mineral/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+
+
+
+###
+GET http://localhost:8090/api/warehousemanager/trucks/onSite?date=2024-10-19
+Content-Type: application/json
+#Authorization: Bearer {{access_token}}
+###
+
+
+GET http://localhost:8090/api/warehousemanager/trucks/onTime?date=2024-10-19
+Content-Type: application/json
+#Authorization: Bearer {{access_token}}
+
+
+###
+
+###
+# get wearhouse overView with deatsil about the warehouse
+GET http://localhost:8090/api/warehousemanager/warehouses
+Content-Type: application/json
+#Authorization: Bearer {{access_token}}
+
+
+
+###
+

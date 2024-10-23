@@ -3,6 +3,7 @@ package be.kdg.prog6.warehouseBoundedContext.domain;
 import domain.MaterialType;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 public class Warehouse {
@@ -30,6 +31,9 @@ public class Warehouse {
         return eventsWindow.addMaterialWeightEvent( weighOutTime , amount, weighBridgeTicketId ,typeofMaterial );
     }
 
+    public List<WarehouseEvent> fulfillShippingOrder(MaterialType materialType, double requiredAmount) {
+        return eventsWindow.fulfillShippingOrder(materialType, requiredAmount);
+    }
 
     public WarehouseId getWarehouseNumber() {
         return warehouseNumber;
