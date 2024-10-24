@@ -1,6 +1,6 @@
 import be.kdg.prog6.landSideBoundedContext.LandSideBoundedContextApplication;
 import be.kdg.prog6.landSideBoundedContext.adapters.out.WeighBridgeEventPublisherImp;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighTruckInCommand;
+import be.kdg.prog6.landSideBoundedContext.port.in.WeighTruckInCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.LicensePlate;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.port.in.WeighBridgeUseCase;
@@ -12,7 +12,6 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDateTime;

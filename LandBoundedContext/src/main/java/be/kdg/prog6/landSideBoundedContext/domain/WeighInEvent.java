@@ -20,14 +20,9 @@ public class WeighInEvent {
     private UUID sellerId;
 
 
-    @JsonProperty("grossWeight")
-    private double grossWeight;// 100 tons truck pls materiuals
+    private double grossWeight;
 
-    private MaterialType materialType;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
-    @JsonProperty("weighInTime")
-    private LocalDateTime weighInTime;
+    private MaterialType materialType;    private LocalDateTime weighInTime;
 
 
     public WeighInEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double grossWeight, MaterialType materialType, LocalDateTime weighInTime) {

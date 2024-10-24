@@ -1,9 +1,8 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.in;
 
 
-import be.kdg.prog6.landSideBoundedContext.domain.TruckOnSiteQuery;
-import be.kdg.prog6.landSideBoundedContext.domain.TruckOnTimeQuery;
-import be.kdg.prog6.landSideBoundedContext.domain.WarehouseOverviewQuery;
+import be.kdg.prog6.landSideBoundedContext.port.in.TruckOnTimeQuery;
+import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseOverviewQuery;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseManagerQueryUseCase;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;

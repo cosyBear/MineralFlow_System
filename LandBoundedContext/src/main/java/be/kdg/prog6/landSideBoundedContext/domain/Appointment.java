@@ -10,7 +10,7 @@ public class Appointment {
     private UUID appointmentId;
     private AppointmentStatus status;
     private MaterialType materialType;
-    private LocalDateTime time; // replace withTime
+    private LocalDateTime time;
     private SellerId sellerId;
     private LicensePlate licensePlate;
 
@@ -28,8 +28,8 @@ public class Appointment {
 
 
     public Appointment(UUID appointmentId, AppointmentStatus status, MaterialType materialType, LocalDateTime time, SellerId sellerId, LicensePlate licensePlate) {
-        this(materialType, time, sellerId, licensePlate, status);  // Constructor chaining
-        this.appointmentId = appointmentId;  // Additional field initialization
+        this(materialType, time, sellerId, licensePlate, status);
+        this.appointmentId = appointmentId;
     }
 
     public UUID getAppointmentId() {
@@ -90,8 +90,12 @@ public class Appointment {
         status = AppointmentStatus.ON_SITE;
     }
 
-    public void truckLeaves() {
-        this.status = AppointmentStatus.Completed;
+    public boolean truckLeaves( SellerId sellerId,LicensePlate licensePlate ) {
+        if (this.getLicensePlate().equals(licensePlate) && this.getSellerId().equals(sellerId)) {
+            this.status = AppointmentStatus.Completed;
+            return true;
+        }else
+            return false;
 
     }
 

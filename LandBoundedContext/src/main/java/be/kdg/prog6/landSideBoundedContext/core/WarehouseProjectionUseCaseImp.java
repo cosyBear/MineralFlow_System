@@ -1,8 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.core;
 
-import be.kdg.prog6.landSideBoundedContext.domain.UpdateWarehouseCommand;
+import be.kdg.prog6.landSideBoundedContext.port.in.UpdateWarehouseCommand;
 import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
-import be.kdg.prog6.landSideBoundedContext.domain.WarehouseAction;
 import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseProjectionUseCase;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseSavePort;

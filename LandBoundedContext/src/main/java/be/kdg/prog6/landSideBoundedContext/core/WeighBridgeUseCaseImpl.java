@@ -1,22 +1,18 @@
 package be.kdg.prog6.landSideBoundedContext.core;
 
 import be.kdg.prog6.landSideBoundedContext.domain.*;
-import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
 import be.kdg.prog6.landSideBoundedContext.domain.WeighInEvent;
 import be.kdg.prog6.landSideBoundedContext.domain.WeighOutEvent;
 import be.kdg.prog6.landSideBoundedContext.port.in.WeighBridgeUseCase;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighTruckInCommand;
-import be.kdg.prog6.landSideBoundedContext.domain.weighTruckOutCommand;
+import be.kdg.prog6.landSideBoundedContext.port.in.WeighTruckInCommand;
+import be.kdg.prog6.landSideBoundedContext.port.in.weighTruckOutCommand;
 import be.kdg.prog6.landSideBoundedContext.port.out.*;
-import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TruckIsNotAllowedToEnter;
-import domain.MaterialType;
 import jakarta.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.*;
 
 @Service
@@ -74,21 +70,18 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
 
         bridgeTicket.truckWeighsOut(command.weighOutTime(), command.endWeight());
 
-        // todo move to output port of wbt save port
         WeighOutEvent weighEvent = new WeighOutEvent(bridgeTicket.getWeighBridgeTicketId().id(), command.licensePlate().toString(), command.sellerId().id(), command.endWeight(), command.materialType(), command.weighOutTime());
 
         eventPublisher.publishTruckWeighedOut(weighEvent);
 
         DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(bridgeTicket.getStartTime().toLocalDate());
 
-        Appointment appointment = calendar.appointmentDone(command.sellerId(), command.licensePlate()); // dont save but rarther change the status
+        Appointment appointment = calendar.appointmentDone(command.sellerId(), command.licensePlate());
 
-//        appointmentSavePort.deleteAppointment(appointment); // todo use states
+        calendarSavePort.saveDayCalendar(calendar);
         weighbridgeTicketSavePort.save(bridgeTicket);
 
     }
-
-
 
 
 }

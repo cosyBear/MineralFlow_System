@@ -3,9 +3,8 @@ package be.kdg.prog6.landSideBoundedContext.adapters.in;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
-import be.kdg.prog6.landSideBoundedContext.domain.UpdateWarehouseCommand;
+import be.kdg.prog6.landSideBoundedContext.port.in.UpdateWarehouseCommand;
 import be.kdg.prog6.landSideBoundedContext.adapters.in.dto.WarehouseDto;
-import be.kdg.prog6.landSideBoundedContext.domain.WarehouseAction;
 import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseProjectionUseCase;
 import domain.MaterialType;
 import org.slf4j.Logger;

@@ -1,7 +1,4 @@
-package be.kdg.prog6.landSideBoundedContext.domain;
-
-import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import domain.MaterialType;
+package be.kdg.prog6.landSideBoundedContext.port.in;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

@@ -13,16 +13,12 @@ import java.util.UUID;
 
 public class WeighEventRabbitMq {
 
-    private UUID weighBridgeTicketId; // chane this to UUID and change the name to the full name
-
+    private UUID weighBridgeTicketId;
     private LicensePlate licensePlate;
     private SellerId sellerId;
     private double Weight;
-
     private MaterialType materialType;
 
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime weighInTime;
 
     private WarehouseStatus warehouseStatus;

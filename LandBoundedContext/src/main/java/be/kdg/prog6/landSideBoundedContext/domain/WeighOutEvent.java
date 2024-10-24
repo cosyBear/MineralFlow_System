@@ -18,8 +18,6 @@ public class WeighOutEvent {
     private double EndWeight; // 50
 
     private MaterialType materialType;
-    @JsonSerialize(using = LocalDateTimeSerializer.class)
-    @JsonDeserialize(using = LocalDateTimeDeserializer.class)
     private LocalDateTime weighOutTime;
 
 

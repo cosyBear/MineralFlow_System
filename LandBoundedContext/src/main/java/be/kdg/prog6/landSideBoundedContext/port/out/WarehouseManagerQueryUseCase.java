@@ -1,8 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.port.out;
 
-import be.kdg.prog6.landSideBoundedContext.domain.TruckOnSiteQuery;
-import be.kdg.prog6.landSideBoundedContext.domain.TruckOnTimeQuery;
-import be.kdg.prog6.landSideBoundedContext.domain.WarehouseOverviewQuery;
+import be.kdg.prog6.landSideBoundedContext.port.in.TruckOnTimeQuery;
+import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseOverviewQuery;
 
 import java.time.LocalDate;
 import java.util.List;

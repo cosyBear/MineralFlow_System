@@ -1,6 +1,7 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
+import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExist;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TimeSlotFullException;
 import org.apache.logging.log4j.LogManager;
@@ -35,7 +36,7 @@ public class DayCalendar {
     }
     public Appointment appointmentDone(SellerId sellerId, LicensePlate licensePlate) {
         Optional<Appointment> matchingAppointment = appointments.stream()
-                .filter(appointment -> appointment.getLicensePlate().equals(licensePlate) && appointment.getSellerId().equals(sellerId))
+                .filter(appointment -> appointment.truckLeaves(sellerId, licensePlate) )//appointment.getLicensePlate().equals(licensePlate) && appointment.getSellerId().equals(sellerId)
                 .findFirst();
         return matchingAppointment.orElseThrow(() -> new AppointmentDontExist("the appointment dont exit "));
     }

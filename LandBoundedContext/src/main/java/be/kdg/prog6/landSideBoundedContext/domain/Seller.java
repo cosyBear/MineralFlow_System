@@ -14,12 +14,10 @@ public class Seller {
     }
 
 
-    @JsonCreator
     public static SellerId fromString(String id) {
         return new SellerId(UUID.fromString(id));
     }
 
-    @JsonValue
     public String toString() {
         return id.toString();
     }
