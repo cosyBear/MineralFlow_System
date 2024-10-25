@@ -21,12 +21,10 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
     private static final Logger logger = LogManager.getLogger(ScheduleAppointmentUseCase.class);
 
     private final CalendarLoadPort calendarLoadPort;
-    private final AppointmentSavePort appointmentSavePort;
     private final WarehouseLoadPort warehouseLoadPort;
     private final CalendarSavePort calendarSavePort;
 
-    public ScheduleAppointmentUseCaseImp(AppointmentSavePort appointmentSavePort, CalendarLoadPort calendarLoadPort, WarehouseLoadPort warehouseLoadPort, CalendarSavePort calendarSavePort) {
-        this.appointmentSavePort = appointmentSavePort;
+    public ScheduleAppointmentUseCaseImp( CalendarLoadPort calendarLoadPort, WarehouseLoadPort warehouseLoadPort, CalendarSavePort calendarSavePort) {
         this.calendarLoadPort = calendarLoadPort;
         this.warehouseLoadPort = warehouseLoadPort;
         this.calendarSavePort = calendarSavePort;
