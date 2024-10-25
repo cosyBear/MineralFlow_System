@@ -5,10 +5,11 @@ import be.kdg.prog6.warehouseBoundedContext.port.in.ShipmentCommand;
 import be.kdg.prog6.warehouseBoundedContext.port.in.ShipmentOrderUseCase;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
+import be.kdg.prog6.warehouseBoundedContext.port.out.ShipmentCompletedEvent;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WaterSideEventPublisher;
-import be.kdg.prog6.warehouseBoundedContext.util.Error.NoMaterialInWarehouseException;
+import be.kdg.prog6.warehouseBoundedContext.util.Error.WarehouseNotFoundException;
 import domain.MaterialType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,7 +18,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -68,7 +68,7 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
 
                 warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
             } else {
-                throw new NoMaterialInWarehouseException("No warehouse found for material type: " + materialType);
+                throw new WarehouseNotFoundException("No warehouse found for material type: " + materialType);
             }
         }
         purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);

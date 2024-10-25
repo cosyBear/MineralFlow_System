@@ -6,6 +6,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.landSideBoundedContext.domain.DayCalendar;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarSavePort;
+import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExistException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.apache.logging.log4j.LogManager;
@@ -28,17 +29,49 @@ public class CalendarDataBaseAdapter implements CalendarLoadPort, CalendarSavePo
     @PersistenceContext
     private EntityManager entityManager;  // Inject the EntityManager
 
-    public CalendarDataBaseAdapter(AppointmentRepository appointmentRepository, @Qualifier("landModelMapper")ModelMapper modelMapper) {
+    public CalendarDataBaseAdapter(AppointmentRepository appointmentRepository, @Qualifier("landModelMapper") ModelMapper modelMapper) {
         this.appointmentRepository = appointmentRepository;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    @Transactional
     public DayCalendar loadAppointmentsByDate(LocalDate date) {
-        // add some error handling if the apAppointment dont exist throw it to the controller to catch it
         List<AppointmentEntity> entities = appointmentRepository.findAppointmentsByDate(date);
+        if (entities.isEmpty()) {
+            return new DayCalendar(date, new ArrayList<>());
+        }
         return createCalendarFromEntities(entities);
+    }
+
+
+    @Override
+    public void saveDayCalendar(DayCalendar dayCalendar) {
+        try {
+
+            for (Appointment appointment : dayCalendar.getAppointments()) {
+                AppointmentEntity appointmentEntity = modelMapper.map(appointment, AppointmentEntity.class);
+                entityManager.merge(appointmentEntity);
+            }
+        } catch (Exception e) {
+            logger.error("Error saving DayCalendar appointments: " + e.getMessage());
+            throw e;
+        }
+    }
+
+
+    @Override
+    public Integer fetchTrucksOnSite(LocalDate time) {
+        return appointmentRepository.fetchTrucksOnSite(time);
+
+    }
+
+    @Override
+    public DayCalendar fetchTrucksOnTime(LocalDate time) {
+        List<AppointmentEntity> appointmentEntities = appointmentRepository.fetchTrucksOnTime(time);
+        if (appointmentEntities.isEmpty()) {
+            throw new AppointmentDontExistException("No trucks found on time for date: " + time);
+        }
+        return createCalendarFromEntities(appointmentEntities);
     }
 
     private DayCalendar createCalendarFromEntities(List<AppointmentEntity> entities) {
@@ -49,35 +82,6 @@ public class CalendarDataBaseAdapter implements CalendarLoadPort, CalendarSavePo
         }
         dayCalendar.setAppointments(appointments);
         return dayCalendar;
-    }
-
-    @Override
-    @Transactional
-    public void saveDayCalendar(DayCalendar dayCalendar) {
-        try {
-
-            for (Appointment appointment : dayCalendar.getAppointments()) {
-                AppointmentEntity appointmentEntity = modelMapper.map(appointment, AppointmentEntity.class);
-                entityManager.merge(appointmentEntity);
-            }
-
-        } catch (Exception e) {
-            logger.error("Error saving DayCalendar appointments: " + e.getMessage());
-            throw e;
-        }
-    }
-
-
-    @Override
-    public Integer fetchTrucksOnSite(LocalDate time ) {
-        return  appointmentRepository.fetchTrucksOnSite(time);
-
-    }
-
-    @Override
-    public DayCalendar fetchTrucksOnTime(LocalDate time) {
-        List<AppointmentEntity> appointmentEntities = appointmentRepository.fetchTrucksOnTime(time);
-        return createCalendarFromEntities(appointmentEntities);
     }
 
 }

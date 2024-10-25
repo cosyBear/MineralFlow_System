@@ -50,6 +50,7 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
 
         DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(command.weighInTime().toLocalDate());
 
+
         if (dayCalendar.truckEnters(command.licensePlate(), command.weighInTime())) {
             logger.info(" the Truck is on time the gate is open.....");
             WeighbridgeTicket weighbridgeTicket = new WeighbridgeTicket(new WeighBridgeTicketId(UUID.randomUUID()), command.licensePlate(), command.sellerId(), command.startWeight(), 0, command.materialType(), command.weighInTime());

@@ -4,6 +4,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExistException;
 import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TimeSlotFullException;
+import be.kdg.prog6.landSideBoundedContext.util.errorClasses.TruckLateException;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -32,12 +33,13 @@ public class DayCalendar {
 
     }
 
-    public Appointment getAppointmentByDate(LocalDateTime dateTime) {
-        return appointments.stream()
-                .filter(appointment -> appointment.getTime().isEqual(dateTime))
-                .findFirst()
-                .orElseThrow(() -> new AppointmentDontExistException("The appointment doesn't exist."));
+    public boolean checkAppointmentExistsForLookup(LocalDate date) {
+        if (appointments.isEmpty()) {
+            throw new AppointmentDontExistException("No appointments found for the date: " + date);
+        }
+        return true;
     }
+
 
     public Appointment appointmentDone(SellerId sellerId, LicensePlate licensePlate) {
         Optional<Appointment> matchingAppointment = appointments.stream()
@@ -76,13 +78,17 @@ public class DayCalendar {
     }
 
     public boolean truckEnters(LicensePlate licensePlate, LocalDateTime time) {
-        return findAppointment(licensePlate, time)
-                .stream()
-                .peek(Appointment::truckEnters)
-                .findFirst()
-                .isPresent();
+        Optional<Appointment> optionalAppointment = findAppointment(licensePlate, time);
+        if (optionalAppointment.isPresent()) {
+            Appointment appointment = optionalAppointment.get();
+            if (!appointment.isTruckOnTime(time)) {
+                throw new TruckLateException("Truck with license plate " + licensePlate + " is late for its scheduled appointment.");
+            }
+            appointment.truckEnters();
+            return true;
+        }
+        return false;
     }
-
 
     private Optional<Appointment> findAppointment(LicensePlate licensePlate, LocalDateTime time) {
         for (Appointment appointment : appointments) {

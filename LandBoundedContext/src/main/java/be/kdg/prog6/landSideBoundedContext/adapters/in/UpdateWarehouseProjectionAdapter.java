@@ -13,13 +13,13 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WarehouseUpdateWarehouseProjectionListener {
+public class UpdateWarehouseProjectionAdapter {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseUpdateWarehouseProjectionListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UpdateWarehouseProjectionAdapter.class);
 
     private final WarehouseProjectionUseCase warehouseProjectionUseCase;
 
-    public WarehouseUpdateWarehouseProjectionListener(WarehouseProjectionUseCase warehouseProjectionUseCase) {
+    public UpdateWarehouseProjectionAdapter(WarehouseProjectionUseCase warehouseProjectionUseCase) {
         this.warehouseProjectionUseCase = warehouseProjectionUseCase;
     }
 

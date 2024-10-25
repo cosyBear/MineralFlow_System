@@ -4,8 +4,10 @@ import be.kdg.prog6.watersideboundedcontext.util.InspectionOperationException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
+
 import lombok.Getter;
 import lombok.Setter;
+
 @Getter
 @Setter
 public class ShipmentOrder {
@@ -19,7 +21,7 @@ public class ShipmentOrder {
     private InspectionOperation inspectionOperation;
 
 
-    public ShipmentOrder(InspectionOperation inspectionOperation, BunkeringOperation bunkeringOperation, LocalDateTime departureTime, LocalDateTime arrivalTime, UUID vesselNumber, UUID purchaseOrder , UUID shipmentOrderId) {
+    public ShipmentOrder(InspectionOperation inspectionOperation, BunkeringOperation bunkeringOperation, LocalDateTime departureTime, LocalDateTime arrivalTime, UUID vesselNumber, UUID purchaseOrder, UUID shipmentOrderId) {
         this.inspectionOperation = inspectionOperation;
         this.bunkeringOperation = bunkeringOperation;
         this.departureTime = departureTime;
@@ -38,18 +40,18 @@ public class ShipmentOrder {
 
     public void performInspectionOperation(UUID purchaseOrderId) {
         if (this.purchaseOrder.equals(purchaseOrderId)) {
-            this.inspectionOperation =  new InspectionOperation(LocalDateTime.now(), "Signed by pookie");
+            this.inspectionOperation = new InspectionOperation(LocalDateTime.now(), "Signed by pookie");
         } else {
             throw new InspectionOperationException("The purchaseOrderId does not match the purchaseOrderId in the shipmentOrder");
         }
     }
 
-    public void  completeBunkeringOperation(LocalDateTime date) {
+    public void completeBunkeringOperation(LocalDateTime date) {
         this.bunkeringOperation = new BunkeringOperation(date);
     }
 
 
-    public boolean canShipLeave(){
+    public boolean canShipLeave() {
         return this.bunkeringOperation != null && this.inspectionOperation != null;
 
     }

@@ -5,11 +5,14 @@ import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Warehouse;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseSavePort;
+import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WarehouseDatabaseException;
+import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WarehouseNotFoundException;
 import domain.MaterialType;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -32,48 +35,67 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
 
     @Override
     public List<Warehouse> findAllBySellerId(UUID sellerId) {
-
-        List<Warehouse> warehouseList = new ArrayList<>();
-        for(WareHouseEntity warehouseEntity : warehouseRepo.findAllBySellerId(sellerId)) {
-            warehouseList.add(modelMapper.map(warehouseEntity, Warehouse.class));
+        try {
+            List<Warehouse> warehouseList = new ArrayList<>();
+            for (WareHouseEntity warehouseEntity : warehouseRepo.findAllBySellerId(sellerId)) {
+                warehouseList.add(modelMapper.map(warehouseEntity, Warehouse.class));
+            }
+            return warehouseList;
+        } catch (Exception e) {
+            LOGGER.error("Failed to find warehouses by seller ID: {}", sellerId, e);
+            throw new WarehouseDatabaseException("Database error: Could not retrieve warehouses for seller ID " + sellerId +  e);
         }
-        return warehouseList;
-    }
-
-    @Override
-    public Warehouse findBySellerId(UUID sellerId) {
-        return modelMapper.map(warehouseRepo.findBySellerId(sellerId), Warehouse.class);
     }
 
     @Override
     public Warehouse findBySellerIdAAndMaterialType(SellerId sellerId, MaterialType materialType) {
-        // make an ecption to handle if the seller dont exist.
-        return modelMapper.map(warehouseRepo.findBySellerIdAndMaterialType(sellerId.id(), materialType), Warehouse.class);
+        try {
+            WareHouseEntity warehouseEntity = warehouseRepo.findBySellerIdAndMaterialType(sellerId.id(), materialType);
+            if (warehouseEntity == null) {
+                throw new WarehouseNotFoundException("Warehouse not found for seller ID: " + sellerId + " and material type: " + materialType);
+            }
+            return modelMapper.map(warehouseEntity, Warehouse.class);
+        } catch (Exception e) {
+            LOGGER.error("Failed to find warehouse by seller ID and material type: {} {}", sellerId, materialType, e);
+            throw new WarehouseDatabaseException("Database error: Could not retrieve warehouse for seller ID " + sellerId + " and material type " + materialType + " " +  e);
+        }
     }
 
     @Override
     public Optional<Warehouse> findById(UUID id) {
-        return warehouseRepo.findById(id)
-                .map(warehouseEntity -> {
-                    LOGGER.info(warehouseEntity.toString());
-                    return modelMapper.map(warehouseEntity, Warehouse.class);
-                });
+        try {
+            return warehouseRepo.findById(id)
+                    .map(warehouseEntity -> {
+                        LOGGER.info("Found warehouse: {}", warehouseEntity);
+                        return modelMapper.map(warehouseEntity, Warehouse.class);
+                    });
+        } catch (Exception e) {
+            LOGGER.error("Failed to find warehouse by ID: {}", id, e);
+            throw new WarehouseDatabaseException("Database error: Could not retrieve warehouse for ID " + id +  e);
+        }
     }
 
     @Override
     public List<Warehouse> warehouseOverview() {
-        List<Warehouse> warehouseList = new ArrayList<>();
-
-        for(WareHouseEntity warehouseEntity : warehouseRepo.findAll()) {
-            warehouseList.add(modelMapper.map(warehouseEntity, Warehouse.class));
+        try {
+            List<Warehouse> warehouseList = new ArrayList<>();
+            for (WareHouseEntity warehouseEntity : warehouseRepo.findAll()) {
+                warehouseList.add(modelMapper.map(warehouseEntity, Warehouse.class));
+            }
+            return warehouseList;
+        } catch (Exception e) {
+            LOGGER.error("Failed to retrieve warehouse overview", e);
+            throw new WarehouseDatabaseException("Database error: Could not retrieve warehouse overview" +  e);
         }
-        return warehouseList;
-
     }
-
     @Override
     public void Save(Warehouse warehouse) {
-        WareHouseEntity wareHouseEntity = modelMapper.map(warehouse, WareHouseEntity.class);
-        warehouseRepo.save(wareHouseEntity);
+        try {
+            WareHouseEntity wareHouseEntity = modelMapper.map(warehouse, WareHouseEntity.class);
+            warehouseRepo.save(wareHouseEntity);
+        } catch (Exception e) {
+            LOGGER.error("Failed to save warehouse: {}", warehouse, e);
+            throw new WarehouseDatabaseException("Database error: Could not save warehouse" + e);
+        }
     }
 }

@@ -1,13 +1,11 @@
-package be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence;
+package be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.warehouse;
 
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEventsWindowEntity;
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEventEntity;
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.WarehouseEventEntityRepository;
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.WarehouseEventsWindowEntityRepository;
-import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEventId;
 import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEventsWindow;
 import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEvent;
-import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseId;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEventsWindow.WarehouseEventsWindowLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseEventsWindow.WarehouseEventsWindowSavePort;
 import org.springframework.beans.factory.annotation.Qualifier;

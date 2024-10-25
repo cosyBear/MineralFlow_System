@@ -2,6 +2,7 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
+import be.kdg.prog6.landSideBoundedContext.util.errorClasses.InsufficientMaterialException;
 import domain.MaterialType;
 import lombok.Getter;
 import lombok.Setter;
@@ -47,7 +48,7 @@ public class Warehouse {
         if (this.amountOfMaterial >= amount) {
             this.amountOfMaterial -= amount;
         } else {
-            throw new IllegalArgumentException("Not enough material in the warehouse to subtract the requested amount");
+            throw new InsufficientMaterialException("Not enough material in the warehouse to subtract the requested amount");
         }
     }
 

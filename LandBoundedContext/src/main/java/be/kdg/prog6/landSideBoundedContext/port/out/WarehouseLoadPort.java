@@ -12,7 +12,6 @@ public interface WarehouseLoadPort {
 
     List<Warehouse> findAllBySellerId(UUID sellerId);
 
-    Warehouse findBySellerId(UUID sellerId);
 
     Warehouse findBySellerIdAAndMaterialType(SellerId sellerId , MaterialType materialType);
 

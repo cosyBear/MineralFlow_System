@@ -1,7 +1,6 @@
 package be.kdg.prog6.watersideboundedcontext.core;
-import be.kdg.prog6.watersideboundedcontext.adapters.out.ShipmentOrderPublisher;
-import be.kdg.prog6.watersideboundedcontext.domain.RequestMaterialEvent;
-import be.kdg.prog6.watersideboundedcontext.domain.ShipmentCompletedCommand;
+import be.kdg.prog6.watersideboundedcontext.port.out.RequestMaterialEvent;
+import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentCompletedCommand;
 import be.kdg.prog6.watersideboundedcontext.domain.ShipmentOrder;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderCommand;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderUseCase;
@@ -30,7 +29,6 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
     public void requestMaterial(ShipmentOrderCommand order) {
         ShipmentOrder shipmentOrder = shipmentOrderLoadPort.loadShipmentOrderById(order.shipmentOrder());
         shipmentOrder.performInspectionOperation(order.purchaseOrder());
-
         RequestMaterialEvent event = new RequestMaterialEvent(shipmentOrder.getPurchaseOrder(), shipmentOrder.getVesselNumber(), shipmentOrder.getArrivalTime());
         shipmentOrderSavePort.Save(shipmentOrder);
         shipmentOrderEventPublisher.requestMaterialEvent(event);
@@ -38,6 +36,7 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
     }
 
     @Override
+    @Transactional
     public boolean shipDeparture(ShipmentCompletedCommand shipmentOrder) {
 
         ShipmentOrder order = shipmentOrderLoadPort.loadByPurchaseOrderId(shipmentOrder.purchaseOrderId());

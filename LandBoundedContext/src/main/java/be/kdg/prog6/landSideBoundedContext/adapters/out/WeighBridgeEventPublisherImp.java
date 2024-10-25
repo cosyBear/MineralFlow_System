@@ -29,12 +29,7 @@ public class WeighBridgeEventPublisherImp implements WeighBridgeEventPublisher {
     public void publishTruckWeightedIn(WeighInEvent weighInEvent) {
         final String routingKey = "truck." + weighInEvent.getLicensePlate() + ".in";
 
-        logger.info("Publishing truck weighbridge: " + weighInEvent.getLicensePlate());
-        logger.info("The Truck has been weight: " + weighInEvent.getLicensePlate());
-
-        logger.info("Publishing grossWeight: " + weighInEvent.getGrossWeight());
-        logger.info("Publishing weighInTime: " + weighInEvent.getWeighInTime());
-
+        logger.info("Notifying RabbitMQ: Truck in  {}", routingKey);
 
         rabbitTemplate.convertAndSend(EXCHANGE_NAME, routingKey, weighInEvent);
     }
@@ -44,8 +39,7 @@ public class WeighBridgeEventPublisherImp implements WeighBridgeEventPublisher {
         final String routingKey = "truck." + weighOutEvent.getLicensePlate() + ".out";
         final String exchangeName = "weighbridgeExchange";
 
-        logger.info("Notifying RabbitMQ: {}", routingKey);
-
+        logger.info("Notifying RabbitMQ: Truck Out {}", routingKey);
         rabbitTemplate.convertAndSend(exchangeName, routingKey, weighOutEvent);
 
     }

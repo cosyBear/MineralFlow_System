@@ -10,10 +10,14 @@ import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderStatus;
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
+import be.kdg.prog6.warehouseBoundedContext.util.Error.PurchaseOrderDatabaseException;
 import be.kdg.prog6.warehouseBoundedContext.util.Error.PurchaseOrderDontExistException;
+import be.kdg.prog6.warehouseBoundedContext.util.Error.PurchaseOrderNotFoundException;
 import domain.MaterialType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, PurchaseOrderSavePort {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(PurchaseOrderDataBaseAdapter.class);
     private final PurchaseOrderRepository purchaseOrderRepository;
 
     @PersistenceContext
@@ -39,46 +44,78 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
 
     @Override
     public void save(PurchaseOrder purchaseOrder) {
-        PurchaseOrderEntity existingEntity = purchaseOrderRepository.getPurchaseOrderByPurchaseOrderId(purchaseOrder.getPurchaseOrderId());
+        try {
+            PurchaseOrderEntity existingEntity = purchaseOrderRepository.getPurchaseOrderByPurchaseOrderId(purchaseOrder.getPurchaseOrderId());
 
-        if (existingEntity != null) {
-            PurchaseOrderEntity updatedEntity = mapToEntity(purchaseOrder);
-            updatedEntity.setPurchaseOrderId(existingEntity.getPurchaseOrderId());
-            entityManager.merge(updatedEntity);
-        } else {
-            PurchaseOrderEntity newEntity = mapToEntity(purchaseOrder);
-            entityManager.persist(newEntity);
+            if (existingEntity != null) {
+                PurchaseOrderEntity updatedEntity = mapToEntity(purchaseOrder);
+                updatedEntity.setPurchaseOrderId(existingEntity.getPurchaseOrderId());
+                entityManager.merge(updatedEntity);
+            } else {
+                PurchaseOrderEntity newEntity = mapToEntity(purchaseOrder);
+                entityManager.persist(newEntity);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Failed to save purchase order: {}", purchaseOrder.getPurchaseOrderId(), e);
+            throw new PurchaseOrderDatabaseException("Database error: Could not save purchase order", e);
         }
     }
 
     @Override
-    @Transactional
     public PurchaseOrder loadById(UUID purchaseOrderId) {
-        return mapToDomain(purchaseOrderRepository.findByPurchaseOrderId(purchaseOrderId));
+        try {
+            PurchaseOrderEntity entity = purchaseOrderRepository.findByPurchaseOrderId(purchaseOrderId);
+            if (entity == null) {
+                throw new PurchaseOrderNotFoundException("Purchase order not found for ID: " + purchaseOrderId);
+            }
+            return mapToDomain(entity);
+        } catch (Exception e) {
+            LOGGER.error("Failed to load purchase order by ID: {}", purchaseOrderId, e);
+            throw new PurchaseOrderDatabaseException("Database error: Could not load purchase order by ID", e);
+        }
     }
 
     @Override
     public List<PurchaseOrder> loadBySellerId(SellerId sellerId) {
-        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerId(sellerId.getSellerID()); // Convert SellerId to UUID
-        return entities.stream().map(this::mapToDomain).toList(); // Map entities to domain objects
+        try {
+            List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerId(sellerId.getSellerID());
+            return entities.stream().map(this::mapToDomain).toList();
+        } catch (Exception e) {
+            LOGGER.error("Failed to load purchase orders by seller ID: {}", sellerId.getSellerID(), e);
+            throw new PurchaseOrderDatabaseException("Database error: Could not load purchase orders by seller ID", e);
+        }
     }
-
 
     @Override
     public List<PurchaseOrder> loadByCustomerName(String customerName) {
-        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findByCustomerName(customerName);
-        return entities.stream().map(this::mapToDomain).toList();
+        try {
+            List<PurchaseOrderEntity> entities = purchaseOrderRepository.findByCustomerName(customerName);
+            return entities.stream().map(this::mapToDomain).toList();
+        } catch (Exception e) {
+            LOGGER.error("Failed to load purchase orders by customer name: {}", customerName, e);
+            throw new PurchaseOrderDatabaseException("Database error: Could not load purchase orders by customer name", e);
+        }
     }
 
     @Override
     public List<PurchaseOrder> loadBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
-        List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerIdAndMaterialType(sellerId.getSellerID(), materialType);
-        return entities.stream().map(this::mapToDomain).toList();
+        try {
+            List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerIdAndMaterialType(sellerId.getSellerID(), materialType);
+            return entities.stream().map(this::mapToDomain).toList();
+        } catch (Exception e) {
+            LOGGER.error("Failed to load purchase orders by seller ID: {} and material type: {}", sellerId.getSellerID(), materialType, e);
+            throw new PurchaseOrderDatabaseException("Database error: Could not load purchase orders by seller ID and material type", e);
+        }
     }
 
     @Override
     public List<PurchaseOrder> getAllPurchaseOrdersStatus() {
-        return purchaseOrderRepository.getAll().stream().map(this::mapToDomain).toList();
+        try {
+            return purchaseOrderRepository.getAll().stream().map(this::mapToDomain).toList();
+        } catch (Exception e) {
+            LOGGER.error("Failed to retrieve all purchase order statuses", e);
+            throw new PurchaseOrderDatabaseException("Database error: Could not retrieve all purchase order statuses", e);
+        }
     }
 
 

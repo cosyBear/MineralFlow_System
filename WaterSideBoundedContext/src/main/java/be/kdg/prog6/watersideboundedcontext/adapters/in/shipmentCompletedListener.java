@@ -2,18 +2,17 @@ package be.kdg.prog6.watersideboundedcontext.adapters.in;
 
 
 import be.kdg.prog6.watersideboundedcontext.adapters.dto.ShipmentCompletedDto;
-import be.kdg.prog6.watersideboundedcontext.domain.ShipmentCompletedCommand;
-import be.kdg.prog6.watersideboundedcontext.domain.ShipmentOrder;
+import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentCompletedCommand;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderUseCase;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ShipmentEventListener {
+public class shipmentCompletedListener {
 
     private final ShipmentOrderUseCase useCase;
 
-    public ShipmentEventListener(ShipmentOrderUseCase useCase) {
+    public shipmentCompletedListener(ShipmentOrderUseCase useCase) {
         this.useCase = useCase;
     }
 
@@ -24,10 +23,10 @@ public class ShipmentEventListener {
         ShipmentCompletedCommand command = new ShipmentCompletedCommand(order.purchaseOrderId(),order.vesselNumber(),order.completionTime());
 
         if(useCase.shipDeparture(command) ){
-            System.out.println("Ship can leave pookie");
+            System.out.println("Ship can leave ");
 
         }else
-            System.out.println("Ship cannot leave pookie");
+            System.out.println("Ship cannot leave ");
 
     }
 }

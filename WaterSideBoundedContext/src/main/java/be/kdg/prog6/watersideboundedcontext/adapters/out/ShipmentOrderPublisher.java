@@ -1,9 +1,7 @@
 package be.kdg.prog6.watersideboundedcontext.adapters.out;
 
-import be.kdg.prog6.watersideboundedcontext.domain.RequestMaterialEvent;
-import be.kdg.prog6.watersideboundedcontext.domain.ShipmentOrder;
+import be.kdg.prog6.watersideboundedcontext.port.out.RequestMaterialEvent;
 import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderEventPublisher;
-import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderSavePort;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
