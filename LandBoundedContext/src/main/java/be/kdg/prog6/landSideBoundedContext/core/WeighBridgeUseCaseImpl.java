@@ -65,6 +65,7 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
 
 
     @Override
+    @Transactional
     public void weighTruckOut(weighTruckOutCommand command) {
         WeighbridgeTicket bridgeTicket = weighbridgeTicketLoadPort.loadById(command.WeighBridgeTicketId().id());
 

@@ -2,28 +2,32 @@ package be.kdg.prog6.warehouseBoundedContext.domain;
 
 
 import domain.MaterialType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.UUID;
 
 
+@Setter
+@Getter
 public final class WarehouseEvent {
-    private  WarehouseEventId id;
-    private  LocalDateTime time;
-    private  EventType type;
-    private  double materialWeight;
-    private  UUID weighBridgeTicketId;
-    private  UUID warehouseEventsWindowId;
+    private WarehouseEventId id;
+    private LocalDateTime time;
+    private EventType type;
+    private double materialWeight;
+    private UUID weighBridgeTicketId;
+    private UUID warehouseEventsWindowId;
     private MaterialType materialType;
 
 
-    public WarehouseEvent(){
+    public WarehouseEvent() {
 
     }
 
 
-    public WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialWeight, UUID warehouseEventsWindowId , MaterialType materialType ) {
+    public WarehouseEvent(WarehouseEventId id, LocalDateTime time, EventType type, double materialWeight, UUID warehouseEventsWindowId, MaterialType materialType) {
         this.id = id;
         this.time = time;
         this.type = type;
@@ -42,7 +46,6 @@ public final class WarehouseEvent {
         this.warehouseEventsWindowId = warehouseEventsWindowId;
         this.materialType = materialType;
     }
-
 
 
     public double getChangeToLoad() {
@@ -71,63 +74,6 @@ public final class WarehouseEvent {
 
     public UUID warehouseEventsWindowId() {
         return warehouseEventsWindowId;
-    }
-
-    public WarehouseEventId getId() {
-
-        return id;
-    }
-
-    public void setId(WarehouseEventId id) {
-        this.id = id;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-    public EventType getType() {
-        return type;
-    }
-
-    public void setType(EventType type) {
-        this.type = type;
-    }
-
-    public double getMaterialWeight() {
-        return materialWeight;
-    }
-
-    public void setMaterialWeight(double materialWeight) {
-        this.materialWeight = materialWeight;
-    }
-
-    public UUID getWeighBridgeTicketId() {
-        return weighBridgeTicketId;
-    }
-
-    public void setWeighBridgeTicketId(UUID weighBridgeTicketId) {
-        this.weighBridgeTicketId = weighBridgeTicketId;
-    }
-
-    public UUID getWarehouseEventsWindowId() {
-        return warehouseEventsWindowId;
-    }
-
-    public void setWarehouseEventsWindowId(UUID warehouseEventsWindowId) {
-        this.warehouseEventsWindowId = warehouseEventsWindowId;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
     }
 
     @Override

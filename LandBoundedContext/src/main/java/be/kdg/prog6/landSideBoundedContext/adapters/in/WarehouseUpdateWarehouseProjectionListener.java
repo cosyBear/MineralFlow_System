@@ -13,23 +13,22 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WarehouseProjectionListener {
+public class WarehouseUpdateWarehouseProjectionListener {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseProjectionListener.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(WarehouseUpdateWarehouseProjectionListener.class);
 
     private final WarehouseProjectionUseCase warehouseProjectionUseCase;
 
-    public WarehouseProjectionListener(WarehouseProjectionUseCase warehouseProjectionUseCase) {
+    public WarehouseUpdateWarehouseProjectionListener(WarehouseProjectionUseCase warehouseProjectionUseCase) {
         this.warehouseProjectionUseCase = warehouseProjectionUseCase;
     }
 
 
     @RabbitListener(queues = "WarehouseMaterial_QUEUE")
-    public void listenToWarehouse(WarehouseDto dto) {
+    public void updateWarehouseMaterial(WarehouseDto dto) {
         UpdateWarehouseCommand updateWarehouseCommand = new UpdateWarehouseCommand(
                 new WarehouseId(dto.warehouseId()), dto.materialAmountInWarehouse(),
                 MaterialType.valueOf(dto.materialType()), new SellerId(dto.sellerId()));
-
         warehouseProjectionUseCase.updateWarehouse(updateWarehouseCommand);
     }
 

@@ -3,10 +3,14 @@ package be.kdg.prog6.warehouseBoundedContext.domain;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import jakarta.persistence.Convert;
 import jakarta.persistence.Embeddable;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Objects;
 import java.util.UUID;
 
+@Setter
+@Getter
 @Embeddable
 public final class SellerId {
     private  UUID sellerID;
@@ -23,17 +27,8 @@ public final class SellerId {
     }
 
 
-
-    public UUID getSellerID() {
-        return sellerID;
-    }
-
     public UUID sellerID() {
         return sellerID;
-    }
-
-    public void setSellerID(UUID sellerID) {
-        this.sellerID = sellerID;
     }
 
     @Override

@@ -3,7 +3,11 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.UUID;
+
 
 
 public class Seller {

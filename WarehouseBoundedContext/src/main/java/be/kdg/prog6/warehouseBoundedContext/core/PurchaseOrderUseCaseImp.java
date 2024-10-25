@@ -30,13 +30,11 @@ public class PurchaseOrderUseCaseImp implements PurchaseOrderUseCase {
     }
 
     @Override
+    @Transactional
     public List<PurchaseOrder> getPurchaseOrderStatus() {
         return purchaseOrderLoadPort.getAllPurchaseOrdersStatus();
     }
 
-
-
-    //remove the seller id you dont need it from the water side just send the vessel id and the prucahse id and the time of the ship in
     public PurchaseOrder mapToEntity(PurchaseOrderCommand purchaseOrderCommand) {
         PurchaseOrder purchaseOrder = new PurchaseOrder(purchaseOrderCommand.orderDate(),
                 new SellerId(purchaseOrderCommand.sellerId()), purchaseOrderCommand.customerName() , purchaseOrderCommand.buyerId() , PurchaseOrderStatus.outstanding);

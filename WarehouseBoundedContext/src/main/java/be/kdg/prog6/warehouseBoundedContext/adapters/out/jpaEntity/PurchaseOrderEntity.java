@@ -11,6 +11,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.UUID;
 
+@Setter
+@Getter
 @Entity
 @Table(catalog = "warehouse_db")
 public class PurchaseOrderEntity {
@@ -66,59 +68,4 @@ public class PurchaseOrderEntity {
         this.buyerId = buyerId;
     }
 
-    public PurchaseOrderStatusEntity getStatus() {
-        return status;
-    }
-
-    public void setStatus(PurchaseOrderStatusEntity status) {
-        this.status = status;
-    }
-
-    public UUID getPurchaseOrderId() {
-        return purchaseOrderId;
-    }
-
-    public void setPurchaseOrderId(UUID purchaseOrderId) {
-        this.purchaseOrderId = purchaseOrderId;
-    }
-
-    public LocalDate getOrderDate() {
-        return orderDate;
-    }
-
-    public void setOrderDate(LocalDate orderDate) {
-        this.orderDate = orderDate;
-    }
-
-    public UUID getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(UUID sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public String getCustomerName() {
-        return customerName;
-    }
-
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
-    }
-
-    public List<PurchaseOrderLineEntity> getPurchaseOrderLines() {
-        return purchaseOrderLines;
-    }
-
-    public void setPurchaseOrderLines(List<PurchaseOrderLineEntity> purchaseOrderLines) {
-        this.purchaseOrderLines = purchaseOrderLines;
-    }
-
-    public UUID getBuyerId() {
-        return buyerId;
-    }
-
-    public void setBuyerId(UUID buyerId) {
-        this.buyerId = buyerId;
-    }
 }

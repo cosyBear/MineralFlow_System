@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 public record WeighTruckInCommand(
         @NotNull LicensePlate licensePlate,
-         double startWeight,
+         @NotNull double startWeight,
         @NotNull MaterialType materialType,
         @NotNull SellerId sellerId,
         @NotNull LocalDateTime weighInTime) {

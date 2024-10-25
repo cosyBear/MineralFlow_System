@@ -1,14 +1,14 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import domain.MaterialType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Setter
+@Getter
 public class WeighOutEvent {
     private UUID weighBridgeTicketId;
 
@@ -32,54 +32,4 @@ public class WeighOutEvent {
     }
 
 
-
-
-    public UUID getWeighBridgeTicketId() {
-        return weighBridgeTicketId;
-    }
-
-    public void setWeighBridgeTicketId(UUID weighBridgeTicketId) {
-        this.weighBridgeTicketId = weighBridgeTicketId;
-    }
-
-
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public void setLicensePlate(String licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-
-    public UUID getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(UUID sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public double getEndWeight() {
-        return EndWeight;
-    }
-
-    public void setEndWeight(double endWeight) {
-        EndWeight = endWeight;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public LocalDateTime getWeighOutTime() {
-        return weighOutTime;
-    }
-
-    public void setWeighOutTime(LocalDateTime weighOutTime) {
-        this.weighOutTime = weighOutTime;
-    }
 }

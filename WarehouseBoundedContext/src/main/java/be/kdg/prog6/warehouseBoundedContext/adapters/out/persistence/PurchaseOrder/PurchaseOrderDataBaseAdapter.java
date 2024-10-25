@@ -30,7 +30,6 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
 
     private final PurchaseOrderRepository purchaseOrderRepository;
 
-    // Inject the EntityManager
     @PersistenceContext
     private EntityManager entityManager;
 
@@ -43,7 +42,6 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
         PurchaseOrderEntity existingEntity = purchaseOrderRepository.getPurchaseOrderByPurchaseOrderId(purchaseOrder.getPurchaseOrderId());
 
         if (existingEntity != null) {
-            // Update the existing entity
             PurchaseOrderEntity updatedEntity = mapToEntity(purchaseOrder);
             updatedEntity.setPurchaseOrderId(existingEntity.getPurchaseOrderId());
             entityManager.merge(updatedEntity);
@@ -59,7 +57,7 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
         return mapToDomain(purchaseOrderRepository.findByPurchaseOrderId(purchaseOrderId));
     }
 
-        @Override
+    @Override
     public List<PurchaseOrder> loadBySellerId(SellerId sellerId) {
         List<PurchaseOrderEntity> entities = purchaseOrderRepository.findBySellerId(sellerId.getSellerID()); // Convert SellerId to UUID
         return entities.stream().map(this::mapToDomain).toList(); // Map entities to domain objects
@@ -118,6 +116,6 @@ public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, Purc
 
         return new PurchaseOrder(entity.getOrderDate(), entity.getPurchaseOrderId(),
                 new SellerId(entity.getSellerId()), entity.getCustomerName(),
-                orderLineList, PurchaseOrderStatus.valueOf(entity.getStatus().toString()) , entity.getBuyerId());
+                orderLineList, PurchaseOrderStatus.valueOf(entity.getStatus().toString()), entity.getBuyerId());
     }
 }

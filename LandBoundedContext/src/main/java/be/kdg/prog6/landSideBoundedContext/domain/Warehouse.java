@@ -3,12 +3,17 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
 import domain.MaterialType;
+import lombok.Getter;
+import lombok.Setter;
 
+
+@Setter
+@Getter
 public class Warehouse {
 
-    private static final double MAX_CAPACITY = 500.0;  // Maximum capacity in tons
-    private static final double OVERFLOW_CAPACITY = MAX_CAPACITY * 1.1;  // Overflow capacity (110%)
-    private static final double FULL_THRESHOLD = MAX_CAPACITY * 0.8;  // 80% threshold
+    private static final double MAX_CAPACITY = 500.0;
+    private static final double OVERFLOW_CAPACITY = MAX_CAPACITY * 1.1;
+    private static final double FULL_THRESHOLD = MAX_CAPACITY * 0.8;
 
     private WarehouseId warehouseId;
 
@@ -47,41 +52,8 @@ public class Warehouse {
     }
 
 
-
-    public void updateWarehouse(double amount){
+    public void updateMaterial(double amount){
         this.amountOfMaterial = amount;
-    }
-
-    public WarehouseId getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(WarehouseId warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-
-    public SellerId getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(SellerId sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public double getAmountOfMaterial() {
-        return amountOfMaterial;
-    }
-
-    public void setAmountOfMaterial(double amountOfMaterial) {
-        this.amountOfMaterial = amountOfMaterial;
     }
 
 
@@ -106,16 +78,6 @@ public class Warehouse {
         return MAX_CAPACITY - this.amountOfMaterial;
     }
 
-    public WarehouseStatus checkWarehouseCapacity() {
-        if (this.isOverCapacity()) {
-            return WarehouseStatus.FULL_OVERFLOW; // Warehouse exceeds overflow capacity (110%)
-        } else if (this.isAtOverflow()) {
-            return WarehouseStatus.OVERFLOW; // Warehouse is at overflow (100%-110%)
-        } else if (this.isFull()) {
-            return WarehouseStatus.FULL; // Warehouse is full (80%-100%)
-        }
-        return WarehouseStatus.ALREADY_EXISTS_NOT_FULL; // Warehouse exists and has space
-    }
 
 
 }

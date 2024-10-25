@@ -23,13 +23,12 @@ import java.util.stream.Collectors;
 @Service
 public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
 
-    //move all the commands to the port in folder.
 
-    private PurchaseOrderSavePort purchaseOrderSavePort;
-    private PurchaseOrderLoadPort purchaseOrderLoadPort;
-    private WarehouseLoadPort warehouseLoadPort;
-    private List<WarehouseSavePort> warehouseSavePort;
-    private WaterSideEventPublisher waterSideEventPublisher;
+    private final PurchaseOrderSavePort purchaseOrderSavePort;
+    private final PurchaseOrderLoadPort purchaseOrderLoadPort;
+    private final WarehouseLoadPort warehouseLoadPort;
+    private final List<WarehouseSavePort> warehouseSavePort;
+    private final WaterSideEventPublisher waterSideEventPublisher;
 
     public ShipmentCommandUseCase(PurchaseOrderSavePort purchaseOrderSavePort, PurchaseOrderLoadPort purchaseOrderLoadPort, WarehouseLoadPort warehouseLoadPort,
                                   List<WarehouseSavePort> warehouseSavePort, WaterSideEventPublisher waterSideEventPublisher) {
@@ -45,22 +44,18 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
     @Transactional
     public void shipmentIn(ShipmentCommand command) {
         PurchaseOrder purchaseOrder = purchaseOrderLoadPort.loadById(command.purchaseOrder());
-
         Map<MaterialType, Double> requiredAmounts = purchaseOrder.getOrderLines().stream()
                 .collect(Collectors.groupingBy(
                         PurchaseOrderLine::getMaterialType,
                         Collectors.summingDouble(PurchaseOrderLine::getQuantity)
                 ));
-
         Map<MaterialType, Warehouse> warehouseMap = requiredAmounts.keySet().stream()
                 .collect(Collectors.toMap(
                         materialType -> materialType,
                         materialType -> warehouseLoadPort.findBySellerIdAndMaterialType(
                                 purchaseOrder.getSellerId(), materialType)
                 ));
-
         List<WarehouseEvent> allShippingEvents = new ArrayList<>();
-
         for (Map.Entry<MaterialType, Double> entry : requiredAmounts.entrySet()) {
             MaterialType materialType = entry.getKey();
             double requiredAmount = entry.getValue();
@@ -76,7 +71,6 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
                 throw new NoMaterialInWarehouseException("No warehouse found for material type: " + materialType);
             }
         }
-
         purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
         purchaseOrderSavePort.save(purchaseOrder);
 
@@ -87,7 +81,6 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
         );
         waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
     }
-
 
 
 }

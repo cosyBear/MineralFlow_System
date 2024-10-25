@@ -1,4 +1,4 @@
-package be.kdg.prog6.landSideBoundedContext.port.in;
+package be.kdg.prog6.landSideBoundedContext.port.out;
 
 import domain.MaterialType;
 

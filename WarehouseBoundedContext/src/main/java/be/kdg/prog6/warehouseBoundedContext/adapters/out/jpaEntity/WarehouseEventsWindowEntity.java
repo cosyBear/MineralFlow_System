@@ -1,11 +1,16 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
+
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 
+@Setter
+@Getter
 @Entity
 @Table(catalog = "warehouse_db")
 public class WarehouseEventsWindowEntity {
@@ -29,27 +34,4 @@ public class WarehouseEventsWindowEntity {
         this.warehouseEventList = warehouseEventList;
     }
 
-    public UUID getWarehouseEventsWindowId() {
-        return warehouseEventsWindowId;
-    }
-
-    public void setWarehouseEventsWindowId(UUID warehouseEventsWindowId) {
-        this.warehouseEventsWindowId = warehouseEventsWindowId;
-    }
-
-    public UUID getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(UUID warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-
-    public List<WarehouseEventEntity> getWarehouseEventList() {
-        return warehouseEventList;
-    }
-
-    public void setWarehouseEventList(List<WarehouseEventEntity> eventList) {
-        this.warehouseEventList = eventList;
-    }
 }

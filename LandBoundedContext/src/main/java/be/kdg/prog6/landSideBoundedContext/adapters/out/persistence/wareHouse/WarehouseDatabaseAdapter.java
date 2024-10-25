@@ -47,6 +47,7 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
 
     @Override
     public Warehouse findBySellerIdAAndMaterialType(SellerId sellerId, MaterialType materialType) {
+        // make an ecption to handle if the seller dont exist.
         return modelMapper.map(warehouseRepo.findBySellerIdAndMaterialType(sellerId.id(), materialType), Warehouse.class);
     }
 

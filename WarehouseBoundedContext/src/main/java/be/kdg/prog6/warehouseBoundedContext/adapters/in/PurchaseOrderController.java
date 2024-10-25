@@ -34,14 +34,15 @@ public class PurchaseOrderController {
         ).toList();
 
         PurchaseOrderCommand command = new PurchaseOrderCommand(dto.orderDate(), UUID.fromString(dto.sellerId()),
-                dto.customerName(),dto.buyerId(),orderLineDtos );
+                dto.customerName(), dto.buyerId(), orderLineDtos);
         purchaseOrderUseCase.createPurchaseOrder(command);
         return ResponseEntity.ok("the order has be created");
 
     }
-    @GetMapping()
-    public ResponseEntity<List<PurchaseOrder>> getPurchaseOrdersStatus(){
-       List<PurchaseOrder> purchaseOrderList  = purchaseOrderUseCase.getPurchaseOrderStatus();
+
+    @GetMapping
+    public ResponseEntity<List<PurchaseOrder>> getPurchaseOrdersStatus() {
+        List<PurchaseOrder> purchaseOrderList = purchaseOrderUseCase.getPurchaseOrderStatus();
         return ResponseEntity.ok(purchaseOrderList);
     }
 

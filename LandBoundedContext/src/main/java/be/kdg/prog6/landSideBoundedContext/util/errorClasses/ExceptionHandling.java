@@ -17,7 +17,7 @@ public class ExceptionHandling {
 
     }
 
-    @ExceptionHandler(AppointmentDontExist.class)
+    @ExceptionHandler(AppointmentDontExistException.class)
     public ResponseEntity<ErrorDto> handleAppointmentDontExist()
     {
 

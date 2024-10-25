@@ -2,10 +2,12 @@ package be.kdg.prog6.warehouseBoundedContext.port.in;
 
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
 import domain.MaterialType;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Getter
 public final class WeighTruckInCommand {
     private final UUID weighBridgeTicketId;
     private final String licensePlate;
@@ -26,30 +28,6 @@ public final class WeighTruckInCommand {
 
     public UUID weighBridgeTicketId() {
         return weighBridgeTicketId;
-    }
-
-    public UUID getWeighBridgeTicketId() {
-        return weighBridgeTicketId;
-    }
-
-    public String getLicensePlate() {
-        return licensePlate;
-    }
-
-    public SellerId getSellerId() {
-        return sellerId;
-    }
-
-    public double getGrossWeight() {
-        return grossWeight;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public LocalDateTime getWeighInTime() {
-        return weighInTime;
     }
 
 

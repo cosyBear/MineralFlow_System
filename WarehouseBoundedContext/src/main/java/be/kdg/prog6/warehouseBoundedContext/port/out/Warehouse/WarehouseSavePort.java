@@ -13,8 +13,4 @@ public interface WarehouseSavePort {
             save(warehouse, event);
         }
     }
-
-
-
-
 }

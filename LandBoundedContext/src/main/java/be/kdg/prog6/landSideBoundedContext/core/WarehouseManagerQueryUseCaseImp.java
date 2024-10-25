@@ -1,8 +1,8 @@
 package be.kdg.prog6.landSideBoundedContext.core;
 
 import be.kdg.prog6.landSideBoundedContext.domain.*;
-import be.kdg.prog6.landSideBoundedContext.port.in.TruckOnTimeQuery;
-import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseOverviewQuery;
+import be.kdg.prog6.landSideBoundedContext.port.out.TruckOnTimeQuery;
+import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseOverviewQuery;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseManagerQueryUseCase;
@@ -32,11 +32,13 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
 
 
     @Override
+    @Transactional
     public Integer fetchTrucksOnSite(LocalDate time) {
         return (int)calendarLoadPort.fetchTrucksOnSite(time);
     }
 
     @Override
+    @Transactional
     public List<TruckOnTimeQuery> fetchTrucksOnTime(LocalDate time) {
         List<Appointment> appointmentList = calendarLoadPort.fetchTrucksOnTime(time).getAppointments();
         List<TruckOnTimeQuery> truckOnTimeQueryList = new ArrayList<>();

@@ -3,9 +3,13 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
 import domain.MaterialType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class WeighbridgeTicket {
 
     private WeighBridgeTicketId weighBridgeTicketId;
@@ -14,13 +18,12 @@ public class WeighbridgeTicket {
 
     private SellerId sellerId;
 
-    private double startWeight;// total 100
+    private double startWeight;
 
-    private double endWeight;// 50
+    private double endWeight;
 
-    private LocalDateTime endTime; // truck out
-
-    private LocalDateTime startTime;// truck in
+    private LocalDateTime endTime;
+    private LocalDateTime startTime;
 
     private MaterialType materialType;
 
@@ -40,72 +43,12 @@ public class WeighbridgeTicket {
 
     }
 
-    public WeighBridgeTicketId getWeighBridgeTicketId() {
-        return weighBridgeTicketId;
-    }
-
-    public void setWeighBridgeTicketId(WeighBridgeTicketId weighBridgeTicketId) {
-        this.weighBridgeTicketId = weighBridgeTicketId;
-    }
 
     public void truckWeighsOut(LocalDateTime endTime , double endWeight){
         this.endTime = endTime;
         this.endWeight = endWeight;
     }
 
-    public LicensePlate getLicensePlate() {
-        return licensePlate;
-    }
 
-    public void setLicensePlate(LicensePlate licensePlate) {
-        this.licensePlate = licensePlate;
-    }
 
-    public SellerId getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(SellerId sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public double getStartWeight() {
-        return startWeight;
-    }
-
-    public void setStartWeight(double startWeight) {
-        this.startWeight = startWeight;
-    }
-
-    public double getEndWeight() {
-        return endWeight;
-    }
-
-    public void setEndWeight(double endWeight) {
-        this.endWeight = endWeight;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
-
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
 }

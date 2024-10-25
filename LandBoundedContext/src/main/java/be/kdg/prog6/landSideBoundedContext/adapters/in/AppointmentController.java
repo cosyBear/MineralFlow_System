@@ -27,7 +27,7 @@ public class AppointmentController {
 
     @PostMapping
 //    @PreAuthorize("hasAuthority('Seller')")
-    public ResponseEntity<String> makeAppointmentForSeller(@RequestBody MakeAppointmentDto makeAppointmentDto) {
+    public ResponseEntity<String> makeAppointment(@RequestBody MakeAppointmentDto makeAppointmentDto) {
 
         try {
             ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(new LicensePlate(makeAppointmentDto.licensePlate()),

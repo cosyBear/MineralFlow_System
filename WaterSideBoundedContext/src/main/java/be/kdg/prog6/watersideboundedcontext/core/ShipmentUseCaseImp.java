@@ -36,8 +36,6 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
         shipmentOrderEventPublisher.requestMaterialEvent(event);
 
     }
-    // so make like a usecase with a fake api call to say do the BO.
-    //so make a api for a fake request for the BO AND IO THE so like when the waerhouse send the repsone back to the water side just call ithe api to make the BO AND THE IO.
 
     @Override
     public boolean shipDeparture(ShipmentCompletedCommand shipmentOrder) {

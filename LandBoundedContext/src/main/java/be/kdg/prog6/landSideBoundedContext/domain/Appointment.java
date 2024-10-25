@@ -2,10 +2,14 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import domain.MaterialType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
+@Setter
+@Getter
 public class Appointment {
     private UUID appointmentId;
     private AppointmentStatus status;
@@ -32,54 +36,6 @@ public class Appointment {
         this.appointmentId = appointmentId;
     }
 
-    public UUID getAppointmentId() {
-        return appointmentId;
-    }
-
-     public void setAppointmentId(UUID appointmentId) {
-        this.appointmentId = appointmentId;
-    }
-
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public LocalDateTime getTime() {
-        return time;
-    }
-
-    public void setTime(LocalDateTime time) {
-        this.time = time;
-    }
-
-    public SellerId getSellerId() {
-        return sellerId;
-    }
-
-    public void setSellerId(SellerId sellerId) {
-        this.sellerId = sellerId;
-    }
-
-    public LicensePlate getLicensePlate() {
-        return licensePlate;
-    }
-
-    public void setLicensePlate(LicensePlate licensePlate) {
-        this.licensePlate = licensePlate;
-    }
-
-
-    public AppointmentStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(AppointmentStatus status) {
-        this.status = status;
-    }
 
     public boolean appointmentOnTime(LocalDateTime scheduledTime, LicensePlate licensePlate) {
         return !time.isBefore(scheduledTime) && time.isBefore(scheduledTime.plusHours(1)) && this.getLicensePlate().equals(licensePlate);

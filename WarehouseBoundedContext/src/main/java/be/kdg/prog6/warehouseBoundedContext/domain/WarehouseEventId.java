@@ -1,6 +1,11 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.Objects;
 import java.util.UUID;
+@Setter
+@Getter
 public class WarehouseEventId {
     private UUID id;
 
@@ -10,14 +15,6 @@ public class WarehouseEventId {
 
     public WarehouseEventId() {
         this(UUID.randomUUID());
-    }
-
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
     }
 
     @Override

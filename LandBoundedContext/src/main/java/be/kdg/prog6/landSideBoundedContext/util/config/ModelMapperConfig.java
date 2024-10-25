@@ -8,7 +8,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.*;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WarehouseId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.port.in.TruckOnSiteQuery;
+import be.kdg.prog6.landSideBoundedContext.port.out.TruckOnSiteQuery;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -37,7 +37,7 @@ public class ModelMapperConfig {
         modelMapper.addConverter(new Converter<WeighBridgeTicketId, UUID>() {
             @Override
             public UUID convert(MappingContext<WeighBridgeTicketId, UUID> context) {
-                return context.getSource().id(); // assuming you have a method id() that returns the UUID in WeighBridgeTicketId
+                return context.getSource().id();
             }
         });
 
@@ -93,18 +93,12 @@ public class ModelMapperConfig {
         };
 
 
-
         modelMapper.addConverter(uuidToWarehouseIdConverter);
         modelMapper.addConverter(warehouseIdToUUIDConverter);
 
 
-
-
-
         modelMapper.addConverter(uuidToWeighBridgeTicketId);
         modelMapper.addConverter(WeighBridgeTicketIdToUUIDConverter);
-
-
 
 
         modelMapper.addMappings(new PropertyMap<WeighbridgeTicket, WeighbridgeTicketEntity>() {
@@ -115,9 +109,9 @@ public class ModelMapperConfig {
                 map(source.getSellerId(), destination.getSellerId());
                 map(source.getStartWeight(), destination.getStartWeight());
                 map(source.getEndWeight(), destination.getEndWeight());
-                map(source.getStartTime() , destination.getStartTime());
-                map(source.getEndTime() , destination.getEndTime());
-                map(source.getMaterialType() , destination.getMaterialType());
+                map(source.getStartTime(), destination.getStartTime());
+                map(source.getEndTime(), destination.getEndTime());
+                map(source.getMaterialType(), destination.getMaterialType());
             }
         });
 
@@ -129,9 +123,9 @@ public class ModelMapperConfig {
                 map(source.getSellerId(), destination.getSellerId());
                 map(source.getStartWeight(), destination.getStartWeight());
                 map(source.getEndWeight(), destination.getEndWeight());
-                map(source.getStartTime() , destination.getStartTime());
-                map(source.getEndTime() , destination.getEndTime());
-                map(source.getMaterialType() , destination.getMaterialType());
+                map(source.getStartTime(), destination.getStartTime());
+                map(source.getEndTime(), destination.getEndTime());
+                map(source.getMaterialType(), destination.getMaterialType());
             }
         });
 
@@ -143,7 +137,7 @@ public class ModelMapperConfig {
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
                 map(source.getTime(), destination.getTime());
-                map(source.getStatus() , destination.getStatus());
+                map(source.getStatus(), destination.getStatus());
             }
         });
 
@@ -155,7 +149,7 @@ public class ModelMapperConfig {
                 map(source.getTime(), destination.getTime());
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
-                map(source.getStatus() , destination.getStatus());
+                map(source.getStatus(), destination.getStatus());
             }
         });
 
@@ -192,16 +186,12 @@ public class ModelMapperConfig {
         });
 
 
-
-
-
         modelMapper.addConverter(uuidToSellerIdConverter);
         modelMapper.addConverter(sellerIdToUUIDConverter);
         modelMapper.addConverter(stringToLicensePlateConverter);
         modelMapper.addConverter(licensePlateToStringConverter);
         modelMapper.addConverter(uuidToSellerIdConverter);
         modelMapper.addConverter(sellerIdToUUIDConverter);
-
 
 
         return modelMapper;

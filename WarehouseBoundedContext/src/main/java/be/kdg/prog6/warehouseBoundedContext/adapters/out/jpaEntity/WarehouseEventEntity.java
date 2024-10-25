@@ -1,9 +1,16 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity;
+
 import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEventsWindow;
 import domain.MaterialType;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
+
 import java.time.LocalDateTime;
 import java.util.UUID;
+
+@Setter
+@Getter
 @Entity
 @Table(catalog = "warehouse_db")
 public class WarehouseEventEntity {
@@ -33,7 +40,7 @@ public class WarehouseEventEntity {
 
     }
 
-    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight, UUID weighBridgeTicketId, WarehouseEventsWindowEntity warehouseEventsWindow , MaterialType materialType) {
+    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight, UUID weighBridgeTicketId, WarehouseEventsWindowEntity warehouseEventsWindow, MaterialType materialType) {
         this.eventId = eventId;
         this.eventTime = eventTime;
         this.eventType = eventType;
@@ -43,59 +50,4 @@ public class WarehouseEventEntity {
         this.materialType = materialType;
     }
 
-    public MaterialType getMaterialType() {
-        return materialType;
-    }
-
-    public void setMaterialType(MaterialType materialType) {
-        this.materialType = materialType;
-    }
-
-    public UUID getEventId() {
-        return eventId;
-    }
-
-    public void setEventId(UUID eventId) {
-        this.eventId = eventId;
-    }
-
-    public LocalDateTime getEventTime() {
-        return eventTime;
-    }
-
-    public void setEventTime(LocalDateTime eventTime) {
-        this.eventTime = eventTime;
-    }
-
-    public String getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
-
-    public double getMaterialWeight() {
-        return materialWeight;
-    }
-
-    public void setMaterialWeight(double materialWeight) {
-        this.materialWeight = materialWeight;
-    }
-
-    public WarehouseEventsWindowEntity getWarehouseEventsWindow() {
-        return warehouseEventsWindow;
-    }
-
-    public void setWarehouseEventsWindow(WarehouseEventsWindowEntity warehouseEventsWindow) {
-        this.warehouseEventsWindow = warehouseEventsWindow;
-    }
-
-    public UUID getWeighBridgeTicketId() {
-        return weighBridgeTicketId;
-    }
-
-    public void setWeighBridgeTicketId(UUID weighBridgeTicketId) {
-        this.weighBridgeTicketId = weighBridgeTicketId;
-    }
 }

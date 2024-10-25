@@ -26,6 +26,7 @@ public class WaterSideEventPublisher implements be.kdg.prog6.warehouseBoundedCon
     @Override
     public void ShipmentCompleted(ShipmentCompletedEvent event) {
         String key = "ship." + event.purchaseOrderId() + ".out";
+        LOGGER.info("the ship has been loaded with material");
 
         rabbitTemplate.convertAndSend("waterSideExchange", key, event);
     }

@@ -1,12 +1,16 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
 import domain.MaterialType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.*;
 import java.time.LocalDateTime;
 import java.util.stream.Collectors;
 
 
+@Setter
+@Getter
 public class WarehouseEventsWindow {
 
     private UUID warehouseEventsWindowId;
@@ -65,20 +69,18 @@ public class WarehouseEventsWindow {
                     new WarehouseEventId(),
                     LocalDateTime.now(),
                     EventType.SHIP,
-                    amountToShip,  // Positive value
+                    amountToShip,
                     deliverEvent.getWeighBridgeTicketId(),
                     this.getWarehouseEventsWindowId(),
                     deliverEvent.getMaterialType()
             );
             shippingEvents.add(shipEvent);
-            warehouseEventList.add(shipEvent); // Add  internaly
+            warehouseEventList.add(shipEvent);
             remainingAmount -= amountToShip;
         }
 
         return shippingEvents;
     }
-
-
 
 
     public WarehouseEventsWindow(WarehouseId warehouseId, UUID warehouseEventsWindowId, List<WarehouseEvent> warehouseEventList) {
@@ -118,27 +120,5 @@ public class WarehouseEventsWindow {
         return newEvent;
     }
 
-    public List<WarehouseEvent> getWarehouseEventList() {
-        return Collections.unmodifiableList(warehouseEventList);
-    }
 
-    public void setWarehouseEventList(List<WarehouseEvent> warehouseEventList) {
-        this.warehouseEventList = warehouseEventList;
-    }
-
-    public WarehouseId getWarehouseId() {
-        return warehouseId;
-    }
-
-    public void setWarehouseId(WarehouseId warehouseId) {
-        this.warehouseId = warehouseId;
-    }
-
-    public UUID getWarehouseEventsWindowId() {
-        return warehouseEventsWindowId;
-    }
-
-    public void setWarehouseEventsWindowId(UUID warehouseEventsWindowId) {
-        this.warehouseEventsWindowId = warehouseEventsWindowId;
-    }
 }

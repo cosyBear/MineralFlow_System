@@ -8,12 +8,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 public record MakeAppointmentDto(
-       // String companyName,
         UUID sellerId,
         String  licensePlate,
         MaterialType materialType ,
-       @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss")
-       @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
        LocalDateTime time
 
 ) {

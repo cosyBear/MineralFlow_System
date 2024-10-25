@@ -27,7 +27,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     private WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository;
     private final ModelMapper modelMapper;
 
-    public WarehouseDataBaseAdapter(@Qualifier("warehouse")ModelMapper modelMapper, WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository, WarehouseEventEntityRepository warehouseEventEntityRepository, WarehouseRepository warehouseRepository) {
+    public WarehouseDataBaseAdapter(@Qualifier("warehouse") ModelMapper modelMapper, WarehouseEventsWindowEntityRepository warehouseEventsWindowEntityRepository, WarehouseEventEntityRepository warehouseEventEntityRepository, WarehouseRepository warehouseRepository) {
         this.modelMapper = modelMapper;
         this.warehouseEventsWindowEntityRepository = warehouseEventsWindowEntityRepository;
         this.warehouseEventEntityRepository = warehouseEventEntityRepository;
@@ -36,7 +36,6 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
 
 
     @Override
-    @Transactional
     public Warehouse fetchWarehouseWithEvents(UUID warehouseId) {
         return modelMapper.map(warehouseRepository.fetchWarehouseWithEvents(warehouseId), Warehouse.class);
 
@@ -54,7 +53,6 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
     }
 
     @Override
-    @Transactional
     public Warehouse findBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
         UUID sellerUuid = sellerId.sellerID();
 
@@ -70,7 +68,6 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
 
         Warehouse warehouse = new Warehouse(warehouseId, domainSellerId, domainMaterialType);
 
-        // Map WarehouseEventsWindowEntity to WarehouseEventsWindow
         WarehouseEventsWindowEntity eventsWindowEntity = warehouseEntity.getWarehouseEventsWindow();
         if (eventsWindowEntity != null) {
             List<WarehouseEvent> warehouseEvents = eventsWindowEntity.getWarehouseEventList().stream()
@@ -99,7 +96,6 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
 
 
     @Override
-    @Transactional
     public void save(Warehouse warehouse, WarehouseEvent ignore) {
         WarehouseEntity warehouseEntity = warehouseRepository.findById(warehouse.getWarehouseNumber().getId()).orElse(
                 new WarehouseEntity()
@@ -113,7 +109,6 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
         eventsWindowEntity.setWarehouseEventsWindowId(warehouse.getEventsWindow().getWarehouseEventsWindowId());
         eventsWindowEntity.setWarehouseId(warehouseEntity.getWarehouseId());
 
-        // Map the list of WarehouseEventEntity with minimal changes
         List<WarehouseEventEntity> eventEntities = warehouse.getEventsWindow().getWarehouseEventList().stream()
                 .map(event -> new WarehouseEventEntity(
                         event.getId() != null ? event.getId().getId() : UUID.randomUUID(),
@@ -126,7 +121,6 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
                 ))
                 .toList();
 
-        // Update the event list properly
         eventsWindowEntity.getWarehouseEventList().clear();
         eventsWindowEntity.getWarehouseEventList().addAll(eventEntities);
 
@@ -134,8 +128,6 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
 
         warehouseRepository.save(warehouseEntity);
     }
-
-
 
 
 }
