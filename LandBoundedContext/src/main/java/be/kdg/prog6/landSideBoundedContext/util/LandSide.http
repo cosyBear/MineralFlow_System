@@ -14,7 +14,7 @@ Content-Type: application/json
 #Authorization: Bearer {{access_token}}
 
 {
-  "licensePlate": "ALICOCOC",
+  "licensePlate": "ALI",
   "startWeight": 100.0,
   "materialType": "IRON",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
@@ -27,11 +27,11 @@ Content-Type: application/json
 #Authorization: Bearer {{access_token}}
 
 {
-  "licensePlate": "ALICOCOC",
+  "licensePlate": "ALI",
   "endWeight": 1.0,
   "materialType": "IRON",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
   "weighOutTime": "2024-10-22T12:00:00",
-  "WeighBridgeTicketId": "008d414b-df08-4971-b73e-1ae648d85a84"
+  "WeighBridgeTicketId": "de582ca2-5e43-4653-a52b-95e87b52f368"
 }
 

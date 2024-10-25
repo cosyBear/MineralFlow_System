@@ -21,9 +21,9 @@ public class ShipmentOrderPublisher implements ShipmentOrderEventPublisher {
     private static String WaterSideExchange = "waterSideExchange";
 
     @Override
-    public void requestMaterialEvent(RequestMaterialEvent event ) {
+    public void requestMaterialEvent(RequestMaterialEvent event) {
         String routingKey = "ship." + event.purchaseOrder() + ".in";
-        RequestMaterialEvent requestEvent  = new RequestMaterialEvent(event.purchaseOrder() ,
+        RequestMaterialEvent requestEvent = new RequestMaterialEvent(event.purchaseOrder(),
                 event.vesselNumber(),
                 event.arrivalTime());
         rabbitTemplate.convertAndSend(WaterSideExchange, routingKey, event);

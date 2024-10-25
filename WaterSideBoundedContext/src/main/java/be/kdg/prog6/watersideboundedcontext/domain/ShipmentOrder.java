@@ -1,6 +1,6 @@
 package be.kdg.prog6.watersideboundedcontext.domain;
 
-import be.kdg.prog6.watersideboundedcontext.util.InspectionOperationException;
+import util.errorClasses.InspectionOperationException;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

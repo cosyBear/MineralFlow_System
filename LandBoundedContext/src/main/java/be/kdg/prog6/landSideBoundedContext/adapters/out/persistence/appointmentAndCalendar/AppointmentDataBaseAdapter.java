@@ -4,9 +4,9 @@ import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.AppointmentEntity
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.MaterialTypeEntity;
 import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
-import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExistException;
-import be.kdg.prog6.landSideBoundedContext.util.errorClasses.CouldNotSaveAppointmentException;
-import be.kdg.prog6.landSideBoundedContext.util.errorClasses.DatabaseOperationException;
+import util.errorClasses.AppointmentDontExistException;
+import util.errorClasses.CouldNotSaveAppointmentException;
+import util.errorClasses.DatabaseOperationException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.hibernate.exception.ConstraintViolationException;

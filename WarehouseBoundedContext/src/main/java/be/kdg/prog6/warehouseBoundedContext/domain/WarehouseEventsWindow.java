@@ -1,6 +1,6 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
-import be.kdg.prog6.warehouseBoundedContext.util.Error.NotEnoughMaterialException;
+import util.errorClasses.NotEnoughMaterialException;
 import domain.MaterialType;
 import lombok.Getter;
 import lombok.Setter;

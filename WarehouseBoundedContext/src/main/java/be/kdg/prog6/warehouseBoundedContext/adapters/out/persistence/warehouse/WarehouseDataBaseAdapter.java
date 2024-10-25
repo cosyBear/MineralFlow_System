@@ -9,8 +9,8 @@ import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.
 import be.kdg.prog6.warehouseBoundedContext.domain.*;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
-import be.kdg.prog6.warehouseBoundedContext.util.Error.WarehouseDatabaseException;
-import be.kdg.prog6.warehouseBoundedContext.util.Error.WarehouseNotFoundException;
+import util.errorClasses.WarehouseDatabaseException;
+import util.errorClasses.WarehouseNotFoundException;
 import domain.MaterialType;
 import jakarta.transaction.Transactional;
 import org.modelmapper.ModelMapper;

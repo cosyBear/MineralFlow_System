@@ -10,24 +10,17 @@ import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrderStatus;
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
-import be.kdg.prog6.warehouseBoundedContext.util.Error.PurchaseOrderDatabaseException;
-import be.kdg.prog6.warehouseBoundedContext.util.Error.PurchaseOrderDontExistException;
-import be.kdg.prog6.warehouseBoundedContext.util.Error.PurchaseOrderNotFoundException;
+import util.errorClasses.PurchaseOrderDatabaseException;
+import util.errorClasses.PurchaseOrderNotFoundException;
 import domain.MaterialType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.IllegalFormatFlagsException;
 import java.util.List;
 import java.util.UUID;
-
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class PurchaseOrderDataBaseAdapter implements PurchaseOrderLoadPort, PurchaseOrderSavePort {

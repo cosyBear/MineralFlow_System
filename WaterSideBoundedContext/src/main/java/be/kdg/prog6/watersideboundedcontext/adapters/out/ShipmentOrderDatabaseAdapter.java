@@ -9,11 +9,11 @@ import be.kdg.prog6.watersideboundedcontext.domain.InspectionOperation;
 import be.kdg.prog6.watersideboundedcontext.domain.ShipmentOrder;
 import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderLoadPort;
 import be.kdg.prog6.watersideboundedcontext.port.out.ShipmentOrderSavePort;
-import be.kdg.prog6.watersideboundedcontext.util.NoShipmentOrderException;
+import util.errorClasses.NoShipmentOrderException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
+import util.errorClasses.ShipmentOrderNotFoundException;
 
 import java.util.UUID;
 
@@ -41,15 +41,18 @@ public class ShipmentOrderDatabaseAdapter implements ShipmentOrderSavePort, Ship
 
     @Override
     public ShipmentOrder loadShipmentOrderById(UUID shipmentOrderId) {
-        return mapToDomain(shipmentOrderRepository.findById(shipmentOrderId).orElseThrow(() -> {
-            throw new NoShipmentOrderException("no shipment order found with id " + shipmentOrderId);
-        }));
+        return mapToDomain(shipmentOrderRepository.findById(shipmentOrderId).orElseThrow(() -> new NoShipmentOrderException("no shipment order found with id " + shipmentOrderId)));
     }
 
     @Override
     public ShipmentOrder loadByPurchaseOrderId(UUID purchaseOrderId) {
-        return mapToDomain(shipmentOrderRepository.findByPurchaseOrder(purchaseOrderId));
+        ShipmentOrderEntity shipmentOrderEntity = shipmentOrderRepository.findByPurchaseOrder(purchaseOrderId);
+        if (shipmentOrderEntity == null) {
+            throw new ShipmentOrderNotFoundException("Shipment order not found for purchase order ID: " + purchaseOrderId);
+        }
+        return mapToDomain(shipmentOrderEntity);
     }
+
 
 
     private ShipmentOrderEntity mapToEntity(ShipmentOrder order) {

@@ -4,8 +4,8 @@ import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.WeighbridgeTicket
 import be.kdg.prog6.landSideBoundedContext.domain.WeighbridgeTicket;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketSavePort;
-import be.kdg.prog6.landSideBoundedContext.util.errorClasses.DatabaseOperationException;
-import be.kdg.prog6.landSideBoundedContext.util.errorClasses.WeighbridgeTicketNotFound;
+import util.errorClasses.DatabaseOperationException;
+import util.errorClasses.WeighbridgeTicketNotFound;
 import domain.MaterialType;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;

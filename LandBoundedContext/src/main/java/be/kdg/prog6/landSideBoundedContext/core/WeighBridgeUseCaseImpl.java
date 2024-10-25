@@ -22,22 +22,16 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
 
     private final WeighBridgeEventPublisher eventPublisher;
     private final CalendarLoadPort calendarLoadPort;
-    private AppointmentSavePort appointmentSavePort;
     private final WeighbridgeTicketLoadPort weighbridgeTicketLoadPort;
     private final WeighbridgeTicketSavePort weighbridgeTicketSavePort;
-    private final WarehouseLoadPort warehouseLoadPort;
-    private final WarehouseSavePort warehouseSavePort;
     private CalendarSavePort calendarSavePort;
 
 
-    public WeighBridgeUseCaseImpl(WeighBridgeEventPublisher eventPublisher, CalendarLoadPort calendarLoadPort, AppointmentSavePort appointmentSavePort, WeighbridgeTicketLoadPort weighbridgeTicketLoadPort, WeighbridgeTicketSavePort weighbridgeTicketSavePort, WarehouseLoadPort warehouseLoadPort, WarehouseSavePort warehouseSavePort, CalendarSavePort calendarSavePort) {
+    public WeighBridgeUseCaseImpl(WeighBridgeEventPublisher eventPublisher, CalendarLoadPort calendarLoadPort, WeighbridgeTicketLoadPort weighbridgeTicketLoadPort, WeighbridgeTicketSavePort weighbridgeTicketSavePort,CalendarSavePort calendarSavePort) {
         this.eventPublisher = eventPublisher;
         this.calendarLoadPort = calendarLoadPort;
         this.weighbridgeTicketLoadPort = weighbridgeTicketLoadPort;
         this.weighbridgeTicketSavePort = weighbridgeTicketSavePort;
-        this.warehouseLoadPort = warehouseLoadPort;
-        this.warehouseSavePort = warehouseSavePort;
-        this.appointmentSavePort = appointmentSavePort;
         this.calendarSavePort = calendarSavePort;
     }
 

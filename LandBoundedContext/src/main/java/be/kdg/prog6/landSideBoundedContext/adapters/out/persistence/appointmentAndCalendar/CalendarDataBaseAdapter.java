@@ -6,7 +6,7 @@ import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.landSideBoundedContext.domain.DayCalendar;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarSavePort;
-import be.kdg.prog6.landSideBoundedContext.util.errorClasses.AppointmentDontExistException;
+import util.errorClasses.AppointmentDontExistException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import org.apache.logging.log4j.LogManager;
@@ -14,7 +14,6 @@ import org.apache.logging.log4j.Logger;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.*;

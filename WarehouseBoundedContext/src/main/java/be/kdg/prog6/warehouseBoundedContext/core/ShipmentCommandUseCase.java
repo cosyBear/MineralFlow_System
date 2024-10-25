@@ -9,7 +9,7 @@ import be.kdg.prog6.warehouseBoundedContext.port.out.ShipmentCompletedEvent;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WaterSideEventPublisher;
-import be.kdg.prog6.warehouseBoundedContext.util.Error.WarehouseNotFoundException;
+import util.errorClasses.WarehouseNotFoundException;
 import domain.MaterialType;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
