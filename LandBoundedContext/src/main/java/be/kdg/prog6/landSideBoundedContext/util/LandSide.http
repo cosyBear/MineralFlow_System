@@ -1,17 +1,17 @@
 #### Get access token for 'seller'
-#POST http://localhost:8180/realms/mineral/protocol/openid-connect/token
-#Content-Type: application/x-www-form-urlencoded
-#
-#client_id=landside&username=ali&password=ali&grant_type=password&scope=openid
-#
-#> {%
-#    client.global.set("access_token", response.body.access_token);
-#%}
+POST http://localhost:8180/realms/mineral/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=backend&username=ali&password=ali&grant_type=password&scope=openid
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
 
 ###
 POST http://localhost:8090/api/weighbridge/trucks/weighIn
 Content-Type: application/json
-#Authorization: Bearer {{access_token}}
+Authorization: Bearer {{access_token}}
 
 {
   "licensePlate": "ALI",
@@ -24,7 +24,7 @@ Content-Type: application/json
 ###
 POST http://localhost:8090/api/weighbridge/trucks/weighOut
 Content-Type: application/json
-#Authorization: Bearer {{access_token}}
+Authorization: Bearer {{access_token}}
 
 {
   "licensePlate": "ALI",

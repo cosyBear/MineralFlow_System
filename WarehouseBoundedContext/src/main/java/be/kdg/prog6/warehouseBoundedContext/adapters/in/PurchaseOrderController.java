@@ -8,6 +8,7 @@ import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderCommand;
 import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderUseCase;
 import domain.MaterialType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,6 +26,7 @@ public class PurchaseOrderController {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('Manager')")
     public ResponseEntity<String> createPurchaseOrder(@RequestBody PurchaseOrderDto dto) {
 
         List<OrderLineCommand> orderLineDtos = dto.orderLines().stream().map(

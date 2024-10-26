@@ -10,6 +10,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -26,7 +27,7 @@ public class AppointmentController {
     }
 
     @PostMapping
-//    @PreAuthorize("hasAuthority('Seller')")
+    @PreAuthorize("hasAuthority('Seller')")
     public ResponseEntity<String> makeAppointment(@RequestBody MakeAppointmentDto makeAppointmentDto) {
 
         try {

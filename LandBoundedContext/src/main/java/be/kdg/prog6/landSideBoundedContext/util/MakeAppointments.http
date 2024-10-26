@@ -1,19 +1,19 @@
 #### Get access token for 'seller'
-#POST http://localhost:8180/realms/mineral/protocol/openid-connect/token
-#Content-Type: application/x-www-form-urlencoded
-#
-#client_id=landside&username=sellerali&password=ali&grant_type=password&scope=openid
-#
-#> {%
-#    client.global.set("access_token", response.body.access_token);
-#%}
-#
-####
-#Authorization: Bearer {{access_token}}
+POST http://localhost:8180/realms/mineral/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
 
-### this has a a bug if there is no appoitment we cant not craete appoitment so fix it
+client_id=backend&username=sellerali&password=ali&grant_type=password&scope=openid
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
+
+###
+
+#### this has a a bug if there is no appoitment we cant not craete appoitment so fix it
 POST http://localhost:8090/api/appointments
 Content-Type: application/json
+Authorization: Bearer {{access_token}}
 
 {
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",

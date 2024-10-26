@@ -5,7 +5,7 @@ import be.kdg.prog6.landSideBoundedContext.port.out.TruckOnTimeQuery;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseOverviewQuery;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseManagerQueryUseCase;
 import org.springframework.http.ResponseEntity;
-//import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -23,21 +23,20 @@ public class WarehouseManagerController {
 
 
     @GetMapping("/trucks/onSite")
-//    @PreAuthorize("hasAuthority('Manager')")
+    @PreAuthorize("hasAuthority('Manager')")
     public ResponseEntity<Integer> trucksOnSite(@RequestParam("date") LocalDate date) {
         return ResponseEntity.ok().body(warehouseManagerQueryUseCase.fetchTrucksOnSite(date));
     }
 
     //@CrossOrigin(origins = "http://localhost:5173")  // Allow frontend requests from localhost:5173
     @GetMapping("/trucks/onTime")
-//    @PreAuthorize("hasAuthority('Manager')")
+    @PreAuthorize("hasAuthority('Manager')")
     public ResponseEntity<List<TruckOnTimeQuery>> trucksOnTime(@RequestParam("date") LocalDate date) {
         return ResponseEntity.ok().body(warehouseManagerQueryUseCase.fetchTrucksOnTime(date));
     }
 
     @GetMapping("/warehouses")
-//    @PreAuthorize("hasAuthority('Manager')")
-    // tis will give you overview of all your whereHouses
+    @PreAuthorize("hasAuthority('Manager')")
     public ResponseEntity<List<WarehouseOverviewQuery>> warehouseOverview() {
         return ResponseEntity.ok().body(warehouseManagerQueryUseCase.WarehouseOverview());
     }
