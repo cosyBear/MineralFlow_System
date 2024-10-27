@@ -9,6 +9,7 @@ import be.kdg.prog6.landSideBoundedContext.adapters.in.dto.WeighOutDto;
 import be.kdg.prog6.landSideBoundedContext.port.in.WeighBridgeUseCase;
 import be.kdg.prog6.landSideBoundedContext.port.in.WeighTruckInCommand;
 import be.kdg.prog6.landSideBoundedContext.port.in.weighTruckOutCommand;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -37,7 +38,7 @@ public class WeighBridgeController {
     public ResponseEntity<Void> weighTruckIn(@RequestBody WeighInDto dto) {
         WeighTruckInCommand truckInCommand = new WeighTruckInCommand(new LicensePlate(dto.licensePlate()), dto.startWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
         weighBridgeUseCase.weighTruckIn(truckInCommand);
-        return ResponseEntity.ok().build();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
      @PreAuthorize("hasAuthority('basicUser')")
@@ -46,7 +47,7 @@ public class WeighBridgeController {
         weighTruckOutCommand truckOutCommand = new weighTruckOutCommand(
                 dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighOutTime(), new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId())));
         weighBridgeUseCase.weighTruckOut(truckOutCommand);
-        return ResponseEntity.ok().build();
+         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
 }
