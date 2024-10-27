@@ -7,6 +7,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrder;
 import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderCommand;
 import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderUseCase;
 import domain.MaterialType;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -38,7 +39,7 @@ public class PurchaseOrderController {
         PurchaseOrderCommand command = new PurchaseOrderCommand(dto.orderDate(), UUID.fromString(dto.sellerId()),
                 dto.customerName(), dto.buyerId(), orderLineDtos);
         purchaseOrderUseCase.createPurchaseOrder(command);
-        return ResponseEntity.ok("the order has be created");
+        return ResponseEntity.status(HttpStatus.CREATED).body("the order has be created");
 
     }
 

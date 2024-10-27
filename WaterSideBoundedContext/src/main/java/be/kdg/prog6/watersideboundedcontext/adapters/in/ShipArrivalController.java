@@ -2,6 +2,7 @@ package be.kdg.prog6.watersideboundedcontext.adapters.in;
 
 
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderUseCase;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -30,7 +31,7 @@ public class ShipArrivalController {
     public ResponseEntity<String> shipRequestDelivery(@RequestBody ShipArrivalRequestDto dto){
         ShipmentOrderCommand shipIn = new ShipmentOrderCommand(UUID.fromString(dto.purchaseOrder()), UUID.fromString(dto.shipmentOrder()) , UUID.fromString(dto.vesselNumber()) , LocalDateTime.parse(dto.arrivalTime()));
         useCase.requestMaterial(shipIn);
-        return ResponseEntity.ok("we received the request everything is ok...");
+        return ResponseEntity.status(HttpStatus.CREATED).body("we received the request everything is ok...");
 
     }
 

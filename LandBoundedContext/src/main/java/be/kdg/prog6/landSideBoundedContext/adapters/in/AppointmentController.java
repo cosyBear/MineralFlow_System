@@ -8,6 +8,7 @@ import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 //import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -34,10 +35,9 @@ public class AppointmentController {
             ScheduleAppointmentCommand scheduleAppointmentCommand = new ScheduleAppointmentCommand(new LicensePlate(makeAppointmentDto.licensePlate()),
                     makeAppointmentDto.materialType(), makeAppointmentDto.time(), new SellerId(makeAppointmentDto.sellerId()));
             Appointment appointment = scheduleAppointmentUseCase.scheduleAppointment(scheduleAppointmentCommand);
-
-            return ResponseEntity.ok(String.valueOf(appointment) + " \n the appointment has been made. \n");
+            return  ResponseEntity.status(HttpStatus.CREATED).body(String.valueOf(appointment) + " \n the appointment has been made. \n");
         } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
     }
 }
