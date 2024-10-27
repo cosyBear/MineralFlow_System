@@ -23,10 +23,10 @@ public class WeighInEvent {
 
     private UUID sellerId;
 
-
     private double grossWeight;
 
-    private MaterialType materialType;    private LocalDateTime weighInTime;
+    private MaterialType materialType;
+    private LocalDateTime weighInTime;
 
 
     public WeighInEvent(UUID weighBridgeTicketId, String licensePlate, UUID sellerId, double grossWeight, MaterialType materialType, LocalDateTime weighInTime) {

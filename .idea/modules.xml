@@ -3,7 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/LandBoundedContext/template.LandBoundedContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/LandBoundedContext/template.LandBoundedContext.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/LandBoundedContext/template.LandBoundedContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/LandBoundedContext/template.LandBoundedContext.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/WarehouseBoundedContext/template.WarehouseBoundedContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/WarehouseBoundedContext/template.WarehouseBoundedContext.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/WarehouseBoundedContext/template.WarehouseBoundedContext.test.iml" filepath="$PROJECT_DIR$/.idea/modules/WarehouseBoundedContext/template.WarehouseBoundedContext.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/WaterSideBoundedContext/template.WaterSideBoundedContext.main.iml" filepath="$PROJECT_DIR$/.idea/modules/WaterSideBoundedContext/template.WaterSideBoundedContext.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/application/template.application.main.iml" filepath="$PROJECT_DIR$/.idea/modules/application/template.application.main.iml" />
     </modules>

@@ -27,7 +27,7 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
     private CalendarSavePort calendarSavePort;
 
 
-    public WeighBridgeUseCaseImpl(WeighBridgeEventPublisher eventPublisher, CalendarLoadPort calendarLoadPort, WeighbridgeTicketLoadPort weighbridgeTicketLoadPort, WeighbridgeTicketSavePort weighbridgeTicketSavePort,CalendarSavePort calendarSavePort) {
+    public WeighBridgeUseCaseImpl(WeighBridgeEventPublisher eventPublisher, CalendarLoadPort calendarLoadPort, WeighbridgeTicketLoadPort weighbridgeTicketLoadPort, WeighbridgeTicketSavePort weighbridgeTicketSavePort, CalendarSavePort calendarSavePort) {
         this.eventPublisher = eventPublisher;
         this.calendarLoadPort = calendarLoadPort;
         this.weighbridgeTicketLoadPort = weighbridgeTicketLoadPort;

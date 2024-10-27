@@ -6,6 +6,7 @@ import util.errorClasses.InsufficientMaterialException;
 import domain.MaterialType;
 import lombok.Getter;
 import lombok.Setter;
+import util.errorClasses.WarehouseIsFullException;
 
 
 @Setter
@@ -44,16 +45,12 @@ public class Warehouse {
         this.materialType = materialType;
         this.amountOfMaterial = amountOfMaterial;
     }
-    public void subtractMaterial(double amount) {
-        if (this.amountOfMaterial >= amount) {
-            this.amountOfMaterial -= amount;
-        } else {
-            throw new InsufficientMaterialException("Not enough material in the warehouse to subtract the requested amount");
-        }
-    }
 
 
     public void updateMaterial(double amount){
+        if (!canStoreMaterial(amount)) {
+            throw new WarehouseIsFullException("Cannot update warehouse: exceeds capacity.");
+        }
         this.amountOfMaterial = amount;
     }
 

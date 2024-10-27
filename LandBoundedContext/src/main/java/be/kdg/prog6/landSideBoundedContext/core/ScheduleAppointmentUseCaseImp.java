@@ -24,7 +24,7 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
     private final WarehouseLoadPort warehouseLoadPort;
     private final CalendarSavePort calendarSavePort;
 
-    public ScheduleAppointmentUseCaseImp( CalendarLoadPort calendarLoadPort, WarehouseLoadPort warehouseLoadPort, CalendarSavePort calendarSavePort) {
+    public ScheduleAppointmentUseCaseImp(CalendarLoadPort calendarLoadPort, WarehouseLoadPort warehouseLoadPort, CalendarSavePort calendarSavePort) {
         this.calendarLoadPort = calendarLoadPort;
         this.warehouseLoadPort = warehouseLoadPort;
         this.calendarSavePort = calendarSavePort;
@@ -33,19 +33,16 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
     @Override
     @Transactional
     public Appointment scheduleAppointment(ScheduleAppointmentCommand command) {
-        try {
-            Warehouse wareHouse = warehouseLoadPort.findBySellerIdAAndMaterialType(command.sellerId(), command.materialType());
-            DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(command.time().toLocalDate());
-            if (!wareHouse.isFull()) {
-                Appointment newAppointment = dayCalendar.scheduleAppointment(command);
-                calendarSavePort.saveDayCalendar(dayCalendar);
-                return newAppointment;
-            } else {
-                throw new WarehouseIsFullException("warehouse is full can not make Appointment");
-            }
-        } catch (Exception e) {
-            logger.info(e.getMessage());
-            throw new TimeSlotFullException(e.getMessage());
+
+        Warehouse wareHouse = warehouseLoadPort.findBySellerIdAAndMaterialType(command.sellerId(), command.materialType());
+        DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(command.time().toLocalDate());
+        if (!wareHouse.isFull()) {
+            Appointment newAppointment = dayCalendar.scheduleAppointment(command.licensePlate(), command.materialType(), command.time(), command.sellerId());
+            calendarSavePort.saveDayCalendar(dayCalendar);
+            return newAppointment;
+        } else {
+            throw new WarehouseIsFullException("warehouse is full can not make Appointment");
         }
+
     }
 }

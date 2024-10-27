@@ -2,6 +2,7 @@ package be.kdg.prog6.landSideBoundedContext.domain;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
+import domain.MaterialType;
 import util.errorClasses.AppointmentDontExistException;
 import util.errorClasses.DuplicateAppointmentException;
 import util.errorClasses.TimeSlotFullException;
@@ -49,9 +50,9 @@ public class DayCalendar {
         return matchingAppointment.orElseThrow(() -> new AppointmentDontExistException("the appointment dont exit "));
     }
 
-    public Appointment scheduleAppointment(ScheduleAppointmentCommand requestDTO) {
-        Appointment appointment = new Appointment(requestDTO.materialType(),
-                requestDTO.time(), requestDTO.sellerId(), requestDTO.licensePlate()
+    public Appointment scheduleAppointment(LicensePlate licensePlate , MaterialType materialType ,LocalDateTime time,SellerId sellerId) {
+        Appointment appointment = new Appointment(materialType,
+                time, sellerId, licensePlate
                 , AppointmentStatus.AWAITING_ARRIVAL);
 
         if (isDuplicateAppointment(appointment)) {
