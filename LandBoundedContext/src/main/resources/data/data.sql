@@ -30,3 +30,14 @@ VALUES (UNHEX(REPLACE('f8a9f9c0-45e2-4f32-809f-2d4a73c4083b', '-', '')), @seller
         0), -- PETCOKE (MaterialType index 3)
        (UNHEX(REPLACE('b03f68bb-6606-482d-8007-dc7f94acb1e5', '-', '')), @seller_id, 'SLAG', 0); -- SLAG (MaterialType index 4)
 
+-- Set the seller_id to a new UUID for a different seller
+SET @new_seller_id = UNHEX(REPLACE('b8e06b4d-43a7-4f6a-8d56-123e4765afcb', '-', ''));
+
+-- Insert 5 new warehouses for the new seller, each with a unique warehouse_id and corresponding material type
+INSERT INTO ware_house_entity (warehouse_id, seller_id, material_type, amount_of_material)
+VALUES
+    (UNHEX(REPLACE('ab12cd34-5678-49ef-a1b2-3d4e5f6a7b8c', '-', '')), @new_seller_id, 'GYPSUM', 0),
+    (UNHEX(REPLACE('b234ef56-7890-41ab-c1d2-3e4f5a6b7c8d', '-', '')), @new_seller_id, 'IRON', 0),
+    (UNHEX(REPLACE('c345fe67-8901-42bc-d3e4-5f6a7b8c9d0e', '-', '')), @new_seller_id, 'CEMENT', 0),
+    (UNHEX(REPLACE('d456ab78-9012-43cd-e4f5-6a7b8c9d0e1f', '-', '')), @new_seller_id, 'PETCOKE', 0),
+    (UNHEX(REPLACE('e567cd89-0123-45de-f6a7-8b9c0d1e2f3a', '-', '')), @new_seller_id, 'SLAG', 0);
