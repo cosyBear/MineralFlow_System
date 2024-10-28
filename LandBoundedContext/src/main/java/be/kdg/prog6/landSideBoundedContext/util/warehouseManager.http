@@ -29,8 +29,10 @@ Authorization: Bearer {{access_token}}
 # get wearhouse overView with deatsil about the warehouse
 GET http://localhost:8090/api/warehousemanager/warehouses
 Content-Type: application/json
-#Authorization: Bearer {{access_token}}
+Authorization: Bearer {{access_token}}
 
+#Authorization: Bearer {{access_token}}
+## move this method for getting the warehouse to the warehouse side and also when you fetch the warehouse send over all the warehouseEVet with it for each houses.
 
 
 ###

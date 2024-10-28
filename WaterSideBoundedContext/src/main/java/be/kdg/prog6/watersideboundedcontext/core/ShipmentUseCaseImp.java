@@ -29,16 +29,15 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
     public void requestMaterial(ShipmentOrderCommand order) {
         ShipmentOrder shipmentOrder = shipmentOrderLoadPort.loadShipmentOrderById(order.shipmentOrder());
         shipmentOrder.performInspectionOperation(order.purchaseOrder());
+        // creat the bo and io
         RequestMaterialEvent event = new RequestMaterialEvent(shipmentOrder.getPurchaseOrder(), shipmentOrder.getVesselNumber(), shipmentOrder.getArrivalTime());
         shipmentOrderSavePort.Save(shipmentOrder);
         shipmentOrderEventPublisher.requestMaterialEvent(event);
-
     }
 
     @Override
     @Transactional
     public boolean shipDeparture(ShipmentCompletedCommand shipmentOrder) {
-
         ShipmentOrder order = shipmentOrderLoadPort.loadByPurchaseOrderId(shipmentOrder.purchaseOrderId());
         order.completeBunkeringOperation(shipmentOrder.departureTime());
 

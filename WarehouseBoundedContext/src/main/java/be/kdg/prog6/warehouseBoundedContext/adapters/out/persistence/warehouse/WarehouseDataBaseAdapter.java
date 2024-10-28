@@ -1,5 +1,6 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.warehouse;
 
+import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.MaterialTypeEntity;
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEntity;
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEventEntity;
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.jpaEntity.WarehouseEventsWindowEntity;
@@ -105,7 +106,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
                                 eventEntity.getMaterialWeight(),
                                 eventEntity.getWeighBridgeTicketId(),
                                 eventsWindowEntity.getWarehouseEventsWindowId(),
-                                eventEntity.getMaterialType()
+                                MaterialType.valueOf(eventEntity.getMaterialType().toString())
                         ))
                         .collect(Collectors.toList());
 
@@ -130,7 +131,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
         try {
             WarehouseEntity warehouseEntity = warehouseRepository.findById(warehouse.getWarehouseNumber().getId()).orElse(new WarehouseEntity());
             warehouseEntity.setWarehouseId(warehouse.getWarehouseNumber().getId());
-            warehouseEntity.setMaterialType(warehouse.getMaterialType());
+            warehouseEntity.setMaterialType(MaterialTypeEntity.valueOf(warehouse.getMaterialType().toString()));
             warehouseEntity.setSellerId(warehouse.getSellerId().sellerID());
 
             WarehouseEventsWindowEntity eventsWindowEntity = warehouseEventsWindowEntityRepository.findById(warehouse.getEventsWindow().getWarehouseEventsWindowId()).orElse(new WarehouseEventsWindowEntity());
@@ -145,7 +146,7 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
                             event.getMaterialWeight(),
                             event.getWeighBridgeTicketId(),
                             eventsWindowEntity,
-                            event.getMaterialType()
+                            MaterialTypeEntity.valueOf(warehouse.getMaterialType().toString())
                     ))
                     .toList();
 

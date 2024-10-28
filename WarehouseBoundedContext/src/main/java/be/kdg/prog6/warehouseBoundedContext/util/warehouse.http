@@ -36,3 +36,4 @@ Authorization: Bearer {{access_token}}
 ###
 GET http://localhost:8090/api/PurchaseOrders
 Content-Type: application/json
+Authorization: Bearer {{access_token}}

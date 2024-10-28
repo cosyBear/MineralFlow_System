@@ -29,7 +29,7 @@ public class WarehouseEventEntity {
 
 
     @Enumerated(EnumType.STRING)
-    private MaterialType materialType;
+    private   MaterialTypeEntity materialType;;
 
 
     @ManyToOne
@@ -40,7 +40,7 @@ public class WarehouseEventEntity {
 
     }
 
-    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight, UUID weighBridgeTicketId, WarehouseEventsWindowEntity warehouseEventsWindow, MaterialType materialType) {
+    public WarehouseEventEntity(UUID eventId, LocalDateTime eventTime, String eventType, double materialWeight, UUID weighBridgeTicketId, WarehouseEventsWindowEntity warehouseEventsWindow, MaterialTypeEntity materialType) {
         this.eventId = eventId;
         this.eventTime = eventTime;
         this.eventType = eventType;

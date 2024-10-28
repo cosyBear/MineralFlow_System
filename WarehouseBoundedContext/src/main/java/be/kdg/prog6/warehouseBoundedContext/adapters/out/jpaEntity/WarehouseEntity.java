@@ -22,7 +22,7 @@ public class WarehouseEntity {
 
 
     @Enumerated(EnumType.STRING)
-    private MaterialType materialType;
+    private MaterialTypeEntity materialType;
 
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "warehouse_events_window_id", referencedColumnName = "warehouseEventsWindowId")
@@ -31,7 +31,7 @@ public class WarehouseEntity {
     public WarehouseEntity() {
     }
 
-    public WarehouseEntity(UUID warehouseId, UUID sellerId, MaterialType materialType, WarehouseEventsWindowEntity warehouseEventsWindow) {
+    public WarehouseEntity(UUID warehouseId, UUID sellerId, MaterialTypeEntity materialType, WarehouseEventsWindowEntity warehouseEventsWindow) {
         this.warehouseId = warehouseId;
         this.sellerId = sellerId;
         this.materialType = materialType;
