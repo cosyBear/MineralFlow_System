@@ -20,25 +20,6 @@ public class WarehouseEventsWindow {
     public WarehouseEventsWindow() {
     }
 
-    public void createSnapshot() {
-        MaterialType materialType = warehouseEventList.get(0).getMaterialType();
-
-        double totalAmount = warehouseEventList.stream().
-                mapToDouble(WarehouseEvent::getChangeToLoad).sum();
-
-        warehouseEventList.clear();
-
-        warehouseEventList.add(
-                new WarehouseEvent(
-                        new WarehouseEventId(),
-                        LocalDateTime.now(),
-                        EventType.SNAPSHOT,
-                        totalAmount,
-                        this.getWarehouseEventsWindowId(),
-                        materialType
-                )
-        );
-    }
 
     public List<WarehouseEvent> fulfillShippingOrder(MaterialType materialType, double requiredAmount) {
         List<WarehouseEvent> shippingEvents = new ArrayList<>();

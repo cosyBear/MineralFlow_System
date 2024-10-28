@@ -43,5 +43,9 @@ public class PurchaseOrder {
         this.buyerId = buyerId;
     }
 
+    public void updateStatus(PurchaseOrderStatus status) {
+        this.status = status;
+    }
+
 
 }

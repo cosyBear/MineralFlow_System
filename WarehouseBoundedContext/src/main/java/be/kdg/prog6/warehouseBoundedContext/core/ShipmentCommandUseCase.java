@@ -71,7 +71,7 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
                 throw new WarehouseNotFoundException("No warehouse found for material type: " + materialType);
             }
         }
-        purchaseOrder.setStatus(PurchaseOrderStatus.fulfilled);
+        purchaseOrder.updateStatus(PurchaseOrderStatus.fulfilled);
         purchaseOrderSavePort.save(purchaseOrder);
 
         ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(
@@ -81,6 +81,7 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
         );
         waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
     }
+// change the domain enum dont use it in my jpa
 
 
 }
