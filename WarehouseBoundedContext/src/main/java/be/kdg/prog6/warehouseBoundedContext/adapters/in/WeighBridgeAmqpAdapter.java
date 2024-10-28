@@ -16,14 +16,14 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class WeighBridgeEventListener {
-    private static final Logger LOGGER = LoggerFactory.getLogger(WeighBridgeEventListener.class);
+public class WeighBridgeAmqpAdapter {
+    private static final Logger LOGGER = LoggerFactory.getLogger(WeighBridgeAmqpAdapter.class);
 
     private static final String truckWeightedInQueue = "truckWeightedInQueue";
     private static final String truckWeightedOutQueue = "truckWeightedOutQueue";
     private final WarehouseUseCase wareHouseUseCase;
 
-    public WeighBridgeEventListener(WarehouseUseCase warehouseUseCase) {
+    public WeighBridgeAmqpAdapter(WarehouseUseCase warehouseUseCase) {
         this.wareHouseUseCase = warehouseUseCase;
     }
 
