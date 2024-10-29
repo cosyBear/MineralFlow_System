@@ -5,6 +5,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
 import domain.MaterialType;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface WarehouseLoadPort {
@@ -24,4 +25,7 @@ public interface WarehouseLoadPort {
     Warehouse findBySellerIdAndMaterialType(
             SellerId sellerId,
             MaterialType materialType);
+
+
+    List<Warehouse> loadAllWarehouses();
 }

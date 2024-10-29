@@ -19,6 +19,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -89,40 +91,64 @@ public class WarehouseDataBaseAdapter implements WarehouseLoadPort, WarehouseSav
                 throw new WarehouseNotFoundException("Warehouse not found for seller ID: " + sellerId + " and material type: " + materialType);
             }
 
-            WarehouseId warehouseId = new WarehouseId(warehouseEntity.getWarehouseId());
-            SellerId domainSellerId = new SellerId(warehouseEntity.getSellerId());
-            MaterialType domainMaterialType = MaterialType.valueOf(warehouseEntity.getMaterialType().toString());
+            return mapToDomain(warehouseEntity);
 
-            Warehouse warehouse = new Warehouse(warehouseId, domainSellerId, domainMaterialType);
-
-            WarehouseEventsWindowEntity eventsWindowEntity = warehouseEntity.getWarehouseEventsWindow();
-            if (eventsWindowEntity != null) {
-                List<WarehouseEvent> warehouseEvents = eventsWindowEntity.getWarehouseEventList().stream()
-                        .map(eventEntity -> new WarehouseEvent(
-                                new WarehouseEventId(eventEntity.getEventId()),
-                                eventEntity.getEventTime(),
-                                EventType.valueOf(eventEntity.getEventType()),
-                                eventEntity.getMaterialWeight(),
-                                eventEntity.getWeighBridgeTicketId(),
-                                eventsWindowEntity.getWarehouseEventsWindowId(),
-                                eventEntity.getMaterialType()
-                        ))
-                        .collect(Collectors.toList());
-
-                WarehouseEventsWindow eventsWindow = new WarehouseEventsWindow(
-                        warehouseId,
-                        eventsWindowEntity.getWarehouseEventsWindowId(),
-                        warehouseEvents
-                );
-
-                warehouse.setEventsWindow(eventsWindow);
-            }
-            return warehouse;
         } catch (Exception e) {
             LOGGER.error("Error finding warehouse by seller ID: {} and material type: {}", sellerId, materialType, e);
             throw new WarehouseDatabaseException("Database error: Could not find warehouse by seller ID and material type", e);
         }
     }
+
+
+    @Override
+    public List<Warehouse> loadAllWarehouses() {
+        List<Warehouse> warehouses = new ArrayList<>();
+
+        for (WarehouseEntity warehouseEntity : warehouseRepository.loadAllWarehouse()) {
+            warehouses.add(mapToDomain(warehouseEntity));
+        }
+
+        return warehouses;
+    }
+
+
+    public Warehouse mapToDomain(WarehouseEntity warehouseEntity) {
+        // Map basic fields of Warehouse
+        WarehouseId warehouseId = new WarehouseId(warehouseEntity.getWarehouseId());
+        SellerId domainSellerId = new SellerId(warehouseEntity.getSellerId());
+        MaterialType domainMaterialType = MaterialType.valueOf(warehouseEntity.getMaterialType().toString());
+
+        Warehouse warehouse = new Warehouse(warehouseId, domainSellerId, domainMaterialType);
+
+        // Map nested WarehouseEventsWindowEntity, if it exists
+        WarehouseEventsWindowEntity eventsWindowEntity = warehouseEntity.getWarehouseEventsWindow();
+        if (eventsWindowEntity != null) {
+            // Map each WarehouseEventEntity to a WarehouseEvent
+            List<WarehouseEvent> warehouseEvents = eventsWindowEntity.getWarehouseEventList().stream()
+                    .map(eventEntity -> new WarehouseEvent(
+                            new WarehouseEventId(eventEntity.getEventId()),
+                            eventEntity.getEventTime(),
+                            EventType.valueOf(eventEntity.getEventType()),
+                            eventEntity.getMaterialWeight(),
+                            eventEntity.getWeighBridgeTicketId(),
+                            eventsWindowEntity.getWarehouseEventsWindowId(),
+                            eventEntity.getMaterialType()
+                    ))
+                    .collect(Collectors.toList());
+
+            // Create and set WarehouseEventsWindow on the Warehouse
+            WarehouseEventsWindow eventsWindow = new WarehouseEventsWindow(
+                    warehouseId,
+                    eventsWindowEntity.getWarehouseEventsWindowId(),
+                    warehouseEvents
+            );
+
+            warehouse.setEventsWindow(eventsWindow);
+        }
+
+        return warehouse;
+    }
+
 
     @Override
     @Transactional

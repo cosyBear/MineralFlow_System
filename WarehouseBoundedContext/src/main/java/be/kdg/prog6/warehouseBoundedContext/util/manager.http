@@ -1,0 +1,16 @@
+#### Get access token for 'manager'
+POST http://localhost:8180/realms/mineral/protocol/openid-connect/token
+Content-Type: application/x-www-form-urlencoded
+
+client_id=backend&username=managerali&password=ali&grant_type=password&scope=openid
+
+> {%
+    client.global.set("access_token", response.body.access_token);
+%}
+
+###
+
+
+GET http://localhost:8090/api/warehouseManager
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
