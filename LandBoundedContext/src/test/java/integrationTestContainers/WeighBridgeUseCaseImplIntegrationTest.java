@@ -5,7 +5,6 @@ import be.kdg.prog6.landSideBoundedContext.core.WeighBridgeUseCaseImpl;
 import be.kdg.prog6.landSideBoundedContext.domain.*;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
 import be.kdg.prog6.landSideBoundedContext.port.in.WeighTruckInCommand;
-import be.kdg.prog6.landSideBoundedContext.port.in.weighTruckOutCommand;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarSavePort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighBridgeEventPublisher;
@@ -51,7 +50,7 @@ public class WeighBridgeUseCaseImplIntegrationTest extends AbstractDatabaseTest 
     private WeighBridgeEventPublisher eventPublisher;
 
     @Autowired
-    private WeighBridgeUseCaseImpl weighBridgeUseCase;
+    private WeighBridgeUseCaseImpl sut;
 
     private DayCalendar testDayCalendar;
     private SellerId sellerId;
@@ -77,8 +76,7 @@ public class WeighBridgeUseCaseImplIntegrationTest extends AbstractDatabaseTest 
         WeighTruckInCommand weighInCommand = new WeighTruckInCommand(
                 licensePlate, startWeight, materialType, sellerId, LocalDateTime.now()
         );
-
-        weighBridgeUseCase.weighTruckIn(weighInCommand);
+        sut.weighTruckIn(weighInCommand);
 
         // Verify that the calendar has been updated
         DayCalendar updatedCalendar = calendarLoadPort.loadAppointmentsByDate(weighInCommand.weighInTime().toLocalDate());
@@ -102,7 +100,7 @@ public class WeighBridgeUseCaseImplIntegrationTest extends AbstractDatabaseTest 
                 licensePlate, startWeight, materialType, sellerId, outsideArrivalTime
         );
 
-        weighBridgeUseCase.weighTruckIn(weighInCommand);
+        sut.weighTruckIn(weighInCommand);
 
         // Load the updated calendar and verify that the appointment status has not changed to ON_SITE
         DayCalendar updatedCalendar = calendarLoadPort.loadAppointmentsByDate(outsideArrivalTime.toLocalDate());
