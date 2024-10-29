@@ -1,4 +1,4 @@
-package be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse;
+package be.kdg.prog6.warehouseBoundedContext.port.out;
 
 
 import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;

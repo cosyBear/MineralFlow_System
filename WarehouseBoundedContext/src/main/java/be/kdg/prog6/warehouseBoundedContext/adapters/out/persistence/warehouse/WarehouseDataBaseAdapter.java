@@ -7,8 +7,8 @@ import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.WarehouseEventsWindowEntityRepository;
 import be.kdg.prog6.warehouseBoundedContext.adapters.out.persistence.Repository.WarehouseRepository;
 import be.kdg.prog6.warehouseBoundedContext.domain.*;
-import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
-import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
+import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseLoadPort;
+import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseSavePort;
 import util.errorClasses.WarehouseDatabaseException;
 import util.errorClasses.WarehouseNotFoundException;
 import domain.MaterialType;
@@ -20,7 +20,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

@@ -1,19 +1,15 @@
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
 import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;
-import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
+import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseLoadPort;
 import domain.MaterialType;
 
 import java.util.List;
 import java.util.UUID;
-import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
-import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;
+
 import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEventsWindow;
 import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseId;
-import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
-import domain.MaterialType;
 
 import java.time.LocalDateTime;
-import java.util.UUID;
 
 public class WarehouseLoadPortStub implements WarehouseLoadPort {
 

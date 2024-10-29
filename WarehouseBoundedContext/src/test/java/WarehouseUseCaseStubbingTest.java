@@ -1,9 +1,7 @@
 import be.kdg.prog6.warehouseBoundedContext.core.WarehouseUseCaseImp;
 import be.kdg.prog6.warehouseBoundedContext.domain.*;
 import be.kdg.prog6.warehouseBoundedContext.port.in.WeighTruckOutCommand;
-import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
-import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseSavePort;
-import domain.MaterialType;
+import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseSavePort;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
