@@ -49,3 +49,4 @@ VALUES
     (UNHEX(REPLACE('55a5d91c-433f-44b6-8510-bf389e693812', '-', '')), 'IRON', 50, 50.5, UNHEX(REPLACE('8d50dbe3-68a4-4afc-a242-13818629ac9f', '-', ''))),
     (UNHEX(REPLACE('7fff25e6-9f5e-4f1d-8b2c-616e39e55ce3', '-', '')), 'PETCOKE', 50, 70.0, UNHEX(REPLACE('8d50dbe3-68a4-4afc-a242-13818629ac9f', '-', ''))),
     (UNHEX(REPLACE('fad0c3e7-bf55-45bc-a086-ad6e14fda8d2', '-', '')), 'CEMENT', 50, 40.75, UNHEX(REPLACE('8d50dbe3-68a4-4afc-a242-13818629ac9f', '-', '')));
+#####

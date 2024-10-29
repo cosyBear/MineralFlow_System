@@ -35,7 +35,7 @@ public class WarehouseManagerUseCaseImp implements WarehouseManagerPort {
                 eventList.add(new WarehouseEventQuery(warehouseEvent.getMaterialType().toString(), warehouseEvent.getTime(), warehouseEvent.getType().toString()));
             }
 
-            queryList.add(new WarehouseQuery(warehouse.getWarehouseNumber().getId(), warehouse.getSellerId().getSellerID(), warehouse.getMaterialType().toString(), eventList));
+            queryList.add(new WarehouseQuery(warehouse.getWarehouseNumber().getId(), warehouse.getSellerId().getSellerID(), warehouse.getMaterialType().toString(),    warehouse.getCurrentLoadOfWarehouse() ,eventList ));
 
         }
 

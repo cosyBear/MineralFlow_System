@@ -9,6 +9,7 @@ import java.util.UUID;
 public record WarehouseQuery(  UUID warehouseId,
                                UUID sellerId,
                                String materialType,
+                               double amountOfMaterialInWarehouse,
                                List<WarehouseEventQuery> warehouseEvents) {
 
 
