@@ -3,6 +3,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;
 import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
 import domain.MaterialType;
 
+import java.util.List;
 import java.util.UUID;
 import be.kdg.prog6.warehouseBoundedContext.domain.SellerId;
 import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;
@@ -48,6 +49,11 @@ public class WarehouseLoadPortStub implements WarehouseLoadPort {
     public Warehouse findBySellerIdAndMaterialType(SellerId sellerId, MaterialType materialType) {
         return sellerId.equals(defaultWarehouse.getSellerId()) &&
                 materialType == defaultWarehouse.getMaterialType() ? defaultWarehouse : null;
+    }
+
+    @Override
+    public List<Warehouse> loadAllWarehouses() {
+        return List.of();
     }
 
     // Getter for the default warehouse's SellerId and MaterialType

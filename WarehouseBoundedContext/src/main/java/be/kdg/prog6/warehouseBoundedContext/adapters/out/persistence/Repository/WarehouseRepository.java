@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.UUID;
 
 public interface WarehouseRepository extends JpaRepository<WarehouseEntity, UUID> {
@@ -32,7 +33,8 @@ public interface WarehouseRepository extends JpaRepository<WarehouseEntity, UUID
             @Param("sellerId") SellerId sellerId,
             @Param("warehouseId") UUID warehouseId);
 
-
+    @Query("SELECT w FROM WarehouseEntity w LEFT JOIN FETCH w.warehouseEventsWindow e LEFT JOIN FETCH e.warehouseEventList")
+    List<WarehouseEntity> loadAllWarehouse();
 
     @Query("SELECT w FROM WarehouseEntity w LEFT JOIN FETCH w.warehouseEventsWindow e LEFT JOIN FETCH e.warehouseEventList WHERE w.sellerId = :sellerId AND w.materialType = :materialType")
     WarehouseEntity findBySellerIdAndMaterialType(@Param("sellerId") UUID sellerId, @Param("materialType") MaterialType materialType);
