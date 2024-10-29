@@ -42,18 +42,7 @@ public class WeighbridgeTicketDataBaseAdapter implements WeighbridgeTicketLoadPo
         }
     }
 
-    @Override
-    public WeighbridgeTicket loadBySellerIDAndMaterialType(UUID id, MaterialType materialType) {
-        try {
-            WeighbridgeTicketEntity weighbridgeTicketEntity = weighbridgeTicketEntityRepository.loadBySellerIdAndMaterialType(id, materialType);
-            if (weighbridgeTicketEntity == null) {
-                throw new WeighbridgeTicketNotFound("The WeighbridgeTicket is not found for seller ID: " + id + " and material type: " + materialType);
-            }
-            return modelMapper.map(weighbridgeTicketEntity, WeighbridgeTicket.class);
-        } catch (Exception e) {
-            throw new WeighbridgeTicketNotFound("Database error: Could not load weighbridge ticket for seller ID " + id + " and material type " + materialType +  e);
-        }
-    }
+
 
 
 }

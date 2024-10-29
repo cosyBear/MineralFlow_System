@@ -5,7 +5,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEvent;
 import be.kdg.prog6.warehouseBoundedContext.port.in.WarehouseEventQuery;
 import be.kdg.prog6.warehouseBoundedContext.port.in.WarehouseManagerPort;
 import be.kdg.prog6.warehouseBoundedContext.port.in.WarehouseQuery;
-import be.kdg.prog6.warehouseBoundedContext.port.out.Warehouse.WarehouseLoadPort;
+import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseLoadPort;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

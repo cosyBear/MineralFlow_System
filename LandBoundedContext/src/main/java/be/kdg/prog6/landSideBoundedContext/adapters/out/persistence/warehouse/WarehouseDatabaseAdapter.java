@@ -32,19 +32,6 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
     }
 
 
-    @Override
-    public List<Warehouse> findAllBySellerId(UUID sellerId) {
-        try {
-            List<Warehouse> warehouseList = new ArrayList<>();
-            for (WareHouseEntity warehouseEntity : warehouseRepo.findAllBySellerId(sellerId)) {
-                warehouseList.add(modelMapper.map(warehouseEntity, Warehouse.class));
-            }
-            return warehouseList;
-        } catch (Exception e) {
-            LOGGER.error("Failed to find warehouses by seller ID: {}", sellerId, e);
-            throw new WarehouseDatabaseException("Database error: Could not retrieve warehouses for seller ID " + sellerId , e);
-        }
-    }
 
     @Override
     public Warehouse findBySellerIdAAndMaterialType(SellerId sellerId, MaterialType materialType) {
@@ -60,19 +47,7 @@ public class WarehouseDatabaseAdapter implements WarehouseLoadPort, WarehouseSav
         }
     }
 
-    @Override
-    public Optional<Warehouse> findById(UUID id) {
-        try {
-            return warehouseRepo.findById(id)
-                    .map(warehouseEntity -> {
-                        LOGGER.info("Found warehouse: {}", warehouseEntity);
-                        return modelMapper.map(warehouseEntity, Warehouse.class);
-                    });
-        } catch (Exception e) {
-            LOGGER.error("Failed to find warehouse by ID: {}", id, e);
-            throw new WarehouseDatabaseException("Database error: Could not retrieve warehouse for ID " + id ,  e);
-        }
-    }
+
 
     @Override
     public List<Warehouse> warehouseOverview() {

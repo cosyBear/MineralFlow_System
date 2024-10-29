@@ -10,12 +10,10 @@ import java.util.UUID;
 
 public interface WarehouseLoadPort {
 
-    List<Warehouse> findAllBySellerId(UUID sellerId);
 
 
     Warehouse findBySellerIdAAndMaterialType(SellerId sellerId , MaterialType materialType);
 
-    Optional<Warehouse> findById(UUID id);
 
     List<Warehouse> warehouseOverview();
 }
