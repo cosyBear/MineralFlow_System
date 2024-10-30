@@ -1,6 +1,6 @@
 package be.kdg.prog6.warehouseBoundedContext.adapters.out;
 
-import be.kdg.prog6.warehouseBoundedContext.port.out.ShipmentCompletedEvent;
+import be.kdg.prog6.warehouseBoundedContext.port.in.ShipmentCompletedEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;

@@ -1,4 +1,4 @@
-package be.kdg.prog6.watersideboundedcontext.port.out;
+package be.kdg.prog6.watersideboundedcontext.port.in;
 
 import java.time.LocalDateTime;
 import java.util.UUID;

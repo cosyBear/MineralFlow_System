@@ -1,8 +1,8 @@
 package be.kdg.prog6.landSideBoundedContext.core;
 
 import be.kdg.prog6.landSideBoundedContext.domain.*;
-import be.kdg.prog6.landSideBoundedContext.port.out.TruckOnTimeQuery;
-import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseOverviewQuery;
+import be.kdg.prog6.landSideBoundedContext.port.in.TruckOnTimeQuery;
+import be.kdg.prog6.landSideBoundedContext.port.in.WarehouseOverviewQuery;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WarehouseManagerQueryUseCase;

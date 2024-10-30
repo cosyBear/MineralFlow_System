@@ -2,7 +2,7 @@ package be.kdg.prog6.warehouseBoundedContext.adapters.out;
 
 import be.kdg.prog6.warehouseBoundedContext.domain.Warehouse;
 import be.kdg.prog6.warehouseBoundedContext.domain.WarehouseEvent;
-import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseMaterialEvent;
+import be.kdg.prog6.warehouseBoundedContext.port.in.WarehouseMaterialEvent;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseSavePort;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

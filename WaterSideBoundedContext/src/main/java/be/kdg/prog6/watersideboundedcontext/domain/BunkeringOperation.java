@@ -4,10 +4,12 @@ import java.time.LocalDateTime;
 
 public record BunkeringOperation(LocalDateTime bunkeringTime) {
 
-    public BunkeringOperation {
+
+    public boolean isCompleted(){
+        return this.bunkeringTime != null;
     }
 
-    public BunkeringOperation() {
-        this(null);
-    }
+
+
 }
+

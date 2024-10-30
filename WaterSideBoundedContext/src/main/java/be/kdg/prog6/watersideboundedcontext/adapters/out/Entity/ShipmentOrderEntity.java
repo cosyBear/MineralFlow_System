@@ -1,5 +1,6 @@
 package be.kdg.prog6.watersideboundedcontext.adapters.out.Entity;
 
+import be.kdg.prog6.watersideboundedcontext.domain.ShipmentOrderStatus;
 import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -20,11 +21,15 @@ public class ShipmentOrderEntity {
 
     private UUID purchaseOrder;
 
-    private LocalDateTime arrivalTime;
-
-    private LocalDateTime departureTime;
-
+    private LocalDateTime expectedArrivalTime;
+    private LocalDateTime expectedDepartureTime;
     private UUID vesselId;
+
+    @Nullable
+    private LocalDateTime actualArrivalTime;
+
+    @Nullable
+    private LocalDateTime actualDepartureTime;
 
     @Embedded
     @Nullable
@@ -33,26 +38,25 @@ public class ShipmentOrderEntity {
     @Embedded
     @Nullable
     private BunkeringOperationEntity bunkeringOperation;
+    @Enumerated(EnumType.STRING)
+    private ShipmentOrderStatus status;
+
 
     public ShipmentOrderEntity() {
-
     }
 
-    public ShipmentOrderEntity(UUID purchaseOrder, LocalDateTime arrivalTime, LocalDateTime departureTime, UUID vesselId, InspectionOperationEntity inspectionOperation, BunkeringOperationEntity bunkeringOperation , UUID shipmentOrderId) {
+    public ShipmentOrderEntity(UUID purchaseOrder, LocalDateTime expectedArrivalTime, LocalDateTime expectedDepartureTime, UUID vesselId,
+                               InspectionOperationEntity inspectionOperation, BunkeringOperationEntity bunkeringOperation,
+                               UUID shipmentOrderId, LocalDateTime actualArrivalTime, LocalDateTime actualDepartureTime , ShipmentOrderStatus status) {
         this.purchaseOrder = purchaseOrder;
-        this.arrivalTime = arrivalTime;
-        this.departureTime = departureTime;
+        this.expectedArrivalTime = expectedArrivalTime;
+        this.expectedDepartureTime = expectedDepartureTime;
         this.vesselId = vesselId;
         this.inspectionOperation = inspectionOperation;
         this.bunkeringOperation = bunkeringOperation;
         this.shipmentOrderId = shipmentOrderId;
-    }
-
-    public ShipmentOrderEntity(UUID purchaseOrder, LocalDateTime arrivalTime, LocalDateTime departureTime, UUID vesselId) {
-        this.purchaseOrder = purchaseOrder;
-        this.arrivalTime = arrivalTime;
-        this.departureTime = departureTime;
-        this.vesselId = vesselId;
-
+        this.actualArrivalTime = actualArrivalTime;
+        this.actualDepartureTime = actualDepartureTime;
+        this.status = status;
     }
 }

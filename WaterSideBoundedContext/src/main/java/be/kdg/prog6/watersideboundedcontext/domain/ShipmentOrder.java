@@ -1,5 +1,6 @@
 package be.kdg.prog6.watersideboundedcontext.domain;
 
+import org.springframework.cglib.core.Local;
 import util.errorClasses.InspectionOperationException;
 
 import java.time.LocalDateTime;
@@ -11,49 +12,65 @@ import lombok.Setter;
 @Getter
 @Setter
 public class ShipmentOrder {
-
     private UUID shipmentOrderId;
     private UUID purchaseOrder;
     private UUID vesselNumber;
-    private LocalDateTime arrivalTime;
-    private LocalDateTime departureTime;
+    private LocalDateTime expectedArrivalTime;
+    private LocalDateTime expectedDepartureTime;
+    private LocalDateTime actualArrivalTime;
+    private LocalDateTime actualDepartureTime;
     private BunkeringOperation bunkeringOperation;
     private InspectionOperation inspectionOperation;
+    private ShipmentOrderStatus status;
 
-
-    public ShipmentOrder(InspectionOperation inspectionOperation, BunkeringOperation bunkeringOperation, LocalDateTime departureTime, LocalDateTime arrivalTime, UUID vesselNumber, UUID purchaseOrder, UUID shipmentOrderId) {
+    public ShipmentOrder(InspectionOperation inspectionOperation, BunkeringOperation bunkeringOperation, LocalDateTime departureTime,
+                         LocalDateTime arrivalTime, UUID vesselNumber, UUID purchaseOrder, UUID shipmentOrderId,
+                         LocalDateTime actualArrivalTime, LocalDateTime actualDepartureTime, ShipmentOrderStatus status) {
         this.inspectionOperation = inspectionOperation;
         this.bunkeringOperation = bunkeringOperation;
-        this.departureTime = departureTime;
-        this.arrivalTime = arrivalTime;
+        this.expectedDepartureTime = departureTime;
+        this.expectedArrivalTime = arrivalTime;
         this.vesselNumber = vesselNumber;
         this.purchaseOrder = purchaseOrder;
         this.shipmentOrderId = shipmentOrderId;
+        this.actualArrivalTime = actualArrivalTime;
+        this.actualDepartureTime = actualDepartureTime;
+        this.status = status;
     }
 
     public ShipmentOrder(UUID purchaseOrder, UUID vesselNumber, LocalDateTime arrivalTime, LocalDateTime departureTime) {
         this.purchaseOrder = purchaseOrder;
         this.vesselNumber = vesselNumber;
-        this.arrivalTime = arrivalTime;
-        this.departureTime = departureTime;
+        this.expectedArrivalTime = arrivalTime;
+        this.expectedDepartureTime = departureTime;
     }
 
-    public void performInspectionOperation(UUID purchaseOrderId) {
-        if (this.purchaseOrder.equals(purchaseOrderId)) {
-            this.inspectionOperation = new InspectionOperation(LocalDateTime.now(), "Signed by pookie");
-        } else {
-            throw new InspectionOperationException("The purchaseOrderId does not match the purchaseOrderId in the shipmentOrder");
-        }
-    }
-
-    public void completeBunkeringOperation(LocalDateTime date) {
-        this.bunkeringOperation = new BunkeringOperation(date);
+    public void updateShipStatus(ShipmentOrderStatus newStatus) {
+        this.status = newStatus;
     }
 
 
-    public boolean canShipLeave() {
-        return this.bunkeringOperation != null && this.inspectionOperation != null;
+    public String performBunkeringOperation(LocalDateTime bunkeringTime) {
+        this.bunkeringOperation = new BunkeringOperation(bunkeringTime);
+        return "the bunkeringOperation is successful ";
 
+    }
+
+    public void performInspectionOperation(LocalDateTime timeOfSigning, String signature) {
+        this.inspectionOperation = new InspectionOperation(timeOfSigning, signature);
+    }
+
+
+    public void insertActualArrivalTime(LocalDateTime actualArrivalTime) {
+        this.actualArrivalTime = actualArrivalTime;
+    }
+
+    public void insertActualDepartureTime(LocalDateTime actualDepartureTime) {
+        this.actualDepartureTime = actualDepartureTime;
+    }
+
+    public boolean isShipAllowedToLeave() {
+        return bunkeringOperation.isCompleted() && inspectionOperation.isCompleted();
     }
 
 }

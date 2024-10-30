@@ -5,7 +5,7 @@ import be.kdg.prog6.warehouseBoundedContext.port.in.ShipmentCommand;
 import be.kdg.prog6.warehouseBoundedContext.port.in.ShipmentOrderUseCase;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.PurchaseOrderSavePort;
-import be.kdg.prog6.warehouseBoundedContext.port.out.ShipmentCompletedEvent;
+import be.kdg.prog6.warehouseBoundedContext.port.in.ShipmentCompletedEvent;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseSavePort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WaterSideEventPublisher;

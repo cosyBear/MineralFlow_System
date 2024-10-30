@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import be.kdg.prog6.watersideboundedcontext.adapters.dto.ShipArrivalRequestDto;
-import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOrderCommand;
+import be.kdg.prog6.watersideboundedcontext.port.in.RequestMaterialCommand;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
@@ -29,9 +29,9 @@ public class ShipArrivalController {
 
     @PostMapping
     public ResponseEntity<String> shipRequestDelivery(@RequestBody ShipArrivalRequestDto dto){
-        ShipmentOrderCommand shipIn = new ShipmentOrderCommand(UUID.fromString(dto.purchaseOrder()), UUID.fromString(dto.shipmentOrder()) , UUID.fromString(dto.vesselNumber()) , LocalDateTime.parse(dto.arrivalTime()));
+        RequestMaterialCommand shipIn = new RequestMaterialCommand(UUID.fromString(dto.purchaseOrder()), UUID.fromString(dto.shipmentOrder()) , UUID.fromString(dto.vesselNumber()) , LocalDateTime.parse(dto.arrivalTime()));
         useCase.requestMaterial(shipIn);
-        return ResponseEntity.status(HttpStatus.CREATED).body("we received the request everything is ok...");
+        return ResponseEntity.status(HttpStatus.CREATED).body("we received the ShipArrivalRequest  everything is ok...");
 
     }
 

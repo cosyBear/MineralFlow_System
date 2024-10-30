@@ -1,4 +1,4 @@
-package be.kdg.prog6.warehouseBoundedContext.port.out;
+package be.kdg.prog6.warehouseBoundedContext.port.in;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
