@@ -24,14 +24,3 @@ Authorization: Bearer {{access_token}}
 
 
 ###
-
-###
-# get wearhouse overView with deatsil about the warehouse
-GET http://localhost:8090/api/warehousemanager/warehouses
-Content-Type: application/json
-#Authorization: Bearer {{access_token}}
-
-
-
-###
-

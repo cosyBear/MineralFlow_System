@@ -7,6 +7,7 @@ import be.kdg.prog6.warehouseBoundedContext.domain.PurchaseOrder;
 import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderCommand;
 import be.kdg.prog6.warehouseBoundedContext.port.in.PurchaseOrderUseCase;
 import domain.MaterialType;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -44,6 +45,7 @@ public class PurchaseOrderController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAuthority('Manager')")
     public ResponseEntity<List<PurchaseOrder>> getPurchaseOrdersStatus() {
         List<PurchaseOrder> purchaseOrderList = purchaseOrderUseCase.getPurchaseOrderStatus();
         return ResponseEntity.ok(purchaseOrderList);

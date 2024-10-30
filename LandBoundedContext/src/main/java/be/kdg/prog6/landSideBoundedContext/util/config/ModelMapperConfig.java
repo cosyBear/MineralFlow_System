@@ -74,7 +74,7 @@ public class ModelMapperConfig {
         Converter<WarehouseId, UUID> warehouseIdToUUIDConverter = new Converter<>() {
             @Override
             public UUID convert(MappingContext<WarehouseId, UUID> context) {
-                return context.getSource().warehouseId();  // Assuming WarehouseId has a method id() that returns UUID
+                return context.getSource().warehouseId();
             }
         };
 
@@ -88,7 +88,7 @@ public class ModelMapperConfig {
         Converter<WeighBridgeTicketId, UUID> WeighBridgeTicketIdToUUIDConverter = new Converter<>() {
             @Override
             public UUID convert(MappingContext<WeighBridgeTicketId, UUID> context) {
-                return context.getSource().id();  // Assuming WarehouseId has a method id() that returns UUID
+                return context.getSource().id();
             }
         };
 
@@ -132,7 +132,7 @@ public class ModelMapperConfig {
         modelMapper.addMappings(new PropertyMap<Appointment, AppointmentEntity>() {
             @Override
             protected void configure() {
-                map(source.getAppointmentId(), destination.getId());
+                map(source.getAppointmentId(), destination.getAppointmentId());
                 map(source.getMaterialType(), destination.getMaterialTypeEntity());
                 map(source.getLicensePlate(), destination.getLicensePlate());
                 map(source.getSellerId(), destination.getSellerId());
@@ -144,7 +144,7 @@ public class ModelMapperConfig {
         modelMapper.addMappings(new PropertyMap<AppointmentEntity, Appointment>() {
             @Override
             protected void configure() {
-                map(source.getId(), destination.getAppointmentId());
+                map(source.getAppointmentId(), destination.getAppointmentId());
                 map(source.getMaterialTypeEntity(), destination.getMaterialType());
                 map(source.getTime(), destination.getTime());
                 map(source.getLicensePlate(), destination.getLicensePlate());

@@ -1,5 +1,4 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.entity;
-import be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
@@ -12,7 +11,7 @@ import java.util.UUID;
 public class AppointmentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private UUID id;
+    private UUID appointmentId;
 
     private String licensePlate;
 
@@ -30,8 +29,8 @@ public class AppointmentEntity {
     public AppointmentEntity() {}
 
 
-    public AppointmentEntity(UUID id, String licensePlate, UUID sellerId, MaterialTypeEntity materialTypeEntity, LocalDateTime time, AppointmentStatusEntity status) {
-        this.id= id;
+    public AppointmentEntity(UUID appointmentId, String licensePlate, UUID sellerId, MaterialTypeEntity materialTypeEntity, LocalDateTime time, AppointmentStatusEntity status) {
+        this.appointmentId = appointmentId;
         this.licensePlate = licensePlate;
         this.sellerId = sellerId;
         this.MaterialTypeEntity = materialTypeEntity;
@@ -47,12 +46,12 @@ public class AppointmentEntity {
         this.status = status;
     }
 
-    public UUID getId() {
-        return id;
+    public UUID getAppointmentId() {
+        return appointmentId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setAppointmentId(UUID id) {
+        this.appointmentId = id;
     }
 
     public String getLicensePlate() {

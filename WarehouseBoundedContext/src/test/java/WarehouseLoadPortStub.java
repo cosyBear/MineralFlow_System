@@ -52,7 +52,6 @@ public class WarehouseLoadPortStub implements WarehouseLoadPort {
         return List.of();
     }
 
-    // Getter for the default warehouse's SellerId and MaterialType
     public SellerId getDefaultSellerId() {
         return defaultWarehouse.getSellerId();
     }

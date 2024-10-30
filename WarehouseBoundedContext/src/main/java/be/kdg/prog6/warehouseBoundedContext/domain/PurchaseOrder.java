@@ -46,6 +46,9 @@ public class PurchaseOrder {
     public void updateStatus(PurchaseOrderStatus status) {
         this.status = status;
     }
+    public boolean isPurchaseOrderFulfilled() {
+        return this.status.equals(PurchaseOrderStatus.fulfilled);
+    }
 
 
 }

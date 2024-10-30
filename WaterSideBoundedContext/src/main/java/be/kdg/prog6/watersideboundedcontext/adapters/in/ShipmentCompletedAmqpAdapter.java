@@ -21,7 +21,7 @@ public class ShipmentCompletedAmqpAdapter {
     private static final Logger logger = LogManager.getLogger(ShipmentCompletedAmqpAdapter.class);
 
 
-    @RabbitListener(queues = "shipOutQueue")
+    @RabbitListener(queues = "shipOutQueue" )
     public void shipmentCompleted(ShipmentCompletedDto order) {
 
         ShipmentCompletedCommand command = new ShipmentCompletedCommand(order.purchaseOrderId(), order.vesselNumber(), order.completionTime());

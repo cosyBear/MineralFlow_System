@@ -51,23 +51,5 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
     }
 
 
-    @Override
-    @Transactional
-    public List<WarehouseOverviewQuery> WarehouseOverview() {
-        return mapToOverviewQuery(warehouseLoadPort.warehouseOverview());
-    }
-
-
-    public List<WarehouseOverviewQuery> mapToOverviewQuery(List<Warehouse> warehouseList) {
-        List<WarehouseOverviewQuery> warehouseOverviewQueryList = new ArrayList<>();
-        for (Warehouse wareHouse : warehouseList) {
-            WarehouseOverviewQuery warehouseOverviewQuery = new WarehouseOverviewQuery(wareHouse.getWarehouseId().warehouseId()
-                    , wareHouse.getSellerId().id(), wareHouse.getAmountOfMaterial(), wareHouse.getMaterialType()
-                    , wareHouse.isFull(), wareHouse.isAtOverflow());
-            warehouseOverviewQueryList.add(warehouseOverviewQuery);
-        }
-        return warehouseOverviewQueryList;
-
-    }
 
 }

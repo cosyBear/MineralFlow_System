@@ -11,7 +11,6 @@ public interface WarehouseManagerQueryUseCase {
 
     Integer fetchTrucksOnSite(LocalDate time);
 
-    List<WarehouseOverviewQuery> WarehouseOverview();
 
     List<TruckOnTimeQuery> fetchTrucksOnTime(LocalDate time);
 

@@ -13,9 +13,9 @@ import util.errorClasses.WarehouseIsFullException;
 @Getter
 public class Warehouse {
 
-    private static final double MAX_CAPACITY = 500.0;
-    private static final double OVERFLOW_CAPACITY = MAX_CAPACITY * 1.1;
+    private static final double MAX_CAPACITY = 500000.0;
     private static final double FULL_THRESHOLD = MAX_CAPACITY * 0.8;
+
 
     private WarehouseId warehouseId;
 
@@ -35,9 +35,6 @@ public class Warehouse {
         this.materialType = materialType;
     }
 
-    public void addMaterial(double amount) {
-        this.amountOfMaterial += amount;
-    }
 
     public Warehouse(WarehouseId warehouseId, SellerId sellerId, MaterialType materialType, double amountOfMaterial) {
         this.warehouseId = warehouseId;
@@ -47,30 +44,20 @@ public class Warehouse {
     }
 
 
+
     public void updateMaterial(double amount){
-        if (!canStoreMaterial(amount)) {
-            throw new WarehouseIsFullException("Cannot update warehouse: exceeds capacity.");
-        }
         this.amountOfMaterial = amount;
     }
 
-
     public boolean canStoreMaterial(double amount) {
-        return this.amountOfMaterial + amount <= MAX_CAPACITY;
+        return amount <= MAX_CAPACITY;
     }
 
 
     public boolean isFull() {
-        return this.amountOfMaterial >= FULL_THRESHOLD;  // Warehouse is considered full at 80% capacity
+        return this.amountOfMaterial >= FULL_THRESHOLD;
     }
 
-    public boolean isAtOverflow() {
-        return this.amountOfMaterial >= MAX_CAPACITY && this.amountOfMaterial <= OVERFLOW_CAPACITY;
-    }
-
-    public boolean isOverCapacity() {
-        return this.amountOfMaterial > OVERFLOW_CAPACITY;
-    }
 
     public double availableCapacity() {
         return MAX_CAPACITY - this.amountOfMaterial;

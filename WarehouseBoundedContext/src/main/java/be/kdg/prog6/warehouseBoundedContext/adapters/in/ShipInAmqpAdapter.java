@@ -18,7 +18,7 @@ public class ShipInAmqpAdapter {
     }
 
 
-    @RabbitListener(queues = shipInQueue)
+    @RabbitListener(queues = shipInQueue )
     public void shipmentIn(ShipmentDto dto){
         ShipmentCommand ShipmentCommand = new ShipmentCommand(dto.purchaseOrder() ,dto.vesselNumber(), dto.arrivalTime());
         shipmentOrderUseCase.shipmentIn(ShipmentCommand);

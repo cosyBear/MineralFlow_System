@@ -68,12 +68,6 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ExceptionHandler(NotEnoughMaterialException.class)
-    public ResponseEntity<String> handleNoMaterialInWarehouseException(NotEnoughMaterialException e) {
-        LOGGER.error("No material in warehouse error: {}", e.getMessage());
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-    }
-
     @ExceptionHandler(PurchaseOrderNotFoundException.class)
     public ResponseEntity<String> handlePurchaseOrderNotFoundException(PurchaseOrderNotFoundException e) {
         LOGGER.error("Purchase order not found: {}", e.getMessage());
@@ -93,10 +87,35 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
     }
 
+    @ExceptionHandler(DuplicateAppointmentException.class)
+    public ResponseEntity<String> handleDuplicateAppointmentExceptionException(DuplicateAppointmentException e) {
+        LOGGER.error("Duplicate Appointment Exception: {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+    }
+
     @ExceptionHandler(Exception.class)
     public ResponseEntity<String> handleGenericException(Exception e) {
         LOGGER.error("Unexpected error: {}", e.getMessage());
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
     }
+
+    @ExceptionHandler(LicensePlateDontMatchException.class)
+    public ResponseEntity<String> handleLicensePlateDontMatchException(LicensePlateDontMatchException e) {
+        LOGGER.error("License Plate Dont Match Exception : {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("License Plate Dont Match Exception.");
+    }
+
+    @ExceptionHandler(PurchaseOrderIsFulfilledException.class)
+    public ResponseEntity<String> handlePurchaseOrderIsFulfilledException(PurchaseOrderIsFulfilledException e) {
+        LOGGER.error("Purchase Order Is Fulfilled Exception : {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Purchase Order Is Fulfilled Exception.");
+    }
+
+    @ExceptionHandler(AppointmentCompletedException.class)
+    public ResponseEntity<String> handleAppointmentCompletedException(AppointmentCompletedException e) {
+        LOGGER.error("Appointment Completed Exception : {}", e.getMessage());
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Appointment Completed Exception.");
+    }
+
 
 }

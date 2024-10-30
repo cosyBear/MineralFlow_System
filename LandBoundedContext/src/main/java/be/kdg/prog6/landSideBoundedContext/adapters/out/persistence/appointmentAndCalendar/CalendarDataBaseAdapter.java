@@ -1,11 +1,15 @@
 package be.kdg.prog6.landSideBoundedContext.adapters.out.persistence.appointmentAndCalendar;
 
+import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.AppointmentStatusEntity;
+import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.MaterialTypeEntity;
+import be.kdg.prog6.landSideBoundedContext.domain.AppointmentStatus;
 import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentUseCase;
 import be.kdg.prog6.landSideBoundedContext.adapters.out.entity.AppointmentEntity;
 import be.kdg.prog6.landSideBoundedContext.domain.Appointment;
 import be.kdg.prog6.landSideBoundedContext.domain.DayCalendar;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.CalendarSavePort;
+import org.springframework.stereotype.Repository;
 import util.errorClasses.AppointmentDontExistException;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -18,15 +22,15 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.*;
 
-@Service
+@Repository
 public class CalendarDataBaseAdapter implements CalendarLoadPort, CalendarSavePort {
 
     private final AppointmentRepository appointmentRepository;
     private final ModelMapper modelMapper;
-    private static final Logger logger = LogManager.getLogger(ScheduleAppointmentUseCase.class);
+    private static final Logger logger = LogManager.getLogger(CalendarDataBaseAdapter.class);
 
     @PersistenceContext
-    private EntityManager entityManager;  // Inject the EntityManager
+    private EntityManager entityManager;
 
     public CalendarDataBaseAdapter(AppointmentRepository appointmentRepository, @Qualifier("landModelMapper") ModelMapper modelMapper) {
         this.appointmentRepository = appointmentRepository;
@@ -42,18 +46,23 @@ public class CalendarDataBaseAdapter implements CalendarLoadPort, CalendarSavePo
         return createCalendarFromEntities(entities);
     }
 
-
     @Override
     public void saveDayCalendar(DayCalendar dayCalendar) {
-        try {
-
-            for (Appointment appointment : dayCalendar.getAppointments()) {
-                AppointmentEntity appointmentEntity = modelMapper.map(appointment, AppointmentEntity.class);
-                entityManager.merge(appointmentEntity);
+        for (Appointment appointment : dayCalendar.getAppointments()) {
+            AppointmentEntity existingEntity = appointmentRepository
+                    .findBySellerIdAndMaterialTypeAndLicensePlate(
+                            appointment.getSellerId().id(),
+                            MaterialTypeEntity.valueOf(appointment.getMaterialType().toString()),
+                            appointment.getLicensePlate().toString()
+                    );
+            if (existingEntity == null) {
+                appointmentRepository.save(modelMapper.map(appointment, AppointmentEntity.class));
+            } else {
+                existingEntity.setStatus(AppointmentStatusEntity.valueOf(appointment.getStatus().toString()));
+                existingEntity.setTime(appointment.getTime());
+                existingEntity.setLicensePlate(appointment.getLicensePlate().licensePlate());
+                appointmentRepository.save(existingEntity);
             }
-        } catch (Exception e) {
-            logger.error("Error saving DayCalendar appointments: " + e.getMessage());
-            throw e;
         }
     }
 

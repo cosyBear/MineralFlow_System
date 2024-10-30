@@ -11,14 +11,21 @@ import be.kdg.prog6.landSideBoundedContext.port.out.WeighBridgeEventPublisher;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketLoadPort;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighbridgeTicketSavePort;
 import domain.MaterialType;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Profile;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.DirtiesContext;
+import util.errorClasses.AppointmentCompletedException;
+import util.errorClasses.LicensePlateDontMatchException;
+import util.errorClasses.TruckLateException;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,7 +35,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @AutoConfigureMockMvc
-@Transactional
 @SpringBootTest(classes = LandSideBoundedContextApplication.class)
 @Profile("test")
 public class WeighBridgeUseCaseImplIntegrationTest extends AbstractDatabaseTest {
@@ -52,39 +58,50 @@ public class WeighBridgeUseCaseImplIntegrationTest extends AbstractDatabaseTest 
     @Autowired
     private WeighBridgeUseCaseImpl sut;
 
+
     private DayCalendar testDayCalendar;
     private SellerId sellerId;
+    private SellerId sellerId2;
     private LicensePlate licensePlate;
+    private LicensePlate licensePlate2;
     private MaterialType materialType;
 
     @BeforeEach
     void setup() {
         sellerId = new SellerId(UUID.randomUUID());
+        sellerId2 = new SellerId(UUID.randomUUID());
         licensePlate = new LicensePlate("ABC123");
+        licensePlate2 = new LicensePlate("FailTest");
         materialType = MaterialType.IRON;
 
         testDayCalendar = new DayCalendar(LocalDateTime.now().toLocalDate(), List.of(
-                new Appointment(materialType, LocalDateTime.now().plusHours(1), sellerId, licensePlate, AppointmentStatus.AWAITING_ARRIVAL)
+                new Appointment(materialType, LocalDateTime.now().plusHours(1), sellerId, licensePlate, AppointmentStatus.AWAITING_ARRIVAL),
+                new Appointment(materialType, LocalDateTime.parse("2024-10-19T11:00:00"), sellerId2, licensePlate2, AppointmentStatus.Completed)
+
         ));
 
         calendarSavePort.saveDayCalendar(testDayCalendar);
     }
 
+
     @Test
     void testWeighTruckIn() {
+        //arrange
         double startWeight = 1000.0;
         WeighTruckInCommand weighInCommand = new WeighTruckInCommand(
                 licensePlate, startWeight, materialType, sellerId, LocalDateTime.now()
         );
+
+        //act
         sut.weighTruckIn(weighInCommand);
 
-        // Verify that the calendar has been updated
-        DayCalendar updatedCalendar = calendarLoadPort.loadAppointmentsByDate(weighInCommand.weighInTime().toLocalDate());
-
-        // Verify that the event was published
+        // Verify
         verify(eventPublisher, times(1)).publishTruckWeightedIn(any(WeighInEvent.class));
 
-        // Check that the appointment status is updated
+        DayCalendar updatedCalendar = calendarLoadPort.loadAppointmentsByDate(weighInCommand.weighInTime().toLocalDate());
+
+
+        // assert
         Appointment appointment = updatedCalendar.getAppointments().stream()
                 .filter(app -> app.getLicensePlate().equals(licensePlate))
                 .findFirst()
@@ -93,27 +110,28 @@ public class WeighBridgeUseCaseImplIntegrationTest extends AbstractDatabaseTest 
     }
 
     @Test
-    void testWeighTruckInOutsideArrivalWindow() {
-        double startWeight = 1200.0;
-        LocalDateTime outsideArrivalTime = LocalDateTime.now().plusHours(3); // Outside the expected window
+    void testWeighTruckInAppointmentAlreadyCompletedShouldFail() {
+        // Arrange
+        double startWeight = 1000.0;
+        LocalDateTime appointmentTime = LocalDateTime.parse("2024-10-19T11:00:00");
+
         WeighTruckInCommand weighInCommand = new WeighTruckInCommand(
-                licensePlate, startWeight, materialType, sellerId, outsideArrivalTime
+                licensePlate2, startWeight, materialType, sellerId2, appointmentTime
         );
 
-        sut.weighTruckIn(weighInCommand);
+        // Act & Assert
+        assertThrows(AppointmentCompletedException.class, () -> sut.weighTruckIn(weighInCommand));
 
-        // Load the updated calendar and verify that the appointment status has not changed to ON_SITE
-        DayCalendar updatedCalendar = calendarLoadPort.loadAppointmentsByDate(outsideArrivalTime.toLocalDate());
-
-        // Ensure no event is published since the truck arrived outside the scheduled window
+        // Verify
         verify(eventPublisher, never()).publishTruckWeightedIn(any(WeighInEvent.class));
 
-        // Check that the appointment status remains AWAITING_ARRIVAL
+        // Verify
+        DayCalendar updatedCalendar = calendarLoadPort.loadAppointmentsByDate(appointmentTime.toLocalDate());
         Appointment appointment = updatedCalendar.getAppointments().stream()
-                .filter(app -> app.getLicensePlate().equals(licensePlate))
+                .filter(app -> app.getLicensePlate().equals(licensePlate2))
                 .findFirst()
                 .orElseThrow(() -> new AssertionError("Appointment should exist for the given license plate."));
-        assertEquals(AppointmentStatus.AWAITING_ARRIVAL, appointment.getStatus(), "Appointment status should remain AWAITING_ARRIVAL for outside window arrival.");
+        assertEquals(AppointmentStatus.Completed, appointment.getStatus(), "Appointment status should remain COMPLETED and not be reused.");
     }
 
 

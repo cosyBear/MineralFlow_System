@@ -28,18 +28,12 @@ public class WarehouseManagerController {
         return ResponseEntity.ok().body(warehouseManagerQueryUseCase.fetchTrucksOnSite(date));
     }
 
-    //@CrossOrigin(origins = "http://localhost:5173")  // Allow frontend requests from localhost:5173
     @GetMapping("/trucks/onTime")
     @PreAuthorize("hasAuthority('Manager')")
     public ResponseEntity<List<TruckOnTimeQuery>> trucksOnTime(@RequestParam("date") LocalDate date) {
         return ResponseEntity.ok().body(warehouseManagerQueryUseCase.fetchTrucksOnTime(date));
     }
 
-    @GetMapping("/warehouses")
-    @PreAuthorize("hasAuthority('Manager')")
-    public ResponseEntity<List<WarehouseOverviewQuery>> warehouseOverview() {
-        return ResponseEntity.ok().body(warehouseManagerQueryUseCase.WarehouseOverview());
-    }
 
 
 }

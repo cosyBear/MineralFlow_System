@@ -41,6 +41,10 @@ public class Appointment {
         return !time.isBefore(scheduledTime) && time.isBefore(scheduledTime.plusHours(1)) && this.getLicensePlate().equals(licensePlate);
     }
 
+    public boolean isAppointmentComplete() {
+        return this.status.equals(AppointmentStatus.Completed);
+    }
+
 
     public void truckEnters() {
         status = AppointmentStatus.ON_SITE;
@@ -55,13 +59,17 @@ public class Appointment {
 
     }
 
+    public boolean checkLicensePlate(LicensePlate licensePlate) {
+        return this.licensePlate.equals(licensePlate);
+    }
+
     public boolean isTruckOnTime(LocalDateTime currentTime) {
-        if (this.status == AppointmentStatus.ON_SITE) {
-            return true;
-        } else if (this.status == AppointmentStatus.LATE) {
-            return false;
-        } else if (this.status == AppointmentStatus.AWAITING_ARRIVAL) {
-            return !currentTime.isAfter(this.time.plusHours(1));  // It's late
-        } else return this.status == AppointmentStatus.Completed;
+            if (this.status == AppointmentStatus.ON_SITE) {
+                return true;
+            } else if (this.status == AppointmentStatus.LATE) {
+                return false;
+            } else if (this.status == AppointmentStatus.AWAITING_ARRIVAL) {
+                return !currentTime.isAfter(this.time.plusHours(1));
+            } else return this.status == AppointmentStatus.Completed;
     }
 }

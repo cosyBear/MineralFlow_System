@@ -9,6 +9,11 @@ import be.kdg.prog6.warehouseBoundedContext.port.in.ShipmentCompletedEvent;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseLoadPort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WarehouseSavePort;
 import be.kdg.prog6.warehouseBoundedContext.port.out.WaterSideEventPublisher;
+
+
+import org.apache.logging.log4j.LogManager;
+import org.slf4j.LoggerFactory;
+import util.errorClasses.PurchaseOrderIsFulfilledException;
 import util.errorClasses.WarehouseNotFoundException;
 import domain.MaterialType;
 import org.springframework.stereotype.Service;
@@ -18,6 +23,9 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+
+import org.apache.logging.log4j.Logger;
+
 import java.util.stream.Collectors;
 
 @Service
@@ -29,6 +37,7 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
     private final WarehouseLoadPort warehouseLoadPort;
     private final List<WarehouseSavePort> warehouseSavePort;
     private final WaterSideEventPublisher waterSideEventPublisher;
+    private static final Logger LOGGER = LogManager.getLogger(ShipmentCommandUseCase.class);
 
     public ShipmentCommandUseCase(PurchaseOrderSavePort purchaseOrderSavePort, PurchaseOrderLoadPort purchaseOrderLoadPort, WarehouseLoadPort warehouseLoadPort,
                                   List<WarehouseSavePort> warehouseSavePort, WaterSideEventPublisher waterSideEventPublisher) {
@@ -44,44 +53,47 @@ public class ShipmentCommandUseCase implements ShipmentOrderUseCase {
     @Transactional
     public void shipmentIn(ShipmentCommand command) {
         PurchaseOrder purchaseOrder = purchaseOrderLoadPort.loadById(command.purchaseOrder());
-        Map<MaterialType, Double> requiredAmounts = purchaseOrder.getOrderLines().stream()
-                .collect(Collectors.groupingBy(
-                        PurchaseOrderLine::getMaterialType,
-                        Collectors.summingDouble(PurchaseOrderLine::getQuantity)
-                ));
-        Map<MaterialType, Warehouse> warehouseMap = requiredAmounts.keySet().stream()
-                .collect(Collectors.toMap(
-                        materialType -> materialType,
-                        materialType -> warehouseLoadPort.findBySellerIdAndMaterialType(
-                                purchaseOrder.getSellerId(), materialType)
-                ));
-        List<WarehouseEvent> allShippingEvents = new ArrayList<>();
-        for (Map.Entry<MaterialType, Double> entry : requiredAmounts.entrySet()) {
-            MaterialType materialType = entry.getKey();
-            double requiredAmount = entry.getValue();
+        if (!purchaseOrder.isPurchaseOrderFulfilled()) {
+            Map<MaterialType, Double> requiredAmounts = purchaseOrder.getOrderLines().stream()
+                    .collect(Collectors.groupingBy(
+                            PurchaseOrderLine::getMaterialType,
+                            Collectors.summingDouble(PurchaseOrderLine::getQuantity)
+                    ));
+            Map<MaterialType, Warehouse> warehouseMap = requiredAmounts.keySet().stream()
+                    .collect(Collectors.toMap(
+                            materialType -> materialType,
+                            materialType -> warehouseLoadPort.findBySellerIdAndMaterialType(
+                                    purchaseOrder.getSellerId(), materialType)
+                    ));
 
-            Warehouse warehouse = warehouseMap.get(materialType);
-            if (warehouse != null) {
-                List<WarehouseEvent> shippingEvents = warehouse.fulfillShippingOrder(materialType, requiredAmount);
+            for (Map.Entry<MaterialType, Double> entry : requiredAmounts.entrySet()) {
+                MaterialType materialType = entry.getKey();
+                double requiredAmount = entry.getValue();
 
-                allShippingEvents.addAll(shippingEvents);
+                Warehouse warehouse = warehouseMap.get(materialType);
+                if (warehouse != null) {
+                    List<WarehouseEvent> shippingEvents = warehouse.fulfillShippingOrder(materialType, requiredAmount);
 
-                warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
-            } else {
-                throw new WarehouseNotFoundException("No warehouse found for material type: " + materialType);
+                    warehouseSavePort.forEach(savePort -> savePort.saveList(warehouse, shippingEvents));
+                } else {
+                    LOGGER.warn("No warehouse found for material type {}", materialType);
+                    throw new WarehouseNotFoundException("No warehouse found for material type: " + materialType);
+                }
             }
-        }
-        purchaseOrder.updateStatus(PurchaseOrderStatus.fulfilled);
-        purchaseOrderSavePort.save(purchaseOrder);
+            purchaseOrder.updateStatus(PurchaseOrderStatus.fulfilled);
+            purchaseOrderSavePort.save(purchaseOrder);
 
-        ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(
-                purchaseOrder.getPurchaseOrderId(),
-                command.vesselNumber(),
-                LocalDateTime.now()
-        );
-        waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
+            ShipmentCompletedEvent shipmentCompletedEvent = new ShipmentCompletedEvent(
+                    purchaseOrder.getPurchaseOrderId(),
+                    command.vesselNumber(),
+                    LocalDateTime.now()
+            );
+            waterSideEventPublisher.ShipmentCompleted(shipmentCompletedEvent);
+        } else {
+            LOGGER.warn("the  Purchase Order Is Fulfilled cant not reuse it");
+            throw new PurchaseOrderIsFulfilledException("the  Purchase Order Is Fulfilled can not reuse it");
+        }
     }
-// change the domain enum dont use it in my jpa
 
 
 }

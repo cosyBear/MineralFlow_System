@@ -56,6 +56,10 @@ public class ShipmentOrder {
 
     }
 
+    public boolean isShipmentOrderCompleted(){
+        return this.status.equals(ShipmentOrderStatus.COMPLETED);
+    }
+
     public void performInspectionOperation(LocalDateTime timeOfSigning, String signature) {
         this.inspectionOperation = new InspectionOperation(timeOfSigning, signature);
     }

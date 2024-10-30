@@ -20,6 +20,9 @@ import java.util.ArrayList;
 import static org.junit.Assert.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.Assert.assertThrows;
+import static org.mockito.Mockito.*;
 
 @AutoConfigureMockMvc
 public class ScheduleAppointmentUseCaseImpMockingTest {
@@ -29,6 +32,7 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
     private WarehouseLoadPort warehouseLoadPort;
     private CalendarSavePort calendarSavePort;
     private AppointmentTestData appointmentTestData;
+    private DayCalendar dayCalendar;  // Instance variable for DayCalendar
 
     @BeforeEach
     public void setUp() {
@@ -37,6 +41,8 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
         warehouseLoadPort = mock(WarehouseLoadPort.class);
         calendarSavePort = mock(CalendarSavePort.class);
 
+        dayCalendar = createCalendar();  // Initialize the calendar
+
         when(warehouseLoadPort.findBySellerIdAAndMaterialType(
                 new SellerId(appointmentTestData.sellerId().id()),
                 appointmentTestData.materialType()
@@ -44,7 +50,7 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
 
         when(calendarLoadPort.loadAppointmentsByDate(
                 appointmentTestData.dateTime().toLocalDate())
-        ).thenReturn(createCalendar());
+        ).thenReturn(dayCalendar);
 
         sut = new ScheduleAppointmentUseCaseImp(calendarLoadPort, warehouseLoadPort, calendarSavePort);
     }
@@ -75,14 +81,10 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
         // Act
         Appointment result = sut.scheduleAppointment(command);
 
-        // Capture
-        ArgumentCaptor<DayCalendar> calendarCaptor = ArgumentCaptor.forClass(DayCalendar.class);
-        verify(calendarSavePort).saveDayCalendar(calendarCaptor.capture());
-
         // Assert
-        DayCalendar capturedCalendar = calendarCaptor.getValue();
-        assertEquals(appointmentTestData.dateTime().toLocalDate(), capturedCalendar.getDate());
-        assertEquals(1, capturedCalendar.getAppointments().size());
+        verify(calendarSavePort).saveDayCalendar(dayCalendar);  // Verify that it was saved
+        assertEquals(appointmentTestData.dateTime().toLocalDate(), dayCalendar.getDate());
+        assertEquals(1, dayCalendar.getAppointments().size());
 
         assertEquals(appointmentTestData.materialType(), result.getMaterialType());
         assertEquals(appointmentTestData.dateTime(), result.getTime());
@@ -90,11 +92,10 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
         assertEquals(appointmentTestData.licensePlate().licensePlate(), result.getLicensePlate().licensePlate());
     }
 
-
     @Test
     void shouldThrowWarehouseIsFullExceptionWhenWarehouseIsFull() {
         // Arrange:
-        double amountOfMaterial = 500.0 * 0.8; // make it "full"
+        double amountOfMaterial = 500000.0 * 0.8;
         Warehouse fullWarehouse = new Warehouse(
                 appointmentTestData.warehouseId(),
                 appointmentTestData.sellerId(),
@@ -114,9 +115,7 @@ public class ScheduleAppointmentUseCaseImpMockingTest {
                 appointmentTestData.sellerId()
         );
 
-        // Act & Assert: Expect a WarehouseIsFullException to be thrown
+        // Act & Assert
         assertThrows(WarehouseIsFullException.class, () -> sut.scheduleAppointment(command));
     }
-
-
 }

@@ -1,6 +1,6 @@
 package be.kdg.prog6.warehouseBoundedContext.domain;
 
-import util.errorClasses.NotEnoughMaterialException;
+import util.errorClasses.InsufficientMaterialException;
 import domain.MaterialType;
 import lombok.Getter;
 import lombok.Setter;
@@ -35,7 +35,7 @@ public class WarehouseEventsWindow {
                 .sum();
 
         if (currentAvailableMaterial < requiredAmount) {
-            throw new NotEnoughMaterialException("Not enough material available to fulfill the shipping order for " + materialType);
+            throw new InsufficientMaterialException("Not enough material available to fulfill the shipping order for " + materialType);
         }
 
         for (WarehouseEvent deliverEvent : sortedDeliverEvents) {

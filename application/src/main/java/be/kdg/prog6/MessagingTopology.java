@@ -72,6 +72,7 @@ public class MessagingTopology {
         SimpleRabbitListenerContainerFactory factory = new SimpleRabbitListenerContainerFactory();
         factory.setConnectionFactory(connectionFactory);
         factory.setMessageConverter(jsonMessageConverter());
+        factory.setDefaultRequeueRejected(false);
         return factory;
     }
 
@@ -128,12 +129,12 @@ public class MessagingTopology {
 
     @Bean
     public Queue shipInQueue() {
-        return new Queue(SHIP_IN_QUEUE, true);
+        return new Queue(SHIP_IN_QUEUE);
     }
 
     @Bean
     public Queue shipOutQueue() {
-        return new Queue(SHIP_OUT_QUEUE, true);
+        return new Queue(SHIP_OUT_QUEUE);
     }
 
     @Bean

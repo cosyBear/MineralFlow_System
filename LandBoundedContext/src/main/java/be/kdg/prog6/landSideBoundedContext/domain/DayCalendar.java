@@ -1,12 +1,8 @@
 package be.kdg.prog6.landSideBoundedContext.domain;
 
 import be.kdg.prog6.landSideBoundedContext.domain.Id.SellerId;
-import be.kdg.prog6.landSideBoundedContext.port.in.ScheduleAppointmentCommand;
 import domain.MaterialType;
-import util.errorClasses.AppointmentDontExistException;
-import util.errorClasses.DuplicateAppointmentException;
-import util.errorClasses.TimeSlotFullException;
-import util.errorClasses.TruckLateException;
+import util.errorClasses.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.apache.logging.log4j.LogManager;
@@ -25,10 +21,8 @@ public class DayCalendar {
     private static final Logger logger = LogManager.getLogger(DayCalendar.class);
 
     public DayCalendar(LocalDate date, List<Appointment> appointments) {
-
         this.date = date;
         this.appointments = appointments;
-
     }
 
     public DayCalendar() {
@@ -50,7 +44,7 @@ public class DayCalendar {
         return matchingAppointment.orElseThrow(() -> new AppointmentDontExistException("the appointment dont exit "));
     }
 
-    public Appointment scheduleAppointment(LicensePlate licensePlate , MaterialType materialType ,LocalDateTime time,SellerId sellerId) {
+    public Appointment scheduleAppointment(LicensePlate licensePlate, MaterialType materialType, LocalDateTime time, SellerId sellerId) {
         Appointment appointment = new Appointment(materialType,
                 time, sellerId, licensePlate
                 , AppointmentStatus.AWAITING_ARRIVAL);
@@ -81,14 +75,22 @@ public class DayCalendar {
                 return false;
             }
         }
+
     }
+
 
     public boolean truckEnters(LicensePlate licensePlate, LocalDateTime time) {
         Optional<Appointment> optionalAppointment = findAppointment(licensePlate, time);
         if (optionalAppointment.isPresent()) {
             Appointment appointment = optionalAppointment.get();
+            if (!appointment.checkLicensePlate(licensePlate)) {
+                throw new LicensePlateDontMatchException(" appointment LicensePlate  {} vs given LicensePlate {}  " + appointment.getLicensePlate() + " " + licensePlate);
+            }
             if (!appointment.isTruckOnTime(time)) {
                 throw new TruckLateException("Truck with license plate " + licensePlate + " is late for its scheduled appointment.");
+            }
+            if (appointment.isAppointmentComplete()) {
+                throw new AppointmentCompletedException("the Appointment  is Complete can not reuse it again ");
             }
             appointment.truckEnters();
             return true;

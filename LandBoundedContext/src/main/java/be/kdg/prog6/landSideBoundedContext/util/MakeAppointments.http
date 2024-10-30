@@ -23,3 +23,17 @@ Authorization: Bearer {{access_token}}
 }
 
 ### Weigh-In Test Request
+
+#### this has a a bug if there is no appoitment we cant not craete appoitment so fix it
+POST http://localhost:8090/api/appointments
+Content-Type: application/json
+Authorization: Bearer {{access_token}}
+
+{
+  "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
+  "licensePlate": "ALI2211222222222222",
+  "materialType": "IRON",
+  "time": "2024-10-19T11:00:00"
+}
+
+### Weigh-In Test Request

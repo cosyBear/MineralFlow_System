@@ -43,8 +43,6 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
         logger.info("check licensePlate of the truck ... ");
 
         DayCalendar dayCalendar = calendarLoadPort.loadAppointmentsByDate(command.weighInTime().toLocalDate());
-
-
         if (dayCalendar.truckEnters(command.licensePlate(), command.weighInTime())) {
             logger.info(" the Truck is on time the gate is open.....");
             WeighbridgeTicket weighbridgeTicket = new WeighbridgeTicket(new WeighBridgeTicketId(UUID.randomUUID()), command.licensePlate(), command.sellerId(), command.startWeight(), 0, command.materialType(), command.weighInTime());
@@ -56,6 +54,7 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
             eventPublisher.publishTruckWeightedIn(weighInEvent);
             calendarSavePort.saveDayCalendar(dayCalendar);
         }
+
     }
 
 
@@ -73,7 +72,7 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
         DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(bridgeTicket.getStartTime().toLocalDate());
 
         Appointment appointment = calendar.appointmentDone(command.sellerId(), command.licensePlate());
-
+        logger.info("the truck is done.......");
         calendarSavePort.saveDayCalendar(calendar);
         weighbridgeTicketSavePort.save(bridgeTicket);
 

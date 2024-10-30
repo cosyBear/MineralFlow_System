@@ -1,0 +1,27 @@
+so what you have to do when you publish an event make sure that amount you tryin to adding in the warehouse does not exceed the max of the warehouse if so throw extion one time and delete the message. and deelte the WBT.
+
+
+also add a method in the warehouse to no use the purcahse order that has fulfulid.
+throw and error one time when that happens.
+
+
+
+
+for react make sure to change the backend.ts or tsx so that when there is a change in my backend it will keepasking for new data or ask the database for data in interval like every 10 mins or something.,
+
+
+
+also if the warehouse projection is
+
+
+check the warehouse class in the landside and fix the logic for throwing the errro when you cant not store the material....
+
+fix this method
+    public boolean canStoreMaterial(double amount) {
+        return amount <= MAX_CAPACITY;
+    }
+
+and also fix the way you make appoitment whati mean when you want ot make the appoitment find a way to say if the warehouse is full can not make appoitment...
+
+
+
