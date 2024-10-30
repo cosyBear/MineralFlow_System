@@ -32,6 +32,6 @@ Authorization: Bearer {{access_token}}
   "materialType": "IRON",
   "sellerId": "8d50dbe3-68a4-4afc-a242-13818629ac9d",
   "weighOutTime": "2024-10-22T12:00:00",
-  "WeighBridgeTicketId": "9eee316d-f6fd-43be-95a6-fde85a3b9da3"
+  "WeighBridgeTicketId": "824e535b-113e-4755-8530-78897eb2deb1"
 }
 

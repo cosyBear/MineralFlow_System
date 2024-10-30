@@ -3,8 +3,6 @@ package be.kdg.prog6.watersideboundedcontext.adapters.in;
 import be.kdg.prog6.watersideboundedcontext.adapters.dto.OperationRequestDto;
 import be.kdg.prog6.watersideboundedcontext.port.in.OperationRequestCommand;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOperationsPort;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,7 +14,6 @@ import java.util.UUID;
 public class OperationsController {
 
 
-    private static final Logger logger = LogManager.getLogger(OperationsController.class);
 
 
     private final ShipmentOperationsPort operationsPort;
@@ -27,6 +24,7 @@ public class OperationsController {
 
 
     @PostMapping("inspection-bunkering-process")
+//    @PreAuthorize("hasAuthority('Seller')")
     public ResponseEntity<String> performInspectionAndBunkering(@RequestBody OperationRequestDto dto) {
         OperationRequestCommand operationRequestCommand = new OperationRequestCommand(UUID.fromString(dto.shipmentOrderId()), dto.inspectionTimeOfSigning(), dto.inspectorSignature(), dto.bunkeringTime());
 

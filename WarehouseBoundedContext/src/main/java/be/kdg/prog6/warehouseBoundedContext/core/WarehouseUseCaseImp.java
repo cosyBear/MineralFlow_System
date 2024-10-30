@@ -43,8 +43,6 @@ public class WarehouseUseCaseImp implements WarehouseUseCase {
     @Override
     public void truckIn(WeighTruckInCommand command) {
         Warehouse warehouse = warehouseLoadPort.findBySellerIdAndMaterialType(command.sellerId(), command.materialType());
-        // teacher said remove you imp here you dont need it.
-        // and its ok to keep it empty like this.
         logger.info("PDT: type of material {} , date of delivery {} , warehouse number {}",
                 command.getMaterialType(), command.getWeighInTime(), warehouse.getWarehouseNumber());
     }

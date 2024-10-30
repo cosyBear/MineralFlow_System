@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase {
-    private static final Logger logger = LogManager.getLogger(ScheduleAppointmentUseCase.class);
+    private static final Logger logger = LogManager.getLogger(ScheduleAppointmentUseCaseImp.class);
 
     private final CalendarLoadPort calendarLoadPort;
     private final WarehouseLoadPort warehouseLoadPort;
@@ -37,6 +37,7 @@ public class ScheduleAppointmentUseCaseImp implements ScheduleAppointmentUseCase
         if (!wareHouse.isFull()) {
             Appointment newAppointment = dayCalendar.scheduleAppointment(command.licensePlate(), command.materialType(), command.time(), command.sellerId());
             calendarSavePort.saveDayCalendar(dayCalendar);
+            logger.info("the Appointment is created..........");
             return newAppointment;
         } else {
             throw new WarehouseIsFullException("warehouse is full can not make Appointment");

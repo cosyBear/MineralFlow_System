@@ -5,8 +5,6 @@ import domain.MaterialType;
 import util.errorClasses.*;
 import lombok.Getter;
 import lombok.Setter;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -18,7 +16,6 @@ import java.util.*;
 public class DayCalendar {
     private LocalDate date;
     private List<Appointment> appointments;
-    private static final Logger logger = LogManager.getLogger(DayCalendar.class);
 
     public DayCalendar(LocalDate date, List<Appointment> appointments) {
         this.date = date;
@@ -94,8 +91,8 @@ public class DayCalendar {
             }
             appointment.truckEnters();
             return true;
-        }
-        return false;
+        }else
+            throw new AppointmentDontExistException("Appointment Dont Exist Exception");
     }
 
     private Optional<Appointment> findAppointment(LicensePlate licensePlate, LocalDateTime time) {

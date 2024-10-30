@@ -23,9 +23,8 @@ public class ShipmentCompletedAmqpAdapter {
 
     @RabbitListener(queues = "shipOutQueue" )
     public void shipmentCompleted(ShipmentCompletedDto order) {
-
         ShipmentCompletedCommand command = new ShipmentCompletedCommand(order.purchaseOrderId(), order.vesselNumber(), order.completionTime());
-
+        logger.info("the ship is loaded with all the materials");
         useCase.shipDeparture(command);
 
 

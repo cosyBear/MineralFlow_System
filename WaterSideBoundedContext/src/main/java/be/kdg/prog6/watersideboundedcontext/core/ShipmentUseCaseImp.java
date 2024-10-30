@@ -1,5 +1,4 @@
 package be.kdg.prog6.watersideboundedcontext.core;
-import be.kdg.prog6.watersideboundedcontext.adapters.in.OperationsController;
 import be.kdg.prog6.watersideboundedcontext.domain.ShipmentOrderStatus;
 import be.kdg.prog6.watersideboundedcontext.port.in.RequestMaterialEvent;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentCompletedCommand;
@@ -21,7 +20,7 @@ public class ShipmentUseCaseImp implements ShipmentOrderUseCase {
     private final ShipmentOrderSavePort shipmentOrderSavePort;
 
     private final ShipmentOrderEventPublisher shipmentOrderEventPublisher;
-    private static final Logger logger = LogManager.getLogger(OperationsController.class);
+    private static final Logger logger = LogManager.getLogger(ShipmentUseCaseImp.class);
 
     public ShipmentUseCaseImp(ShipmentOrderLoadPort shipmentOrderLoadPort, ShipmentOrderSavePort shipmentOrderSavePort, ShipmentOrderEventPublisher shipmentOrderEventPublisher) {
         this.shipmentOrderLoadPort = shipmentOrderLoadPort;

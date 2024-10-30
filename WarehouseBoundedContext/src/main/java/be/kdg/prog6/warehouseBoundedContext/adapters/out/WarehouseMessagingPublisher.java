@@ -20,8 +20,6 @@ public class WarehouseMessagingPublisher implements WarehouseSavePort {
     @Override
     public void save(Warehouse warehouse, WarehouseEvent event) {
         LOGGER.info("notifying  the landSide about the material amount in the warehouse");
-        LOGGER.info("event object attrubties: amountOfMat{} , ");
-
 
         WarehouseMaterialEvent warehouseEvent = new WarehouseMaterialEvent(
                 warehouse.getWarehouseNumber().getId(),

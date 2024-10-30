@@ -28,6 +28,8 @@ public class ShipArrivalController {
     }
 
     @PostMapping
+//    @PreAuthorize("hasAuthority('Seller')")
+
     public ResponseEntity<String> shipRequestDelivery(@RequestBody ShipArrivalRequestDto dto){
         RequestMaterialCommand shipIn = new RequestMaterialCommand(UUID.fromString(dto.purchaseOrder()), UUID.fromString(dto.shipmentOrder()) , UUID.fromString(dto.vesselNumber()) , LocalDateTime.parse(dto.arrivalTime()));
         useCase.requestMaterial(shipIn);

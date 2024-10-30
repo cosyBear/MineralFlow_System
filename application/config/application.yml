@@ -20,7 +20,7 @@ spring:
     open-in-view: false
     hibernate:
       ddl-auto: create
-    show-sql: true
+    show-sql: false
     database-platform: org.hibernate.dialect.MySQLDialect
   logging:
     level:
