@@ -5,6 +5,7 @@ import be.kdg.prog6.watersideboundedcontext.port.in.OperationRequestCommand;
 import be.kdg.prog6.watersideboundedcontext.port.in.ShipmentOperationsPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,7 +25,7 @@ public class OperationsController {
 
 
     @PostMapping("inspection-bunkering-process")
-//    @PreAuthorize("hasAuthority('Seller')")
+    @PreAuthorize("hasAuthority('ship')")
     public ResponseEntity<String> performInspectionAndBunkering(@RequestBody OperationRequestDto dto) {
         OperationRequestCommand operationRequestCommand = new OperationRequestCommand(UUID.fromString(dto.shipmentOrderId()), dto.inspectionTimeOfSigning(), dto.inspectorSignature(), dto.bunkeringTime());
 
@@ -37,6 +38,7 @@ public class OperationsController {
 
 
     @PostMapping("/{shipmentId}/request-departure")
+    @PreAuthorize("hasAuthority('ship')")
     public ResponseEntity<String> requestShipDeparture(@PathVariable UUID shipmentId) {
 
         if (operationsPort.isDepartureAuthorized(shipmentId)){

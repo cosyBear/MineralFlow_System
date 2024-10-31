@@ -26,7 +26,7 @@ public class WarehouseManager {
 
     @GetMapping
     @PreAuthorize("hasAuthority('Manager')")
-    public ResponseEntity<List<WarehouseQuery>> getAllWarehouses() {
+    public ResponseEntity<List<WarehouseQuery>> warehouseStatus() {
         List<WarehouseQuery> warehouseQueryList = warehouseManagerPort.warehouseQueryList();
         return ResponseEntity.status(HttpStatus.OK).body(warehouseQueryList);
 
