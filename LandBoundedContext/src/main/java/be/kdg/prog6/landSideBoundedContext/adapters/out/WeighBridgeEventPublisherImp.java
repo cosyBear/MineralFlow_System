@@ -3,8 +3,8 @@
 
 package be.kdg.prog6.landSideBoundedContext.adapters.out;
 
-import be.kdg.prog6.landSideBoundedContext.domain.WeighInEvent;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighOutEvent;
+import be.kdg.prog6.landSideBoundedContext.port.in.WeighInEvent;
+import be.kdg.prog6.landSideBoundedContext.port.in.WeighOutEvent;
 import be.kdg.prog6.landSideBoundedContext.port.out.WeighBridgeEventPublisher;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

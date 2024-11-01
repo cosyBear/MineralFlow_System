@@ -1,11 +1,5 @@
-package be.kdg.prog6.landSideBoundedContext.domain;
+package be.kdg.prog6.landSideBoundedContext.port.in;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-
-import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateTimeDeserializer;
-import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import domain.MaterialType;
 import lombok.Getter;
 import lombok.Setter;

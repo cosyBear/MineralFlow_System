@@ -1,8 +1,8 @@
 package be.kdg.prog6.landSideBoundedContext.port.out;
 
 
-import be.kdg.prog6.landSideBoundedContext.domain.WeighInEvent;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighOutEvent;
+import be.kdg.prog6.landSideBoundedContext.port.in.WeighInEvent;
+import be.kdg.prog6.landSideBoundedContext.port.in.WeighOutEvent;
 
 public interface WeighBridgeEventPublisher {
      void publishTruckWeightedIn(WeighInEvent weighIn);

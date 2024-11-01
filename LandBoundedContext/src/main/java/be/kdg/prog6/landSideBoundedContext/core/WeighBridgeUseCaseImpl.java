@@ -2,8 +2,8 @@ package be.kdg.prog6.landSideBoundedContext.core;
 
 import be.kdg.prog6.landSideBoundedContext.domain.*;
 import be.kdg.prog6.landSideBoundedContext.domain.Id.WeighBridgeTicketId;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighInEvent;
-import be.kdg.prog6.landSideBoundedContext.domain.WeighOutEvent;
+import be.kdg.prog6.landSideBoundedContext.port.in.WeighInEvent;
+import be.kdg.prog6.landSideBoundedContext.port.in.WeighOutEvent;
 import be.kdg.prog6.landSideBoundedContext.port.in.WeighBridgeUseCase;
 import be.kdg.prog6.landSideBoundedContext.port.in.WeighTruckInCommand;
 import be.kdg.prog6.landSideBoundedContext.port.in.weighTruckOutCommand;

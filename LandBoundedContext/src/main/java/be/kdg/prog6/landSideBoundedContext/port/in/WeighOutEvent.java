@@ -1,4 +1,4 @@
-package be.kdg.prog6.landSideBoundedContext.domain;
+package be.kdg.prog6.landSideBoundedContext.port.in;
 
 import domain.MaterialType;
 import lombok.Getter;
