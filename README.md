@@ -60,7 +60,7 @@
 # FrontEnd Images
     
 # manager view
-![alt text](<WhatsApp Image 2024-11-01 at 06.08.18_f47dcb47-1.jpg>)
+![alt text](IMG-20241101-WA0003-1.jpg)
 ![alt text](IMG-20241101-WA0006-1.jpg)
 ![alt text](IMG-20241101-WA0010-1.jpg)
 ![alt text](IMG-20241101-WA0002-1.jpg)
