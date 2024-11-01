@@ -37,6 +37,11 @@ public class Appointment {
     }
 
 
+    public boolean isWithinSameHour(LocalDateTime scheduledTime) {
+        return time.getHour() == scheduledTime.getHour() &&
+                time.toLocalDate().equals(scheduledTime.toLocalDate());
+    }
+
     public boolean appointmentOnTime(LocalDateTime scheduledTime, LicensePlate licensePlate) {
         return !time.isBefore(scheduledTime) && time.isBefore(scheduledTime.plusHours(1)) && this.getLicensePlate().equals(licensePlate);
     }

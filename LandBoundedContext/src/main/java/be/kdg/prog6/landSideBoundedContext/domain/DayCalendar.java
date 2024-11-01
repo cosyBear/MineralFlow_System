@@ -63,7 +63,7 @@ public class DayCalendar {
             return true;
         } else {
             long count = appointments.stream()
-                    .filter(existingAppointment -> existingAppointment.appointmentOnTime(appointment.getTime(), existingAppointment.getLicensePlate()))
+                    .filter(existingAppointment -> existingAppointment.isWithinSameHour(appointment.getTime()))
                     .count();
             if (count < 40) {
                 appointments.add(appointment);
