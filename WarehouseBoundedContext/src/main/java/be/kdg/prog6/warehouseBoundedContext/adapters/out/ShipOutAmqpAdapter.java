@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class ShipOutAmqpAdapter implements be.kdg.prog6.warehouseBoundedContext.port.out.WaterSideEventPublisher
 {
-    private static final Logger LOGGER = LoggerFactory.getLogger(ShipOutAmqpAdapter.class);
+
 
     private final RabbitTemplate rabbitTemplate;
 
@@ -22,7 +22,6 @@ public class ShipOutAmqpAdapter implements be.kdg.prog6.warehouseBoundedContext.
     @Override
     public void ShipmentCompleted(ShipmentCompletedEvent event) {
         String key = "ship." + event.purchaseOrderId() + ".out";
-        LOGGER.info("the ship has been loaded with material");
 
         rabbitTemplate.convertAndSend("waterSideExchange", key, event);
     }
