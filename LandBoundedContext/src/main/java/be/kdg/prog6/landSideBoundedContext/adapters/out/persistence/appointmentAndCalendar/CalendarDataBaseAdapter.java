@@ -68,8 +68,8 @@ public class CalendarDataBaseAdapter implements CalendarLoadPort, CalendarSavePo
 
 
     @Override
-    public Integer fetchTrucksOnSite(LocalDate time) {
-        return appointmentRepository.fetchTrucksOnSite(time);
+    public Integer fetchTrucksOnSite() {
+        return appointmentRepository.fetchTrucksOnSite();
 
     }
 

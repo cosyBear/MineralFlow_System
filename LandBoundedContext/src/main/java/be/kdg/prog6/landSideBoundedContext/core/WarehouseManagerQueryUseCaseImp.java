@@ -25,8 +25,8 @@ public class WarehouseManagerQueryUseCaseImp implements WarehouseManagerQueryUse
 
     @Override
     @Transactional
-    public Integer fetchTrucksOnSite(LocalDate time) {
-        return (int)calendarLoadPort.fetchTrucksOnSite(time);
+    public Integer fetchTrucksOnSite() {
+        return calendarLoadPort.fetchTrucksOnSite();
     }
 
     @Override
