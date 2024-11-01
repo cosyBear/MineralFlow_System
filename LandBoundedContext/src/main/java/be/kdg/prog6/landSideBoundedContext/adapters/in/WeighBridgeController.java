@@ -35,19 +35,19 @@ public class WeighBridgeController {
 
     @PostMapping("/trucks/weighIn")
     @PreAuthorize("hasAuthority('basicUser')")
-    public ResponseEntity<Void> weighTruckIn(@RequestBody WeighInDto dto) {
+    public ResponseEntity<String> weighTruckIn(@RequestBody WeighInDto dto) {
         WeighTruckInCommand truckInCommand = new WeighTruckInCommand(new LicensePlate(dto.licensePlate()), dto.startWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), LocalDateTime.parse(dto.weighInTime()));
-        weighBridgeUseCase.weighTruckIn(truckInCommand);
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+        String message = weighBridgeUseCase.weighTruckIn(truckInCommand);
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
-     @PreAuthorize("hasAuthority('basicUser')")
+    @PreAuthorize("hasAuthority('basicUser')")
     @PostMapping("/trucks/weighOut")
-    public ResponseEntity<Void> weighTruckOut(@RequestBody WeighOutDto dto) {
+    public ResponseEntity<String> weighTruckOut(@RequestBody WeighOutDto dto) {
         weighTruckOutCommand truckOutCommand = new weighTruckOutCommand(
                 dto.licensePlate(), dto.endWeight(), dto.materialType(), new SellerId(UUID.fromString(dto.sellerId())), dto.weighOutTime(), new WeighBridgeTicketId(UUID.fromString(dto.WeighBridgeTicketId())));
-        weighBridgeUseCase.weighTruckOut(truckOutCommand);
-         return ResponseEntity.status(HttpStatus.CREATED).build();
+        String message = weighBridgeUseCase.weighTruckOut(truckOutCommand);
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
     }
 
 }

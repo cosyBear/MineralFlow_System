@@ -38,7 +38,7 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
 
     @Override
     @Transactional
-    public void weighTruckIn(WeighTruckInCommand command) {
+    public String weighTruckIn(WeighTruckInCommand command) {
 
         logger.info("check licensePlate of the truck ... ");
 
@@ -53,28 +53,34 @@ public class WeighBridgeUseCaseImpl implements WeighBridgeUseCase {
             weighbridgeTicketSavePort.save(weighbridgeTicket);
             eventPublisher.publishTruckWeightedIn(weighInEvent);
             calendarSavePort.saveDayCalendar(dayCalendar);
-        }
+            return "the truck is in.....";
+        } else
+            return " Error Happened the truck did not Enter.....";
 
     }
 
 
     @Override
     @Transactional
-    public void weighTruckOut(weighTruckOutCommand command) {
+    public String weighTruckOut(weighTruckOutCommand command) {
         WeighbridgeTicket bridgeTicket = weighbridgeTicketLoadPort.loadById(command.WeighBridgeTicketId().id());
+        if(bridgeTicket != null)
+        {
+            bridgeTicket.truckWeighsOut(command.weighOutTime(), command.endWeight());
+            WeighOutEvent weighEvent = new WeighOutEvent(bridgeTicket.getWeighBridgeTicketId().id(), command.licensePlate().toString(), command.sellerId().id(), command.endWeight(), command.materialType(), command.weighOutTime());
+            eventPublisher.publishTruckWeighedOut(weighEvent);
 
-        bridgeTicket.truckWeighsOut(command.weighOutTime(), command.endWeight());
+            DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(bridgeTicket.getStartTime().toLocalDate());
 
-        WeighOutEvent weighEvent = new WeighOutEvent(bridgeTicket.getWeighBridgeTicketId().id(), command.licensePlate().toString(), command.sellerId().id(), command.endWeight(), command.materialType(), command.weighOutTime());
+            Appointment appointment = calendar.appointmentDone(command.sellerId(), command.licensePlate());
+            logger.info("the truck is heading out.......");
+            calendarSavePort.saveDayCalendar(calendar);
+            weighbridgeTicketSavePort.save(bridgeTicket);
+            return "truck is out .....";
 
-        eventPublisher.publishTruckWeighedOut(weighEvent);
-
-        DayCalendar calendar = calendarLoadPort.loadAppointmentsByDate(bridgeTicket.getStartTime().toLocalDate());
-
-        Appointment appointment = calendar.appointmentDone(command.sellerId(), command.licensePlate());
-        logger.info("the truck is done.......");
-        calendarSavePort.saveDayCalendar(calendar);
-        weighbridgeTicketSavePort.save(bridgeTicket);
+        }
+        else
+            return " Error Happened the truck did not leave.....";
 
     }
 
