@@ -59,11 +59,17 @@
 
 # FrontEnd Images
     
+# manager view
+![alt text](<WhatsApp Image 2024-11-01 at 06.08.18_f47dcb47-1.jpg>)
+![alt text](IMG-20241101-WA0006-1.jpg)
+![alt text](IMG-20241101-WA0010-1.jpg)
+![alt text](IMG-20241101-WA0002-1.jpg)
+![alt text](IMG-20241101-WA0007-1.jpg)
+![alt text](IMG-20241101-WA0001-1.jpg)
+![alt text](IMG-20241101-WA0004-1.jpg)
 
 
-![IMG-20241101-WA0001.jpg](..%2F..%2FOneDrive%2FDocuments%2FIMG-20241101-WA0001.jpg)
-
-
-
-    
-    
+# seller View 
+![alt text](IMG-20241101-WA0008-1.jpg)
+![alt text](IMG-20241101-WA0009-1.jpg)
+![alt text](IMG-20241101-WA0011-1.jpg)
